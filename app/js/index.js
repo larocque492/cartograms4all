@@ -1,90 +1,125 @@
+var DATASHEET = "nst_2011.csv";
+var DATA_DIRECTORY = "data/";
+var DATA = DATA_DIRECTORY + DATASHEET;
+
 // hide the form if the browser doesn't do SVG,
 // (then just let everything else fail)
 if (!document.createElementNS) {
     document.getElementsByTagName("form")[0].style.display = "none";
 }
 
-// field definitions from:
-// <http://www.census.gov/popest/data/national/totals/2011/files/NST-EST2011-alldata.pdf>
-var percent = (function() {
-        var fmt = d3.format(".2f");
-        return function(n) { return fmt(n) + "%"; };
-    })(),
-    fields = [
-        {name: "(no scale)", id: "none"},
-        // {name: "Census Population", id: "censuspop", key: "CENSUS%dPOP", years: [2010]},
-        // {name: "Estimate Base", id: "censuspop", key: "ESTIMATESBASE%d", years: [2010]},
-        {name: "Population Estimate", id: "popest", key: "POPESTIMATE%d"},
-        {name: "Population Change", id: "popchange", key: "NPOPCHG_%d", format: "+,"},
-        {name: "Births", id: "births", key: "BIRTHS%d"},
-        {name: "Deaths", id: "deaths", key: "DEATHS%d"},
-        {name: "Natural Increase", id: "natinc", key: "NATURALINC%d", format: "+,"},
-        {name: "Int'l Migration", id: "intlmig", key: "INTERNATIONALMIG%d", format: "+,"},
-        {name: "Domestic Migration", id: "domesticmig", key: "DOMESTICMIG%d", format: "+,"},
-        {name: "Net Migration", id: "netmig", key: "NETMIG%d", format: "+,"},
-        {name: "Residual", id: "residual", key: "RESIDUAL%d", format: "+,"},
-        {name: "Birth Rate", id: "birthrate", key: "RBIRTH%d", years: [2011], format: percent},
-        {name: "Death Rate", id: "deathrate", key: "RDEATH%d", years: [2011], format: percent},
-        {name: "Natural Increase Rate", id: "natincrate", key: "RNATURALINC%d", years: [2011], format: percent},
-        {name: "Int'l Migration Rate", id: "intlmigrate", key: "RINTERNATIONALMIG%d", years: [2011], format: percent},
-        {name: "Net Domestic Migration Rate", id: "domesticmigrate", key: "RDOMESTICMIG%d", years: [2011], format: percent},
-        {name: "Net Migration Rate", id: "netmigrate", key: "RNETMIG%d", years: [2011], format: percent},
-    ],
-    years = [2010, 2011],
-    fieldsById = d3.nest()
-        .key(function(d) { return d.id; })
-        .rollup(function(d) { return d[0]; })
-        .map(fields),
-    field = fields[0],
-    year = years[0],
-    colors = colorbrewer.RdYlBu[3]
-        .reverse()
-        .map(function(rgb) { return d3.hsl(rgb); });
+function getCSVFields()
+{
+  // TODO: Have this be loaded from the frontend form instead
+  var dataset = Papa.parse("https://raw.githubusercontent.com/CaseyHillers/cartograms4all/master/app/data/nst_2011.csv", {
+      download: true,
+      complete: function(results) {
+        return parseFields(results.data);
+      }
+  });
+}
 
-var body = d3.select("body"),
-    stat = d3.select("#status");
+var csvFields = getCSVFields();
+function parseFields(data)
+{
+  csvFields.push({name: "None", id: "none"});
+  for(var i = 0; i < data[0].length; i++)
+  {
+    var field = data[0][i];
+    csvFields.push({name: field, id: field, key: field});
+  }
+  return csvFields;
+}
 
-var fieldSelect = d3.select("#field")
-    .on("change", function(e) {
-        field = fields[this.selectedIndex];
-        location.hash = "#" + [field.id, year].join("/");
-    });
+// FIX: This needs to be fixed so it  gets called after parse fields
+// The whole code is a mess an doesn't work a syncronously, so anyone
+// with a slow computer won't be able to run the demo
+function constructCartogram()
+{
+  var percent = (function() {
+          var fmt = d3.format(".2f");
+          return function(n) { return fmt(n) + "%"; };
+      })(),
+      fields = csvFields,
+      // fields = [
+      //     // TODO: Make this customizable
+      //     // NOTE: Format seems to specify the type of data that is being taken in
+      //     //       Probably should make this an option when configuring the data
+      //     {name: "(no scale)", id: "none"},
+      //     {name: "Census Population", id: "censuspop", key: "CENSUS%dPOP", years: [2010]},
+      //     {name: "Estimate Base", id: "censuspop", key: "ESTIMATESBASE%d", years: [2010]},
+      //     {name: "Population Estimate", id: "popest", key: "POPESTIMATE%d"},
+      //     {name: "Population Change", id: "popchange", key: "NPOPCHG_%d", format: "+,"},
+      //     {name: "Births", id: "births", key: "BIRTHS%d"},
+      //     {name: "Deaths", id: "deaths", key: "DEATHS%d"},
+      //     {name: "Natural Increase", id: "natinc", key: "NATURALINC%d", format: "+,"},
+      //     {name: "Int'l Migration", id: "intlmig", key: "INTERNATIONALMIG%d", format: "+,"},
+      //     {name: "Domestic Migration", id: "domesticmig", key: "DOMESTICMIG%d", format: "+,"},
+      //     {name: "Net Migration", id: "netmig", key: "NETMIG%d", format: "+,"},
+      //     {name: "Residual", id: "residual", key: "RESIDUAL%d", format: "+,"},
+      //     {name: "Birth Rate", id: "birthrate", key: "RBIRTH%d", years: [2011], format: percent},
+      //     {name: "Death Rate", id: "deathrate", key: "RDEATH%d", years: [2011], format: percent},
+      //     {name: "Natural Increase Rate", id: "natincrate", key: "RNATURALINC%d", years: [2011], format: percent},
+      //     {name: "Int'l Migration Rate", id: "intlmigrate", key: "RINTERNATIONALMIG%d", years: [2011], format: percent},
+      //     {name: "Net Domestic Migration Rate", id: "domesticmigrate", key: "RDOMESTICMIG%d", years: [2011], format: percent},
+      //     {name: "Net Migration Rate", id: "netmigrate", key: "RNETMIG%d", years: [2011], format: percent},
+      // ],
+      // TODO: Make this customizable
+      // NOTE: Might just have this detect if there are digits at the end of the column or beginning, and if there are then use those as a year
+      years = [2010, 2011],
+      fieldsById = d3.nest()
+          .key(function(d) { return d.id; })
+          .rollup(function(d) { return d[0]; })
+          .map(fields),
+      field = fields[0],
+      year = years[0],
+      colors = colorbrewer.RdYlBu[3]
+          .reverse()
+          .map(function(rgb) { return d3.hsl(rgb); });
 
-fieldSelect.selectAll("option")
-    .data(fields)
-    .enter()
-    .append("option")
-    .attr("value", function(d) { return d.id; })
-    .text(function(d) { return d.name; });
+  var body = d3.select("body"),
+      stat = d3.select("#status");
 
-var yearSelect = d3.select("#year")
-    .on("change", function(e) {
-        year = years[this.selectedIndex];
-        location.hash = "#" + [field.id, year].join("/");
-    });
+  var fieldSelect = d3.select("#field")
+      .on("change", function(e) {
+          field = fields[this.selectedIndex];
+          location.hash = "#" + [field.id, year].join("/");
+      });
 
-yearSelect.selectAll("option")
-    .data(years)
-    .enter()
-    .append("option")
-    .attr("value", function(y) { return y; })
-    .text(function(y) { return y; })
+  fieldSelect.selectAll("option")
+      .data(fields)
+      .enter()
+      .append("option")
+      .attr("value", function(d) { return d.id; })
+      .text(function(d) { return d.name; });
 
-var map = d3.select("#map"),
-    zoom = d3.behavior.zoom()
-        .translate([-38, 32])
-        .scale(.94)
-        .scaleExtent([0.5, 10.0])
-        .on("zoom", updateZoom),
-    layer = map.append("g")
-        .attr("id", "layer"),
-    states = layer.append("g")
-        .attr("id", "states")
-        .selectAll("path");
+  var yearSelect = d3.select("#year")
+      .on("change", function(e) {
+          year = years[this.selectedIndex];
+          location.hash = "#" + [field.id, year].join("/");
+      });
 
-// map.call(zoom);
-updateZoom();
+  yearSelect.selectAll("option")
+      .data(years)
+      .enter()
+      .append("option")
+      .attr("value", function(y) { return y; })
+      .text(function(y) { return y; })
 
+  var map = d3.select("#map"),
+      zoom = d3.behavior.zoom()
+          .translate([-38, 32])
+          .scale(.94)
+          .scaleExtent([0.5, 10.0])
+          .on("zoom", updateZoom),
+      layer = map.append("g")
+          .attr("id", "layer"),
+      states = layer.append("g")
+          .attr("id", "states")
+          .selectAll("path");
+
+  updateZoom();
+}
 function updateZoom() {
     var scale = zoom.scale();
     layer.attr("transform",
@@ -117,7 +152,7 @@ var segmentized = location.search === "?segmentized",
 d3.json(url, function(topo) {
     topology = topo;
     geometries = topology.objects.states.geometries;
-    d3.csv("data/nst_2011.csv", function(data) {
+    d3.csv(DATA_DIRECTORY + DATASHEET, function(data) {
         rawData = data;
         dataById = d3.nest()
             .key(function(d) { return d.NAME; })
@@ -131,9 +166,7 @@ function init() {
     var features = carto.features(topology, geometries),
         path = d3.geo.path()
             .projection(proj);
-            //console.log(path)
-    console.log(states);
-    states = states.data(features)
+        states = states.data(features)
         .enter()
         .append("path")
         .attr("class", "state")
@@ -250,7 +283,6 @@ function parseHash() {
     var parts = location.hash.substr(1).split("/"),
         desiredFieldId = parts[0],
         desiredYear = +parts[1];
-    console.log("hash")
     field = fieldsById[desiredFieldId] || fields[0];
     year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
@@ -287,28 +319,4 @@ function parseHash() {
             return href + location.hash;
         });
     }
-}
-
-//------------Input Button Stuff----------------------//
-// Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
-
-document.getElementById('get_file').onclick = function() {
-   document.getElementById('my_file').click();
-};
-
-//------------Customize Button Stuff----------------//
-var modal = document.getElementById('modal');
-var btn = document.getElementById("cust_file");
-var exit = document.getElementsByClassName("close")[0];
-
-
-// modal appears when Custimize Btn is clicked
-btn.onclick = function() {
-   modal.style.display = "block";
-}
-
-
-// stuff to close modal
-exit.onclick = function() {
-  modal.style.display = "none";
 }
