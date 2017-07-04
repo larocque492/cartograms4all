@@ -34,19 +34,16 @@
         function carto(topology, geometries) {
             // copy it first
             topology = copy(topology);
-            //console.log(topology,"hi")
 
             // objects are projected into screen coordinates
 
             // project the arcs into screen space
             var tf = transformer(topology.transform),x,y,len1,i1,out1,len2=topology.arcs.length,i2=0,
                 projectedArcs = new Array(len2);
-            //console.log(len2)
             while(i2<len2){
                 x = 0;
                 y = 0;
                 len1 = topology.arcs[i2].length;
-                console.log(len1)
                 i1 = 0;
                 out1 = new Array(len1);
                 while(i1<len1){
@@ -56,8 +53,6 @@
                     i1++;
                 }
                 projectedArcs[i2++]=out1;
-                //console.log(projectedArcs)
-
             }
 
             // path with identity projection
@@ -85,7 +80,6 @@
             var i = 0;
             while (i++ < iterations) {
                 var areas = objects.map(path.area);
-                //console.log(objects)
                 var totalArea = d3.sum(areas),
                     sizeErrorsTot =0,
                     sizeErrorsNum=0,
@@ -98,8 +92,6 @@
                             sizeError = Math.max(area, desired) / Math.min(area, desired);
                         sizeErrorsTot+=sizeError;
                         sizeErrorsNum++;
-                        //if (j==1){console.log(o.id, "@", j, "area:", area, "value:", v, "->", desired, radius, mass, sizeError)};
-                        //console.log(o.id, "@", j, "area:", area, "value:", v, "->", desired, radius, mass, sizeError);
                         return {
                             id:         o.id,
                             area:       area,
@@ -114,10 +106,6 @@
 
                 var sizeError = sizeErrorsTot/sizeErrorsNum,
                     forceReductionFactor = 1 / (1 + sizeError);
-
-                //console.log("meta:", meta);
-                //console.log("  total area:", totalArea);
-                //console.log("  force reduction factor:", forceReductionFactor, "mean error:", sizeError);
 
                 var len1,i1,delta,len2=projectedArcs.length,i2=0,delta,len3,i3,centroid,mass,radius,rSquared,dx,dy,distSquared,dist,Fij;
                 while(i2<len2){
