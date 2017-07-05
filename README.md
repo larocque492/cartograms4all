@@ -1,7 +1,18 @@
-# Cartowebsite
-Code base for CMPS 115 Project teams.
-Open index.html in a browser to see the website:
-  1. Google chrome has issues running it (works for me through my IDE -Webstorm- using chrome)
-  2. Firefox should run it fine however
+Cartograms 4 All
+===
+> UCSC CMPS 115 Summer 2017 Project
 
-Main logic is in the index.html and the cartogram.js files. 
+## Overview
+> **Cartogram:** a map on which statistical information is shown in diagrammatic form - Google Search
+
+
+Create a web application that allows anyone to upload their own dataset and create a cartogram from it. Furthermore, users are able to share the cartograms they make.
+
+## Team Members
+* Luke Tanner *- product owner*
+* Jeff Larocque
+* Michael Crane
+* Casey Hillers
+* Jiayao Lin (Kevin)
+
+## Technology
