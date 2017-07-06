@@ -17,6 +17,8 @@ $(document).ready(function()
 /*
  * End of main program instructions
  */
+
+ 
 function init()
 {
   csvFields = getCSVFields(initCartogram);
