@@ -3,7 +3,10 @@ var csvFields;
 var map;
 var zoom;
 var layer;
-
+var percent;
+var fieldSelect;
+var stat;
+var body;
 /*
  * Main program instructions
  */
@@ -21,8 +24,9 @@ function init()
 
 function initCartogram(csvFields)
 {
+  fields = csvFields;
   // Data info for the cartogram
-  var percent = (function() {
+  percent = (function() {
           var fmt = d3.format(".2f");
           return function(n) { return fmt(n) + "%"; };
       })(),
@@ -40,10 +44,10 @@ function initCartogram(csvFields)
           .reverse()
           .map(function(rgb) { return d3.hsl(rgb); });
 
-          var body = d3.select("body"),
-              stat = d3.select("#status");
+          body = d3.select("body");
+          stat = d3.select("#status");
 
-          var fieldSelect = d3.select("#field")
+          fieldSelect = d3.select("#field")
               .on("change", function(e) {
                   field = fields[this.selectedIndex];
                   location.hash = "#" + [field.id, year].join("/");
