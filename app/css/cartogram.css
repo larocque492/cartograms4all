@@ -94,8 +94,23 @@ select {
    right: -675px;
    float: left;
 }
+
+#submit_btn{  /*Submit button inside modal */
+   background: white;
+   border: 5px solid lightblue;
+   padding: 15px;
+   border-radius: 5px;
+   margin: 10px;
+   cursor: pointer;
+   position: fixed;
+   right: 190px;       
+   top: 160px;        
+}
+
 /*------------- Modal Stuff ------------------*/
 /*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
+
+
 .modal {
 display: none;
 position: fixed;
