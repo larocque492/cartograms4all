@@ -16,3 +16,6 @@ Create a web application that allows anyone to upload their own dataset and crea
 * Jiayao Lin (Kevin)
 
 ## Technology
+* HTML/CSS, Javascript
+* D3, PapaParse
+* Trello, Slack
