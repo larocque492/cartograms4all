@@ -3,6 +3,8 @@ var DATASHEET = "nst_2011.csv";
 var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 
+var fields;
+
 function getCSVFields(callback)
 {
   // TODO: Have this be loaded from the frontend form instead
@@ -16,7 +18,7 @@ function getCSVFields(callback)
 
 function parseFields(data, callback)
 {
-  var fields = [];
+  fields = [];
   fields.push({name: "None", id: "none"});
   for(var i = 0; i < data[0].length; i++)
   {
@@ -145,11 +147,11 @@ function parseHash() {
 
     if (field.id === "none") {
 
-        yearSelect.attr("disabled", "disabled");
+        //yearSelect.attr("disabled", "disabled");
         reset();
 
     } else {
-
+/*
         if (field.years) {
             if (field.years.indexOf(year) === -1) {
                 year = field.years[0];
@@ -166,7 +168,7 @@ function parseHash() {
         yearSelect
             .property("selectedIndex", years.indexOf(year))
             .attr("disabled", null);
-
+*/
         deferredUpdate();
         location.replace("#" + [field.id, year].join("/"));
 
