@@ -10,6 +10,9 @@ var body;
 /*
  * Main program instructions
  */
+
+console.log("Running Cartograms 4 All Web App");
+
 $(document).ready(function()
 {
   init();
@@ -18,7 +21,7 @@ $(document).ready(function()
  * End of main program instructions
  */
 
- 
+
 function init()
 {
   csvFields = getCSVFields(initCartogram);
@@ -52,7 +55,7 @@ function initCartogram(csvFields)
           fieldSelect = d3.select("#field")
               .on("change", function(e) {
                   field = fields[this.selectedIndex];
-                  location.hash = "#" + [field.id, year].join("/");
+                  location.hash = "#" + field.id;
               });
 
           fieldSelect.selectAll("option")
@@ -111,37 +114,29 @@ window.onhashchange = function() {
     parseHash();
 };
 
-var segmentized = location.search === "?segmentized",
-    url = ["data",
-        segmentized ? "us-states-segmentized.topojson" : "us-states.topojson"
-    ].join("/");
-d3.json(url, function(topo) {
-    topology = topo;
+var topoURL = DATA_DIRECTORY + "us-states.topojson"
+d3.json(topoURL, function(topology) {
     geometries = topology.objects.states.geometries;
-    d3.csv(DATA_DIRECTORY + DATASHEET, function(data) {
-        rawData = data;
+    d3.csv(DATA_DIRECTORY + DATASHEET, function(rawData) {
         dataById = d3.nest()
             .key(function(d) { return d.NAME; })
             .rollup(function(d) { return d[0]; })
-            .map(data);
+            .map(rawData);
      var features = carto.features(topology, geometries),
-            path = d3.geo.path()
-              .projection(proj);
+         path = d3.geo.path().projection(proj);
 
-        states = states.data(features)
-          .enter()
-          .append("path")
-            .attr("class", "state")
-            .attr("id", function(d) {
-              return d.properties.NAME;
-            })
-            .attr("fill", "#fafafa")
-            .attr("d", path);
-
+         states = states.data(features)
+                        .enter()
+                        .append("path")
+                        .attr("class", "state")
+                        .attr("id", function(d) {
+                          return d.properties.NAME;
+                        })
+                        .attr("fill", "#fafafa")
+                        .attr("d", path);
         states.append("title");
 
         parseHash();
-
 
         init();
     });
