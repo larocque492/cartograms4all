@@ -22,25 +22,7 @@ $(document).ready(function()
 function init()
 {
   csvFields = getCSVFields(initCartogram);
-          var features = carto.features(topology, geometries),
-            path = d3.geo.path()
-              .projection(proj);
-
-        states = states.data(features)
-          .enter()
-          .append("path")
-            .attr("class", "state")
-            .attr("id", function(d) {
-              return d.properties.NAME;
-            })
-            .attr("fill", "#fafafa")
-            .attr("d", path);
-
-        states.append("title");
-
-        parseHash();
-
-}
+          }
 
 function initCartogram(csvFields)
 {
@@ -142,6 +124,25 @@ d3.json(url, function(topo) {
             .key(function(d) { return d.NAME; })
             .rollup(function(d) { return d[0]; })
             .map(data);
+     var features = carto.features(topology, geometries),
+            path = d3.geo.path()
+              .projection(proj);
+
+        states = states.data(features)
+          .enter()
+          .append("path")
+            .attr("class", "state")
+            .attr("id", function(d) {
+              return d.properties.NAME;
+            })
+            .attr("fill", "#fafafa")
+            .attr("d", path);
+
+        states.append("title");
+
+        parseHash();
+
+
         init();
     });
 });
