@@ -3,16 +3,8 @@
 var USER_INPUT_CSV;
 
     document.getElementById('get_file').onclick = function() {
-       document.getElementById('my_file').click();
+       document.getElementById('input_csv').click();
     };
-
-    var inputElement = document.getElementById("my_file");
-    inputElement.addEventListener("onchange", handleFiles, false);
-
-    function handleFiles() {
-       USER_INPUT_CSV = this.files; /* now you can work with the file list */
-       console.log("HERE!!!")
-    }
 
 //------------Customize Button Stuff----------------//
     var modal = document.getElementById('modal');
