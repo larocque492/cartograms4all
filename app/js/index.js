@@ -116,6 +116,7 @@ function initCartogram(csvFields) {
     fields = csvFields,
     // TODO: Make this customizable
     // NOTE: Might just have this detect if there are digits at the end of the column or beginning, and if there are then use those as a year
+    // TODO: Make a custom function getTimeInField() which will clear
     fieldsById = d3.nest()
     .key(function(d) {
       return d.id;

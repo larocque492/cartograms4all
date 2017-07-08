@@ -20,7 +20,7 @@
    exit.onclick = function() {
       modal.style.display = "none";
    }
-   
+
  // run is called when the submit button is clicked
  // it saves whatever is in each textarea to a variable
  // TODO: parse the input to work with cartogram
@@ -33,5 +33,10 @@
   console.log(col_1_input);
   console.log(col_2_input);
   console.log(col_3_input);
-  
+
 }
+
+
+$(document).ready(function() {
+  $(".dropdown-button").dropdown();
+});

@@ -1,39 +1,21 @@
-body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.4em;
-    padding: 0;
-    margin: 0;
+@import "node_modules/materialize-css/sass/components/color";
+
+$primary-color: color("blue", "darken-1");
+$secondary-color: color("yellow", "darken-2");
+
+@import "node_modules/materialize-css/sass/materialize";
+
+/*
+ * Map SVG Container
+ */
+
+.card-map {
+  padding-top: 0;
+  margin-top: 70px;
 }
 
-#container {
-    width: 800px;
-    margin: 20px auto;
-}
-
-h1 {
-    font-size: 200%;
-    margin: 0 0 15px 0;
-}
-
-h2 {
-    font-size: 160%;
-    margin: 0 0 10px 0;
-}
-
-p {
-    margin: 0 0 10px;
-}
-
-form, form > * {
-    margin: 0;
-}
-
-#status {
-    color: #999;
-    position: relative;
-    top: 25px;
-    left: -300px;
+.card-map .card-content {
+  padding-top: 0;
 }
 
 #map-container {
@@ -61,37 +43,14 @@ path.state:hover {
     stroke: #000;
 }
 
-form {
-    font-size: 120%;
-}
-
-select {
-    font-size: inherit;
-}
-
-#placeholder {
-    position: absolute;
-    z-index: -1;
-    display: block;
-    left: 0;
-    top: 0;
-}
-
 /*-------------File Input Button CSS Stuff --------------*/
 #my_file, #my_cust_file{
     display: none;
 }
 
 #get_file, #cust_file{  /*These are the two buttons */
-   background: white;
-   border: 5px solid lightblue;
-   padding: 15px;
-   border-radius: 5px;
-   margin: 10px;
-   cursor: pointer;
+   margin: 10px 30px 0px 30px;
    position: relative;
-   top: -590px;
-   right: -675px;
    float: left;
 }
 
@@ -103,8 +62,8 @@ select {
    margin: 10px;
    cursor: pointer;
    position: fixed;
-   right: 190px;       
-   top: 160px;        
+   right: 190px;
+   top: 160px;
 }
 
 /*------------- Modal Stuff ------------------*/
