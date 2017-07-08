@@ -56,6 +56,7 @@ function init() {
 
   var topoURL = DATA_DIRECTORY + "us-states.topojson";
   d3.json(topoURL, function(topology) {
+    this.topology = topology;
     geometries = topology.objects.states.geometries;
     d3.csv(DATA_DIRECTORY + DATASHEET, function(rawData) {
       dataById = d3.nest()
@@ -89,7 +90,14 @@ function init() {
         }
       }
 
-      initTopo();
+      // Waits until fields has been defined
+      function waitForTopology() {
+        if (typeof someVariable !== "undefined") {
+          initTopo();
+        } else {
+          setTimeout(topology, 250);
+        }
+      }
     });
   });
 

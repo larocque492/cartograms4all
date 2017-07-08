@@ -41,6 +41,7 @@ function updateZoom() {
 }
 
 function initTopo() {
+  console.log("topology at initTopo", topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj);
@@ -84,6 +85,8 @@ function reset() {
 }
 
 function update() {
+  console.log("topology");
+  console.log(topology);
   var start = Date.now();
   body.classed("updating", true);
 

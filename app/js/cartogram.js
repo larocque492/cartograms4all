@@ -35,7 +35,6 @@
       // copy it first
       var topo = copy(topology);
       // objects are projected into screen coordinates
-
       // project the arcs into screen space
       var tf = transformer(topo.transform),
         x, y, len1, i1, out1, len2 = topo.arcs.length,
@@ -210,8 +209,6 @@
     };
 
     carto.features = function(topo, geometries) {
-      console.log("hi");
-      console.log(topo);
       return geometries.map(function(f) {
         return carto.feature(topo, f);
       });
