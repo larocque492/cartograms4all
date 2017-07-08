@@ -4,10 +4,11 @@ var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 
 var fields;
+var states;
 
 function getCSVFields(callback) {
   // TODO: Have this be loaded from the frontend form instead
-  var dataset = Papa.parse("https://raw.githubusercontent.com/CaseyHillers/cartograms4all/master/app/data/nst_2011.csv", {
+  var dataset = Papa.parse("data/nst_2011.csv", {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
@@ -91,7 +92,7 @@ function update() {
   body.classed("updating", true);
 
   //var key = field.key.replace("%d", year),
-  key = "";
+  var key = field.key; 
   var fmt = (typeof field.format === "function") ?
     field.format :
     d3.format(field.format || ","),
