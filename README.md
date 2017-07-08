@@ -34,6 +34,7 @@ Create a web application that allows anyone to upload their own dataset and crea
 * D3
 * PapaParse
 * TopoJSON
+* Materialize.css
 
 ## Setting up the Project for Development
 1. Have NPM set up on your system
