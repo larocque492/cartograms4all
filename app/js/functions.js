@@ -8,7 +8,7 @@ var states;
 
 function getCSVFields(callback) {
   // TODO: Have this be loaded from the frontend form instead
-  var dataset = Papa.parse("app/data/nst_2011.csv", {
+  var dataset = Papa.parse("data/nst_2011.csv", {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
