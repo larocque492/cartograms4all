@@ -11,6 +11,7 @@ var USER_INPUT_CSV;
 
     function handleFiles() {
        USER_INPUT_CSV = this.files; /* now you can work with the file list */
+       console.log("HERE!!!")
     }
 
 //------------Customize Button Stuff----------------//
