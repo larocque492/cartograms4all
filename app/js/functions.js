@@ -4,6 +4,7 @@ var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 
 var fields;
+var states;
 
 function getCSVFields(callback) {
   // TODO: Have this be loaded from the frontend form instead
@@ -41,7 +42,6 @@ function updateZoom() {
 }
 
 function initTopo() {
-  console.log("topology at initTopo", topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj);
@@ -52,7 +52,7 @@ function initTopo() {
     .attr("id", function(d) {
       return d.properties.NAME;
     })
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.append("title");
@@ -75,7 +75,7 @@ function reset() {
     .transition()
     .duration(750)
     .ease("linear")
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.select("title")
@@ -85,13 +85,10 @@ function reset() {
 }
 
 function update() {
-  console.log("topology");
-  console.log(topology);
   var start = Date.now();
-  body.classed("updating", true);
+  //body.classed("updating", true);
 
-  //var key = field.key.replace("%d", year),
-  key = "";
+  var key = field.key;
   var fmt = (typeof field.format === "function") ?
     field.format :
     d3.format(field.format || ","),
@@ -109,9 +106,7 @@ function update() {
 
   var color = d3.scale.linear()
     .range(colors)
-    .domain(lo < 0 ?
-      [lo, 0, hi] :
-      [lo, d3.mean(values), hi]);
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
   // normalize the scale to positive numbers
   var scale = d3.scale.linear()
@@ -143,8 +138,10 @@ function update() {
     .attr("d", carto.path);
 
   var delta = (Date.now() - start) / 1000;
-  stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-  body.classed("updating", false);
+  //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
+  console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
+  //$('select').material_select();
+  //body.classed("updating", false);
 }
 
 function parseHash(fieldsById) {

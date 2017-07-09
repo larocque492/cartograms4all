@@ -23,6 +23,7 @@
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "gulp-watch": "^4.3.11",
-    "materialize-css": "^0.99.0"
+    "materialize-css": "^0.99.0",
+    "papaparse": "^4.3.3"
   }
 }
