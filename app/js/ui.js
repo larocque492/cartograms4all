@@ -43,7 +43,6 @@ $(document).ready(function(){
    // modal appears when Customize Btn is clicked
    btn.onclick = function() {
        modal.style.display = "block";
-       console.log("clicked");
    }
 
    // stuff to close modal
