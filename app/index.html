@@ -19,15 +19,19 @@
 <body>
   <div id="container">
 
-    <div class="navbar-fixed">
+    <div >
       <nav class="nav-extended">
         <div class="nav-wrapper">
           <a href="#!" class="brand-logo center">Cartograms 4 All</a>
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent">
-            <li class="tab"><i class="tiny material-icons">file_upload</i> CSV</li>
-            <li class="tab"><a href="#test2">Custom CSV</a></li>
+            
+            <li class="tab"><a href="" id="upload_link">Upload your photo</a><i class="tiny material-icons" >file_upload</i> CSV
+                 <input id="upload" type="file"/>
+                 
+            </li>
+            <li class="tab" id="cust_file"><a id="cust_file">Custom CSV</a></li>
             <li class="tab disabled"><a href="#test3">Display</a></li>
             <li class="tab disabled"><a href="#test4">Algorithm</a></li>
           </ul>
@@ -61,10 +65,39 @@
       </div>
     </div>
 
-
+<!-- Modal Structure -->
+  <div id="modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Custom CSV</h4>
+      <p>Input data as a comma separated list.</p>
+      
+    <div class="row">
+      <div class="col s1">
+          <div class="cust_data">
+            Data1:<br>
+            <textarea rows="10" cols="40" id="data_col_1">
+            </textarea>
+          </div>
+      </div>
+      <div class="col s1">
+         <div class="cust_data">
+            Data2:<br>
+            <textarea rows="10" cols="40" id="data_col_2">
+            </textarea>
+          </div>
+      </div>
+    </div>
+          
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " onclick="run()">Submit</a>
+    </div>
+  </div>
+      
+<!-- orig. modal stuff
     <div id="modal" class="modal">
 
-      <!-- Customization Modal  -->
+    
       <div class="modal-content">
         <span class="close">&times;</span>
         <p>Input data as a comma separated list.</p>
@@ -97,6 +130,7 @@
         </form>
       </div>
     </div>
+-->
     <footer class="page-footer">
       <div class="container">
         <div class="row">
