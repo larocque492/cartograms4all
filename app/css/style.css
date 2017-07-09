@@ -8463,13 +8463,6 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 /*
  * Map SVG Container
  */
-.card-map {
-  padding-top: 0;
-  margin-top: 70px; }
-
-.card-map .card-content {
-  padding-top: 0; }
-
 #map-container {
   height: 500px;
   text-align: center;
@@ -8478,7 +8471,6 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 #map {
   display: block;
-  position: absolute;
   background: #fff;
   width: 100%;
   height: 100%;
@@ -8495,14 +8487,7 @@ path.state:hover {
 #my_file, #my_cust_file {
   display: none; }
 
-#get_file, #cust_file {
-  /*These are the two buttons */
-  margin: 10px 30px 0px 30px;
-  position: relative;
-  float: left; }
-
 #submit_btn {
-  /*Submit button inside modal */
   background: white;
   border: 5px solid lightblue;
   padding: 15px;
@@ -8512,6 +8497,12 @@ path.state:hover {
   position: fixed;
   right: 190px;
   top: 160px; }
+
+#upload_link {
+  text-decoration: none; }
+
+#upload {
+  display: none; }
 
 /*------------- Modal Stuff ------------------*/
 /*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
@@ -8524,12 +8515,8 @@ path.state:hover {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: black;
-  /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */ }
+  background-color: rgba(0, 0, 0, 0.4); }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: white;
   margin: 10% auto;
@@ -8538,12 +8525,10 @@ path.state:hover {
   width: 80%;
   height: 50%; }
 
-/* Data columns in the form */
 .cust_data {
   display: inline-block;
   float: left; }
 
-/* The Close Button */
 .close {
   color: #aaa;
   float: right;
@@ -8555,3 +8540,7 @@ path.state:hover {
   color: black;
   text-decoration: none;
   cursor: pointer; }
+
+.tab a {
+  width: 100%;
+  height: 100%; }

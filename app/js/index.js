@@ -89,7 +89,7 @@ function init() {
         .attr("id", function(d) {
           return d.properties.NAME;
         })
-        .attr("fill", "#fafafa")
+        .attr("fill", "#fff")
         .attr("d", path);
       states.append("title");
 
@@ -140,7 +140,9 @@ function initCartogram(csvFields) {
       return d[0];
     })
     .map(fields),
+    // TODO: Set default field to something that looks like data
     field = fields[0],
+    // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
     .map(function(rgb) {

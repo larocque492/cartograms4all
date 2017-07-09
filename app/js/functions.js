@@ -44,7 +44,6 @@ function updateZoom() {
 
 //get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
-  console.log("topology at initTopo", topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj); //d3.geo.path is d3's main drawing function
@@ -55,7 +54,7 @@ function initTopo() {
     .attr("id", function(d) {
       return d.properties.NAME;
     })
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.append("title");
@@ -78,7 +77,7 @@ function reset() {
     .transition()
     .duration(750)
     .ease("linear")
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.select("title")
@@ -88,13 +87,10 @@ function reset() {
 }
 
 function update() {
-  console.log("topology");
-  console.log(topology);
   var start = Date.now();
-  body.classed("updating", true);
+  //body.classed("updating", true);
 
-  //var key = field.key.replace("%d", year),
-  var key = field.key; 
+  var key = field.key;
   var fmt = (typeof field.format === "function") ?
     field.format :
     d3.format(field.format || ","),
@@ -112,9 +108,7 @@ function update() {
 
   var color = d3.scale.linear()
     .range(colors)
-    .domain(lo < 0 ?
-      [lo, 0, hi] :
-      [lo, d3.mean(values), hi]);
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
   // normalize the scale to positive numbers
   var scale = d3.scale.linear()
@@ -146,8 +140,10 @@ function update() {
     .attr("d", carto.path);
 
   var delta = (Date.now() - start) / 1000;
-  stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-  body.classed("updating", false);
+  //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
+  console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
+  //$('select').material_select();
+  //body.classed("updating", false);
 }
 
 
