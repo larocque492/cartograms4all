@@ -1,6 +1,5 @@
 //------------Input Button Stuff----------------------//
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
-var USER_CSV;
     document.getElementById('get_file').onclick = function() {
       document.getElementById('input_csv').click();
     };
