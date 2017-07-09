@@ -35,10 +35,11 @@ $(document).ready(function(){
 
 
 //------------Customize Button Stuff----------------//
-    var modal = document.getElementById('modal');
-    var btn = document.getElementById("cust_file");
-    var exit = document.getElementsByClassName("close")[0];
+   var modal = document.getElementById('modal');
+   var btn = document.getElementById("cust_file");
+   var exit = document.getElementsByClassName("close")[0];
     
+
 
    // modal appears when Customize Btn is clicked
    btn.onclick = function() {
@@ -46,11 +47,13 @@ $(document).ready(function(){
    }
 
    // stuff to close modal
-   
-   exit.onclick = function() {
-      modal.style.display = "none";
+
+   if(exit){ //Chrome was complaining that exit was undefined - JSL
+       exit.onclick = function () {
+           modal.style.display = "none";
+       }
    }
-   
+
 
  // run is called when the submit button is clicked
  // it saves whatever is in each textarea to a variable
