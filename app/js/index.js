@@ -31,7 +31,6 @@ we don't have any way of including scripts within each other - unless I'm an idi
 I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
 to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
 include functions.js and cartogram.js in index.js, or they won't work together (I think!)
-
 Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
 
 */
@@ -117,7 +116,7 @@ function init() {
   console.log("Cartograms 4 All: Finished init()");
 }
 
-//initialization of the new cartogram state,
+//initialization of the new cartogram,
 //based on the csv fields passed in.
 function initCartogram(csvFields) {
   fields = csvFields;
