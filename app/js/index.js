@@ -26,6 +26,12 @@ $(document).ready(function() {
 
 
 function init() {
+  // don't initialize until user has uploaded a .csv file
+  if(document.getElementById('input_csv').files[0] == null){
+    console.log("Please upload a file");
+    return;
+  }
+  USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
@@ -58,7 +64,7 @@ function init() {
   d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(DATA_DIRECTORY + DATASHEET, function(rawData) {
+    d3.csv(DATA, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;

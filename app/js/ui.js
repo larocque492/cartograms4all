@@ -1,10 +1,10 @@
 //------------Input Button Stuff----------------------//
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
-var USER_INPUT_CSV;
-
+var USER_CSV;
     document.getElementById('get_file').onclick = function() {
-       document.getElementById('input_csv').click();
+      document.getElementById('input_csv').click();
     };
+
 
 //------------Customize Button Stuff----------------//
     var modal = document.getElementById('modal');

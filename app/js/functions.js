@@ -7,7 +7,7 @@ var fields;
 
 function getCSVFields(callback) {
   // TODO: Have this be loaded from the frontend form instead
-  var dataset = Papa.parse("https://raw.githubusercontent.com/CaseyHillers/cartograms4all/master/app/data/nst_2011.csv", {
+  var dataset = Papa.parse(USER_CSV, {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
