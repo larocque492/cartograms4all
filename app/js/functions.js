@@ -2,13 +2,13 @@
 var DATASHEET = "nst_2011.csv";
 var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
-
 var fields;
 var states;
 
+//Return usable object from CSV file
 function getCSVFields(callback) {
   // TODO: Have this be loaded from the frontend form instead
-  var dataset = Papa.parse("https://raw.githubusercontent.com/CaseyHillers/cartograms4all/master/app/data/nst_2011.csv", {
+  var dataset = Papa.parse("data/nst_2011.csv", {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
@@ -16,6 +16,7 @@ function getCSVFields(callback) {
   });
 }
 
+//Send fields array back inside the called function
 function parseFields(data, callback) {
   fields = [];
   fields.push({
@@ -33,7 +34,7 @@ function parseFields(data, callback) {
   callback(fields);
 }
 
-
+//no idea what this does yet, to be honest. I'm assuming something on the browser side
 function updateZoom() {
   var scale = zoom.scale();
   layer.attr("transform",
@@ -41,10 +42,11 @@ function updateZoom() {
     "scale(" + [scale, scale] + ")");
 }
 
+//get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
-    .projection(proj);
+    .projection(proj); //d3.geo.path is d3's main drawing function
   states = states.data(features)
     .enter()
     .append("path")
@@ -144,6 +146,7 @@ function update() {
   //body.classed("updating", false);
 }
 
+
 function parseHash(fieldsById) {
   var parts = location.hash.substr(1).split("/"),
     desiredFieldId = parts[0],
@@ -159,10 +162,10 @@ function parseHash(fieldsById) {
     //yearSelect.attr("disabled", "disabled");
     reset();
 
-  } else {
+  } else
     /*
             if (field.years) {
-                if (field.years.indexOf(year) === -1) {
+                if (field.yecs.indexOf(year) === -1) {
                     year = field.years[0];
                 }
                 yearSelect.selectAll("option")
@@ -185,7 +188,6 @@ function parseHash(fieldsById) {
       return href + location.hash;
     });
   }
-}
 
 //Inital map setup
 var map = d3.select("#map"),

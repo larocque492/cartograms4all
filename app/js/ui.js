@@ -33,8 +33,6 @@ $(document).ready(function() {
   $(".dropdown-button").dropdown();
 });
 
-
-
 //------------Customize Button Stuff----------------//
 var modal = document.getElementById('modal');
 var btn = document.getElementById("cust_file");
@@ -50,7 +48,6 @@ btn.onclick = function() {
 // exit.onclick = function() {
 //   modal.style.display = "none";
 // }
-
 
 // run is called when the submit button is clicked
 // it saves whatever is in each textarea to a variable
