@@ -28,7 +28,7 @@ $(document).ready(function() {
 function init() {
   // don't initialize until user has uploaded a .csv file
   if(document.getElementById('input_csv').files[0] == null){
-    console.log("Please upload a file");
+    console.log("Cartograms 4 All: Waiting for user inputted CSV file);
     return;
   }
   USER_CSV = document.getElementById('input_csv').files[0];
