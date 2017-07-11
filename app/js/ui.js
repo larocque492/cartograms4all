@@ -1,12 +1,8 @@
 //------------Input Button Stuff----------------------//
-$(function() {
-  $("#upload_link").on('click', function(e) {
-    e.preventDefault();
-    $("#upload:hidden").trigger('click');
-  });
-});
-
-
+// Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
+document.getElementById('get_file').onclick = function() {
+  document.getElementById('input_csv').click();
+};
 /*
  * Code to run when document is ready
  */
@@ -32,6 +28,7 @@ $(document).ready(function() {
 
   $(".dropdown-button").dropdown();
 });
+
 
 //------------Customize Button Stuff----------------//
 var modal = document.getElementById('modal');

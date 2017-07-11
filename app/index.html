@@ -25,8 +25,8 @@
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent text-center">
-            <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i> CSV</a>
-              <input id="upload" type="file" />
+            <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i></a>
+              <input type="file" id="input_csv" onchange="init()" />
             </li>
             <li class="tab" id="cust_file"><a id="cust_file">
               <i class="material-icons">view_array</i></a>
@@ -43,7 +43,6 @@
       <input class="waves-effect waves-light btn" type="button" id="get_file" value="Upload CSV">
       <input id="my_file" type="file">
     </div>
-
     <button class="tight waves-effect waves-light btn" id="cust_file">Custom CSV</button>
   -->
     <div class="row">
