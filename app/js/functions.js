@@ -2,18 +2,21 @@
 var DATASHEET = "nst_2011.csv";
 var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
+var USER_CSV; // holds object containing .csv file
+var CSV_URL; // DOMString containing URL representing USER_CSV
+
 var fields;
 var states;
 
 //Return usable object from CSV file
 function getCSVFields(callback) {
-  // TODO: Have this be loaded from the frontend form instead
-  var dataset = Papa.parse("data/nst_2011.csv", {
+  var dataset = Papa.parse(USER_CSV, {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
     }
   });
+  CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
 //Send fields array back inside the called function
