@@ -8,8 +8,16 @@ $_currentSessionId = session_id();
 
 $cookie_name = "user_profile"
 
-$_expires = (86400 * 30);
+$expires = (86400 * 30);
 
-setcookie($cookie_name, $_currentSessionId, time() + $_expires, "/"); //30 days
+//setcookie($cookie_name, $_currentSessionId, time() + $_expires, "/"); //30 days
 
+//Generic function to set information in user's cookie
+function set_cookie($cookie_name, $sessionId, $expiration){
+  $expiration = $expiration + time();
+  setcookie($cookie_name, $sessionId, $expiration, "/");
+
+}
+
+set_cookie($cookie_name, $currentSessionId, $expires);
 ?>
