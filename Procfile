@@ -1,1 +1,1 @@
-build: cd app && npm install && npm build && cd ..
+web: cd app && npm install && npm build && cd ..
