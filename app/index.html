@@ -1,100 +1,170 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Cartograms 4 All</title>
-    <meta charset="utf-8">
-    <meta property="og:image" content="placeholder.png">
-    <script src="js/vendor/jquery-1.12.0.min.js"></script>
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="lib/papaparse.min.js"></script>
-    <script src="lib/colorbrewer.js"></script>
-    <script src="js/functions.js"></script>
-    <script src="lib/topojson.js"></script>
-    <script src="js/cartogram.js"></script>
-    <link href="css/cartogram.css" type="text/css" rel="stylesheet">
+  <title>Cartograms 4 All</title>
+  <meta charset="utf-8">
+  <meta property="og:image" content="placeholder.png">
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="node_modules/papaparse/papaparse.min.js"></script>
+
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
-<div id="container">
-    <h1>Cartograms 4 All</h1>
-    <form>
-        <p>
-            <label>Column: <select id="field"></select></label>
-            <!--<label>in <select id="year"></select></label>-->
-            <span id="status"></span>
-        </p>
-    </form>
-    <div id="map-container">
-        <img id="placeholder" alt="placeholder image for old browsers" src="placeholder.png">
-        <svg id="map"></svg>
+  <div id="container">
+    <div>
+      <nav class="nav-extended">
+        <div class="nav-wrapper">
+          <h1 class="brand-logo center">Cartograms 4 All</h1>
+        </div>
+        <div class="nav-content">
+          <ul class="tabs tabs-transparent text-center">
+            <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i></a>
+              <input type="file" id="input_csv" onchange="init()" />
+            </li>
+            <li class="tab" id="cust_file"><a id="cust_file">
+              <i class="material-icons">view_array</i></a>
+            </li>
+            <li class="tab disabled">
+              <a href="#test3"><i class="material-icons">settings</i></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <!--Input File Button Stuf
+    <div class="left" id="input_button">
+      <input class="waves-effect waves-light btn" type="button" id="get_file" value="Upload CSV">
+      <input id="my_file" type="file">
+    </div>
+    <button class="tight waves-effect waves-light btn" id="cust_file">Custom CSV</button>
+  -->
+    <div class="row">
+      <div class="col s12 m12 push-l2 l8">
+        <div class="card card-map">
+          <div class="card-content">
+            <div class="field-select col s4">
+              <select class="browser-default" id="field"></select>
+              <label>Data</label>
+            </div>
+            <div id="map-container">
+              <svg id="map"></svg>
+            </div>
+          </div>
+          <div class="card-action">
+            <a href="#">This is a link</a>
+            <a href="#">This is a link</a>
+          </div>
+        </div>
+      </div>
     </div>
 
-</div>
+    <!-- Modal Structure -->
+    <div id="modal" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Custom CSV</h4>
+        <p>Input data as a comma separated list.</p>
 
-<!--Input File Button Stuff-->
-<div id="input_button">
-   <input type="button" id = "get_file" value = "Upload CSV">
-   <input type = "file" id = "input_csv" onchange="init()">
+        <div class="row">
+          <div class="col s1">
+            <div class="cust_data">
+              Data1:<br>
+              <textarea rows="10" cols="40" id="data_col_1">
+            </textarea>
+            </div>
+          </div>
+          <div class="col s1">
+            <div class="cust_data">
+              Data2:<br>
+              <textarea rows="10" cols="40" id="data_col_2">
+            </textarea>
+            </div>
+          </div>
+        </div>
 
-</div>
-
-<button id="cust_file">Custom CSV</button>
-
-<div id="modal" class="modal">
-
-   <!-- Customization Modal  -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Input data as a comma separated list.</p>
-    <input type="button" id = "submit_btn" value="Submit!" onclick="run()" /> 
-    <form>
-        
-      File name:<br>
-      <input type="text" id="file_name">.csv<br>
-      <br>
-       
-      <div class = "cust_data">
-        States:<br> 
-        <textarea rows="10" cols="40" id="data_col_1">
-        </textarea>
       </div>
-        
-      
-     <div class = "cust_data">
-        Population:<br>
-        <textarea rows="10" cols="40" id="data_col_2">
-        </textarea>
-     </div>
- 
-     <div class = "cust_data">
-         Custom Field: <br>
-        <textarea rows="10" cols="40" id="data_col_3">
-        </textarea>
-     </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " onclick="run()">Submit</a>
+      </div>
+    </div>
 
-    </form>
+    <!-- orig. modal stuff
+    <div id="modal" class="modal">
+
+
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Input data as a comma separated list.</p>
+        <input type="button" id="submit_btn" value="Submit!" onclick="run()" />
+        <form>
+
+          File name:<br>
+          <input type="text" id="file_name">.csv<br>
+          <br>
+
+          <div class="cust_data">
+            States:<br>
+            <textarea rows="10" cols="40" id="data_col_1">
+        </textarea>
+          </div>
+
+
+          <div class="cust_data">
+            Population:<br>
+            <textarea rows="10" cols="40" id="data_col_2">
+        </textarea>
+          </div>
+
+          <div class="cust_data">
+            Custom Field: <br>
+            <textarea rows="10" cols="40" id="data_col_3">
+        </textarea>
+          </div>
+
+        </form>
+      </div>
+    </div>
+-->
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Cartograms 4 All</h5>
+            <p class="grey-text text-lighten-4">A group project for Professor Jullig's UCSC CMPS 115 Summer 2017</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Team</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Casey Hillers</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Luke Tanner</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Jiayao Lin (Kevin)</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Jeffrey Larocque</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Michael Crane</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Ahmed Almutawa</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container center text-lighten-3">
+          Based off of code provided by <a href="https://github.com/trburkhart/Cartowebsite">Tim Burkhart</a>
+        </div>
+      </div>
+    </footer>
   </div>
-
-</div>
-
-<!-- Javascript that runs the UI and D3 --!>
-
+</body>
+<script src="lib/colorbrewer.js"></script>
+<script src="js/functions.js"></script>
+<script src="lib/topojson.js"></script>
+<script src="js/cartogram.js"></script>
 <script src="js/index.js"></script>
+<script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script src="js/ui.js"></script>
 
-
-</body>
-</body>
-<div>
-   <div class = "names">
-      Casey Hillers <br>
-      Luke Tanner <br>      
-      Jiayao Lin (Kevin) <br>
-      Jeffrey Larocque <br>
-      Michael Crane
-    </div>
-    <div class = "links">
-       Based off of code by Tim Burkhart. <br>
-       Check out our <a href="https://github.com/CaseyHillers/cartograms4all">Github!</a>
-    </div>
-</div>
 </html>

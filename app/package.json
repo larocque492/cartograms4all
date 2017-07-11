@@ -1,0 +1,29 @@
+{
+  "name": "cartograms4all",
+  "version": "1.0.0",
+  "description": "A tool to build cartograms",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaseyHillers/cartograms4all.git"
+  },
+  "keywords": [
+    "cartogram"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CaseyHillers/cartograms4all/issues"
+  },
+  "homepage": "https://github.com/CaseyHillers/cartograms4all#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-watch": "^4.3.11",
+    "materialize-css": "^0.99.0",
+    "papaparse": "^4.3.3"
+  }
+}

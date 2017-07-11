@@ -12,6 +12,7 @@ var topology;
 var carto;
 var geometries;
 
+
 /*
  * Main program instructions
  */
@@ -24,6 +25,17 @@ $(document).ready(function() {
  * End of main program instructions
  */
 
+/*
+I'm noticing that Chrome is complaining a lot about undefined functions in index.js. This leads me to believe that
+we don't have any way of including scripts within each other - unless I'm an idiot and something is being used that
+I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
+to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
+include functions.js and cartogram.js in index.js, or they won't work together (I think!)
+Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
+
+*/
+
+//initialization of the entire map
 
 function init() {
   // don't initialize until user has uploaded a .csv file
@@ -83,7 +95,7 @@ function init() {
         .attr("id", function(d) {
           return d.properties.NAME;
         })
-        .attr("fill", "#fafafa")
+        .attr("fill", "#fff")
         .attr("d", path);
       states.append("title");
 
@@ -110,6 +122,8 @@ function init() {
   console.log("Cartograms 4 All: Finished init()");
 }
 
+//initialization of the new cartogram,
+//based on the csv fields passed in.
 function initCartogram(csvFields) {
   fields = csvFields;
   // Data info for the cartogram
@@ -121,7 +135,9 @@ function initCartogram(csvFields) {
     })(),
     fields = csvFields,
     // TODO: Make this customizable
-    // NOTE: Might just have this detect if there are digits at the end of the column or beginning, and if there are then use those as a year
+    // NOTE: Might just have this detect if there are digits at the end of the column or beginning,
+      // and if there are then use those as a year
+    // TODO: Make a custom function getTimeInField() which will clear
     fieldsById = d3.nest()
     .key(function(d) {
       return d.id;
@@ -130,7 +146,9 @@ function initCartogram(csvFields) {
       return d[0];
     })
     .map(fields),
+    // TODO: Set default field to something that looks like data
     field = fields[0],
+    // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
     .map(function(rgb) {

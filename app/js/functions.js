@@ -6,9 +6,10 @@ var USER_CSV; // holds object containing .csv file
 var CSV_URL; // DOMString containing URL representing USER_CSV
 
 var fields;
+var states;
 
+//Return usable object from CSV file
 function getCSVFields(callback) {
-  // TODO: Have this be loaded from the frontend form instead
   var dataset = Papa.parse(USER_CSV, {
     download: true,
     complete: function(results) {
@@ -18,6 +19,7 @@ function getCSVFields(callback) {
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
+//Send fields array back inside the called function
 function parseFields(data, callback) {
   fields = [];
   fields.push({
@@ -35,7 +37,7 @@ function parseFields(data, callback) {
   callback(fields);
 }
 
-
+//no idea what this does yet, to be honest. I'm assuming something on the browser side
 function updateZoom() {
   var scale = zoom.scale();
   layer.attr("transform",
@@ -43,11 +45,11 @@ function updateZoom() {
     "scale(" + [scale, scale] + ")");
 }
 
+//get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
-  console.log("topology at initTopo", topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
-    .projection(proj);
+    .projection(proj); //d3.geo.path is d3's main drawing function
   states = states.data(features)
     .enter()
     .append("path")
@@ -55,7 +57,7 @@ function initTopo() {
     .attr("id", function(d) {
       return d.properties.NAME;
     })
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.append("title");
@@ -78,7 +80,7 @@ function reset() {
     .transition()
     .duration(750)
     .ease("linear")
-    .attr("fill", "#fafafa")
+    .attr("fill", "#fff")
     .attr("d", path);
 
   states.select("title")
@@ -88,13 +90,10 @@ function reset() {
 }
 
 function update() {
-  console.log("topology");
-  console.log(topology);
   var start = Date.now();
-  body.classed("updating", true);
+  //body.classed("updating", true);
 
-  //var key = field.key.replace("%d", year),
-  key = "";
+  var key = field.key;
   var fmt = (typeof field.format === "function") ?
     field.format :
     d3.format(field.format || ","),
@@ -112,9 +111,7 @@ function update() {
 
   var color = d3.scale.linear()
     .range(colors)
-    .domain(lo < 0 ?
-      [lo, 0, hi] :
-      [lo, d3.mean(values), hi]);
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
   // normalize the scale to positive numbers
   var scale = d3.scale.linear()
@@ -146,9 +143,12 @@ function update() {
     .attr("d", carto.path);
 
   var delta = (Date.now() - start) / 1000;
-  stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-  body.classed("updating", false);
+  //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
+  console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
+  //$('select').material_select();
+  //body.classed("updating", false);
 }
+
 
 function parseHash(fieldsById) {
   var parts = location.hash.substr(1).split("/"),
@@ -165,10 +165,10 @@ function parseHash(fieldsById) {
     //yearSelect.attr("disabled", "disabled");
     reset();
 
-  } else {
+  } else
     /*
             if (field.years) {
-                if (field.years.indexOf(year) === -1) {
+                if (field.yecs.indexOf(year) === -1) {
                     year = field.years[0];
                 }
                 yearSelect.selectAll("option")
@@ -191,7 +191,6 @@ function parseHash(fieldsById) {
       return href + location.hash;
     });
   }
-}
 
 //Inital map setup
 var map = d3.select("#map"),

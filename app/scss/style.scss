@@ -1,0 +1,120 @@
+@import "node_modules/materialize-css/sass/components/color";
+
+$primary-color: color("blue", "darken-1");
+$secondary-color: color("yellow", "darken-2");
+
+
+@import "node_modules/materialize-css/sass/materialize";
+
+/*
+ * Map SVG Container
+ */
+.field-select {
+}
+#map-container {
+    height: 500px;
+    text-align: center;
+    position: relative;
+    margin: 20px 0;
+}
+
+#map {
+    display: block;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+path.state {
+    stroke: #666;
+    stroke-width: .5;
+}
+
+path.state:hover {
+    stroke: #000;
+}
+
+/*-------------File Input Button CSS Stuff --------------*/
+
+#my_file, #my_cust_file{
+    display: none;
+}
+
+#get_file, #cust_file{  // These are the two buttons
+
+}
+
+#submit_btn{  // Submit button inside modal
+   background: white;
+   border: 5px solid lightblue;
+   padding: 15px;
+   border-radius: 5px;
+   margin: 10px;
+   cursor: pointer;
+   position: fixed;
+   right: 190px;
+   top: 160px;
+}
+
+#upload_link{
+    text-decoration:none;
+}
+#upload{
+    display:none
+}
+
+/*------------- Modal Stuff ------------------*/
+
+/*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
+
+
+.modal {
+display: none;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0,0,0,0.4);
+}
+
+// Modal Content/Box
+.modal-content {
+background-color: white;
+margin: 10% auto;
+padding: 20px;
+border: 1px solid grey;
+width: 80%;
+height: 50%;
+}
+
+
+
+// Data columns in the form
+.cust_data {
+display: inline-block;
+float: left;
+}
+
+// The Close Button
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+.tab a{
+  width: 100%;
+  height: 100%;
+}
