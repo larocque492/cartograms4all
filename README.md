@@ -47,10 +47,11 @@ the parameter may be.
 
 ## Setting up the Project for Development
 1. Have NPM set up on your system
-2. `cd app && npm install && cd ..`
+2. `cd app && npm install && npm build && cd ..`
 
-Your system is now set up for development. If you plan on working with sass, make sure you run `gulp` within the app directory to have it auto-compile the scss changes into style.css.
-> You may need to globally install gulp on your system (`npm install -g gulp`).
+Your system is now set up for development.
+
+If you're working on the style of the site, run gulp in the main directory to have it autocompile your scss changes into the main stylesheet. Otherwise you will need to compile your changes manually before you can see their effect.
 
 ## File overview
 
