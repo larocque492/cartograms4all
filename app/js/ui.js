@@ -60,3 +60,21 @@ function run() {
   //console.log(col_3_input);
 
 }
+
+//------------------Share Cartogram Button-----------//
+var share_modal = document.getElementById('share_modal');
+var share_btn = document.getElementById("share_cartogram");
+var share_exit = document.getElementsByClassName("close")[0];
+
+share_btn.onclick = function() {
+  share_modal.style.display = "block";
+}
+
+//------------------Share Cartogram Button-----------//
+var publish_modal = document.getElementById('publish_modal');
+var publish_btn = document.getElementById("download_cartogram");
+var publish_exit = document.getElementsByClassName("close")[0];
+
+publish_btn.onclick = function() {
+  publish_modal.style.display = "block";
+}

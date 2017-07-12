@@ -64,10 +64,9 @@ path.state:hover {
     display:none
 }
 
-/*------------- Modal Stuff ------------------*/
+/*-------------Custom Modal ------------------*/
 
 /*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
-
 
 .modal {
 display: none;
@@ -117,4 +116,30 @@ cursor: pointer;
 .tab a{
   width: 100%;
   height: 100%;
+}
+
+/*-------------Share Modal ------------------*/
+.share_modal {
+   display: none;
+   position: fixed;
+   z-index: 1;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   overflow: auto;
+   background-color: rgba(0,0,0,0.4);
+}
+
+/*-------------Publish Modal ------------------*/
+.publish_modal {
+   display: none;
+   position: fixed;
+   z-index: 1;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   overflow: auto;
+   background-color: rgba(0,0,0,0.4);
 }
