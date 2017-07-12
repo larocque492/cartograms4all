@@ -41,10 +41,11 @@ btn.onclick = function() {
   modal.style.display = "block";
 }
 
-// stuff to close modal
-// exit.onclick = function() {
-//   modal.style.display = "none";
-// }
+exit.onclick = function() {
+    console.log("cust close");
+    modal.style.display = "none";
+}
+
 
 // run is called when the submit button is clicked
 // it saves whatever is in each textarea to a variable
@@ -64,17 +65,28 @@ function run() {
 //------------------Share Cartogram Button-----------//
 var share_modal = document.getElementById('share_modal');
 var share_btn = document.getElementById("share_cartogram");
-var share_exit = document.getElementsByClassName("close")[0];
+var share_exit = document.getElementsByClassName("share_close")[0];
 
 share_btn.onclick = function() {
   share_modal.style.display = "block";
 }
 
-//------------------Share Cartogram Button-----------//
+share_exit.onclick = function() {
+    console.log("close share");
+    share_modal.style.display = "none";
+}
+
+
+//------------------Publish Cartogram Button-----------//
 var publish_modal = document.getElementById('publish_modal');
 var publish_btn = document.getElementById("download_cartogram");
-var publish_exit = document.getElementsByClassName("close")[0];
+var publish_exit = document.getElementsByClassName("publish_close")[0];
 
 publish_btn.onclick = function() {
   publish_modal.style.display = "block";
+}
+
+publish_exit.onclick = function() {
+    console.log("close publish");
+    publish_modal.style.display = "none";
 }
