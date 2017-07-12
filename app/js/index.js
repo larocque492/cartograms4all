@@ -11,6 +11,7 @@ var body;
 var topology;
 var carto;
 var geometries;
+var URL_TOPO;
 
 
 /*
@@ -41,9 +42,19 @@ function init() {
   // don't initialize until user has uploaded a .csv file
   if(document.getElementById('input_csv').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
+    return;  
+  }
+
+  if(document.getElementById('input_topo').files[0] == null){
+    console.log("Cartograms 4 All: Waiting for user inputted topojson file");
     return;
   }
   USER_CSV = document.getElementById('input_csv').files[0];
+  USER_TOPO = document.getElementById('input_topo').files[0];
+  console.log(USER_TOPO.name);
+
+
+
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
@@ -71,9 +82,11 @@ function init() {
     .value(function(d) {
       return +d.properties[field];
     });
+      URL_TOPO = URL.createObjectURL(USER_TOPO);
 
-  var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  d3.json(topoURL, function(topology) {
+  
+  //var topoURL = DATA_DIRECTORY + "us-states.topojson";
+  d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
     d3.csv(CSV_URL, function(rawData) {

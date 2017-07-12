@@ -2,6 +2,11 @@
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
 document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
+
+};
+
+document.getElementById('upload_topo').onclick = function() {
+  document.getElementById('input_topo').click();
 };
 /*
  * Code to run when document is ready
