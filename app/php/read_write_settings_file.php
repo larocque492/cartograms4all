@@ -1,6 +1,6 @@
 
 <?php 
-
+/*
 $input_string = "PHPlol.exe"
 
 function writeSettingsFile($session_id, $settings_string){
@@ -16,10 +16,10 @@ function readSettingsFile($session_id){
     return $session_file_string;
 }
 
-writeSettingsFile(1110,$input_string);
+//writeSettingsFile(1110,$input_string);
 
-$output_string = readSettingsFile(1100);
+//$output_string = readSettingsFile(1100);
 
-echo $output_string;
-
+//echo $output_string;
+*/
 ?>
