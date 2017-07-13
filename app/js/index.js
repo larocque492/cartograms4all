@@ -40,7 +40,7 @@ Or we could just put the main logic back in index.html, even though that's not a
 function init() {
   // don't initialize until user has uploaded a .csv file
   if(document.getElementById('input_csv').files[0] == null){
-    console.log("Cartograms 4 All: Waiting for user inputted CSV file);
+    console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
   }
   USER_CSV = document.getElementById('input_csv').files[0];
