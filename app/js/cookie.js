@@ -24,3 +24,20 @@ function exportCookie() {
   return JSON.stringify(cookieInString);
 }
 
+//Import cookie information through an API that reads the content of sessionId.json
+//After importing, it will try to pull out the critical information like file/settings
+//It then sets it for the user
+function importUserSettings() {
+  //call API 
+  var jsonString = 'API_PLACEHOLDER';
+  var jsonObj = JSON.parse(jsonString);
+  //console.log(jsonObj);
+  
+  //set file
+  //setfilePath(jsonOb['fileName']);
+
+  //set settings
+  //setSettings(jsonObj['userSettings']);
+}
+
+
