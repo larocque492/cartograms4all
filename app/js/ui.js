@@ -90,3 +90,19 @@ publish_exit.onclick = function() {
     console.log("close publish");
     publish_modal.style.display = "none";
 }
+
+
+//Note: this method for svg might not be ideal
+function download_svg(){
+    console.log("download svg");
+    var svg = d3.select('svg');
+    svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
+                console.log('uri', uri);
+    });
+}
+                 
+function download_png(){
+   console.log("download png");   
+   var svg = d3.select('svg');
+   saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
+}
