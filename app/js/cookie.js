@@ -1,7 +1,7 @@
-//Functions that manipulate cookie and information pertain for individual user
+//Functions that manipulate cookie and information pertain to individual user
 
 //Create cookie will be use to store user setting and data file information
-//It will get consumed when we export the cookie information as a JSON to server
+//It will be consumed when we export the cookie information as a JSON to server
 function create_cookie(name, value, days2expire, path) {
   var date = new Date();
   date.setTime(date.getTime() + (days2expire * 24 * 60 * 60 * 1000)); //number of days before expire
@@ -16,7 +16,7 @@ function create_cookie(name, value, days2expire, path) {
 //Export cookie information as JSON
 function exportCookie() {
   //parse all the cookie information
-  var cookiesInString = document.cookie.split(':').map(function(cookieRecord) {
+  var cookiesInString = document.cookie.split(';')i.map(function(cookieRecord) {
     var i = cookieRecord.indexOf('=');
     //It splits the cookieName and cookieValue and save them as a tuple
     return [cookieRecord.substring(0,i), cookieRecord.substring(i+1)];
@@ -29,15 +29,20 @@ function exportCookie() {
 //It then sets it for the user
 function importUserSettings() {
   //call API 
-  var jsonString = 'API_PLACEHOLDER';
-  var jsonObj = JSON.parse(jsonString);
+  var userCookie = 'API_PLACEHOLDER';
+  var userObj = JSON.parse(jsonString);
   //console.log(jsonObj);
+  CSV_URL = userObj['CSV_URL'];
   
-  //set file
-  //setfilePath(jsonOb['fileName']);
-
   //set settings
   //setSettings(jsonObj['userSettings']);
+  init(); //refresh the view
 }
 
-
+//Export cookie information and call API to write file as sessionId.json
+function exportUserSettings() {
+  var userCookie = exportCookie();
+  var sessionId = userCookie['c4a_session_id'];
+  //CALL API to write the cookie information into sessionId
+  //WRITE_FILE(sessionId);
+}
