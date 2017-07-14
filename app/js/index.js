@@ -119,6 +119,14 @@ function init() {
     });
   });
 
+  // if not already set, export new cookie to server.
+  var session_id = 012345;
+  if(getCookie(session_id)==0 ){
+    //importUserSettings()
+  }else{
+    create_cookie('user_session_cookie', session_id, 10, '/');
+  }
+
   console.log("Cartograms 4 All: Finished init()");
 }
 
