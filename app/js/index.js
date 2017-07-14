@@ -123,8 +123,10 @@ function init() {
   var session_id = 012345;
   if(getCookie(session_id)==0 ){
     //importUserSettings()
+    console.log("not cookie store");
   }else{
     create_cookie('user_session_cookie', session_id, 10, '/');
+    console.log("cookie store");
   }
 
   console.log("Cartograms 4 All: Finished init()");
