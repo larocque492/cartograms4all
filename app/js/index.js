@@ -19,6 +19,14 @@ var geometries;
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
+  // if not already set, set new cookie.
+  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  var session_id = generate_session_id(16, chars);
+  if( getCookie('user_session_cookie') === "" ){
+    create_cookie('user_session_cookie', session_id, 10, '/');
+  }else{
+    //importUserSettings()
+  }
   init();
 });
 /*
@@ -43,15 +51,7 @@ function init() {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
   }
-
-  // if not already set, set new cookie.
-  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  var session_id = generate_session_id(16, chars);
-  if( getCookie('user_session_cookie') === "" ){
-    create_cookie('user_session_cookie', session_id, 10, '/');
-  }else{
-    //importUserSettings()
-  }
+  console.log("not waiting anymore");
 
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
