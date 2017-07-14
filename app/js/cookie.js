@@ -29,7 +29,7 @@ function getCookie(cname) {
     return "";
 }
 
-
+/*
 //Export cookie information as JSON
 function exportCookie() {
   //parse all the cookie information
@@ -40,7 +40,7 @@ function exportCookie() {
   }
   return JSON.stringify(cookieInString);
 }
-
+*/
 //Import cookie information through an API that reads the content of sessionId.json
 //After importing, it will try to pull out the critical information like file/settings
 //It then sets it for the user
