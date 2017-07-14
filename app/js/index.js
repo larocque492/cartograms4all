@@ -46,14 +46,14 @@ function init() {
 
   // if not already set, export new cookie to server.
   var session_id = 012345;
-  if(getCookie(session_id)==0 ){
+  if(getCookie(session_id)!="" ){
     //importUserSettings()
     console.log("not cookie store");
   }else{
     create_cookie('user_session_cookie', session_id, 10, '/');
     console.log("cookie store");
   }
-  
+
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
