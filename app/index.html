@@ -25,8 +25,10 @@
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent text-center">
+            <form action="uploadFile.php" method="post" enctype="multipart/form-data">
             <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i></a>
               <input type="file" id="input_csv" onchange="init()" />
+            </form>
             </li>
             <li class="tab" id="cust_file"><a id="cust_file">
               <i class="material-icons">view_array</i></a>
