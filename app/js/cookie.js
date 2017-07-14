@@ -29,18 +29,18 @@ function getCookie(cname) {
     return "";
 }
 
-/*
+
 //Export cookie information as JSON
 function exportCookie() {
   //parse all the cookie information
-  var cookiesInString = document.cookie.split(';').map(function(cookieRecord) {
+  var cookiesInString = document.cookie.split(';').map(function(cookieRecord)) {
     var i = cookieRecord.indexOf('=');
     //It splits the cookieName and cookieValue and save them as a tuple
     return [cookieRecord.substring(0,i), cookieRecord.substring(i+1)];
   }
   return JSON.stringify(cookieInString);
 }
-*/
+
 //Import cookie information through an API that reads the content of sessionId.json
 //After importing, it will try to pull out the critical information like file/settings
 //It then sets it for the user
