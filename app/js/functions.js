@@ -19,6 +19,12 @@ function getCSVFields(callback) {
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
+function generate_session_id(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+
 //Send fields array back inside the called function
 function parseFields(data, callback) {
   fields = [];

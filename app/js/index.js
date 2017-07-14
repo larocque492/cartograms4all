@@ -44,14 +44,13 @@ function init() {
     return;
   }
 
-  // if not already set, export new cookie to server.
-  var session_id = "012345";
+  // if not already set, set new cookie.
+  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  var session_id = generate_session_id(16, chars);
   if( getCookie('user_session_cookie') === "" ){
     create_cookie('user_session_cookie', session_id, 10, '/');
-    console.log("cookie store");
   }else{
     //importUserSettings()
-    console.log("not cookie store");
   }
 
   USER_CSV = document.getElementById('input_csv').files[0];
