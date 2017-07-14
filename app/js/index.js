@@ -46,12 +46,12 @@ function init() {
 
   // if not already set, export new cookie to server.
   var session_id = 012345;
-  if(getCookie(session_id)!="" ){
-    //importUserSettings()
-    console.log("not cookie store");
-  }else{
+  if( getCookie('user_session_cookie') === "" ){
     create_cookie('user_session_cookie', session_id, 10, '/');
     console.log("cookie store");
+  }else{
+    //importUserSettings()
+    console.log("not cookie store");
   }
 
   USER_CSV = document.getElementById('input_csv').files[0];
