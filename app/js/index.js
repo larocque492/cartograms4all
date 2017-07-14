@@ -33,16 +33,6 @@ $(document).ready(function() {
  * End of main program instructions
  */
 
-/*
-I'm noticing that Chrome is complaining a lot about undefined functions in index.js. This leads me to believe that
-we don't have any way of including scripts within each other - unless I'm an idiot and something is being used that
-I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
-to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
-include functions.js and cartogram.js in index.js, or they won't work together (I think!)
-Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
-
-*/
-
 //initialization of the entire map
 
 function init() {
