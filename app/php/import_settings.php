@@ -1,5 +1,6 @@
 <?php
-
+$foo = "Running: import_settings.php";
+debug_to_console($foo);
 function writeSettingsFile(){
     if(!empty($_POST['data'])){
         $settings_string = $_POST['data'];
@@ -15,8 +16,7 @@ function debug_to_console( $data ) {
 
     echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
 }
-$foo = "Running: import_settings.php";
-debug_to_console($foo);
+
 writeSettingsFile();
 
 ?>
