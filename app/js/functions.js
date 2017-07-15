@@ -4,7 +4,7 @@ var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 var USER_CSV; // holds object containing .csv file
 var CSV_URL; // DOMString containing URL representing USER_CSV
-var USER_SESSION_ID = getCookie(user_session_id); // stores the users session ID. Gets it from cookie
+var USER_SESSION_ID = getCookie("user_session_id"); // stores the users session ID. Gets it from cookie
 console.log(USER_SESSION_ID);
 
 var fields;

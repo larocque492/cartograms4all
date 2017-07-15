@@ -12,7 +12,7 @@ function create_cookie(name, value, days2expire, path) {
                    'path=' + path + ';';
 }
 
-// from W3 schools tutorial
+// returns the value of a cookie with name given by cname
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
