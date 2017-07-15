@@ -19,10 +19,19 @@ function getCSVFields(callback) {
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
-function generate_session_id(length, chars) {
+function generate_session_id(length) {
+  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   var result = '';
   for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
   return result;
+}
+
+function callPHP(){
+  var data = new FormData();
+  data.append("data" , "the_text_you_want_to_save");
+  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  xhr.open( 'post', '../php/import_settings.php', true );
+  xhr.send(data);
 }
 
 //Send fields array back inside the called function
