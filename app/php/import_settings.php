@@ -8,7 +8,15 @@ function writeSettingsFile(){
         file_put_contents($session_file_name, $settings_string);
     }
 }
-echo "Running: import_settings.php";
+function debug_to_console( $data ) {
+    $output = $data;
+    if ( is_array( $output ) )
+        $output = implode( ',', $output);
+
+    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
+}
+$foo = "Running: import_settings.php";
+debug_to_console($foo);
 writeSettingsFile();
 
 ?>
