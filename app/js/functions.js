@@ -29,6 +29,7 @@ function generate_session_id(length) {
 function callPHP(){
   var data = new FormData();
   data.append("data" , "the_text_you_want_to_save");
+  data.append("name", "session_id");
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
   xhr.open( 'post', 'php/import_settings.php', true );
   xhr.send(data);
