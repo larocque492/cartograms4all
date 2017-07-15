@@ -43,6 +43,7 @@ function init() {
   }
 
   USER_SESSION_ID = getCookie("user_session_id");
+  console.log(USER_SESSION_ID);
   var send_text = "my_text_to_save";
   callPHP(USER_SESSION_ID, send_text);
 
