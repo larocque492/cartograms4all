@@ -28,6 +28,7 @@ $(document).ready(function() {
   }
   init();
 });
+
 /*
  * End of main program instructions
  */
