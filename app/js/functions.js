@@ -26,10 +26,10 @@ function generate_session_id(length) {
   return result;
 }
 
-function callPHP(){
+function callPHP(session_id, string_to_save){
   var data = new FormData();
-  data.append("data" , "the_text_you_want_to_save");
-  data.append("name", "session_id");
+  data.append("data" , string_to_save);
+  data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
   xhr.open( 'post', 'php/import_settings.php', true );
   xhr.send(data);

@@ -41,7 +41,7 @@ function init() {
     return;
   }
 
-  callPHP();
+  callPHP("session_id", "my text to save");
 
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
