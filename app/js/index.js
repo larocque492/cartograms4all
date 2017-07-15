@@ -42,6 +42,7 @@ function init() {
     return;
   }
 
+  USER_SESSION_ID = getCookie("user_session_id");
   var send_text = "my_text_to_save";
   callPHP(USER_SESSION_ID, send_text);
 
