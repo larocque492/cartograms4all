@@ -91,7 +91,7 @@ publish_exit.onclick = function() {
     publish_modal.style.display = "none";
 }
 
-// There are no build in methods in d3 for downloading svgs, but there are
+// There are no built in methods in d3 for downloading svgs, but there are
 // several public methods that work
 //https://bitbucket.org/mas29/public_resources/raw/b9bafa002053b4609bd5186010d19e959cba33d4/scripts/js/svg_download/downloadSVG.js
 function download_svg() {
@@ -342,4 +342,16 @@ function download_png(){
    console.log("download png");   
    var svg = d3.select('svg');
    saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
+}
+
+function share_email(){
+    console.log("email");
+    //window.open('mailto:test@example.com');
+    window.open('mailto:abc@abc.com?subject=my subject&body=see attachment&attachment="+"/my_location_virtual_path/myfile.lis');
+    
+}
+
+function share_twitter(){
+    console.log("tweet");
+    window.open(href="https://twitter.com/intent/tweet?text=Hello%20world", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }
