@@ -8,7 +8,7 @@ function writeSettingsFile(){
         file_put_contents($session_file_name, $settings_string);
     }
 }
-
+echo "Running: import_settings.php"
 writeSettingsFile();
 
 ?>
