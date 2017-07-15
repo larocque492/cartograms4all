@@ -20,7 +20,7 @@ function exportCookie() {
     var i = cookieRecord.indexOf('=');
     //It splits the cookieName and cookieValue and save them as a tuple
     return [cookieRecord.substring(0,i), cookieRecord.substring(i+1)];
-  }
+  });
   return JSON.stringify(cookieInString);
 }
 
@@ -41,8 +41,10 @@ function importUserSettings() {
 
 //Export cookie information and call API to write file as sessionId.json
 function exportUserSettings() {
-  var userCookie = exportCookie();
-  var sessionId = userCookie['c4a_session_id'];
+  createCookie("fileName", USER_CSV); 
+  var sessionId = userCookie['user_session_cookie'];
+  console.log(USER_CSV);
+  var jsonString = {"CSV_URL": USER_CSV};
   //CALL API to write the cookie information into sessionId
-  //WRITE_FILE(sessionId);
+  //WRITE_FILE(sessionId, jsonString); 
 }
