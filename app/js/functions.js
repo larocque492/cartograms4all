@@ -32,7 +32,7 @@ function writeToServer(session_id, string_to_save){
   data.append("data" , string_to_save);
   data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  xhr.open( 'post', 'php/import_settings.php', true );
+  xhr.open( 'post', 'php/import_settings.php', false );
   xhr.send(data);
 }
 
