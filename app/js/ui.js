@@ -1,3 +1,22 @@
+/* ----Important for maping----
+So the user is now able to enter his own topojson and csv in addition to the latitude, longitude and the scale 
+so his he can view any map he would like. An important condition is the entry under NAME in the csv must equal to 
+the id field in the topojson. Also to make it easy, if someone want to map the US map, he can enter 1 in all the field in 
+the website and it will work. make sure you remove all spaces in the fields when entering values because 
+they might cause trouble.
+
+you can try syria map with these coordinate
+
+38.996815
+34.802075
+4500 for projection
+and 1 for the colors or any number for now.
+syria files are in data folder:
+syria.csv
+SyriaGovernorates.json
+*/
+
+
 //------------Input Button Stuff----------------------//
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
 document.getElementById('upload_link').onclick = function() {
