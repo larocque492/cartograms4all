@@ -16,11 +16,11 @@ function create_cookie(name, value, days2expire, path) {
 //Export cookie information as JSON
 function exportCookie() {
   //parse all the cookie information
-  var cookiesInString = document.cookie.split(';').map(function(cookieRecord) {
+  var cookiesInString = document.cookie.split(';')i.map(function(cookieRecord) {
     var i = cookieRecord.indexOf('=');
     //It splits the cookieName and cookieValue and save them as a tuple
     return [cookieRecord.substring(0,i), cookieRecord.substring(i+1)];
-  });
+  }
   return JSON.stringify(cookieInString);
 }
 
@@ -42,9 +42,8 @@ function importUserSettings() {
 //Export cookie information and call API to write file as sessionId.json
 function exportUserSettings() {
   createCookie("fileName", USER_CSV); 
+  var userCookie = exportCookie();
   var sessionId = userCookie['user_session_cookie'];
-  console.log(USER_CSV);
-  var jsonString = {"CSV_URL": USER_CSV};
   //CALL API to write the cookie information into sessionId
-  //WRITE_FILE(sessionId, jsonString); 
+  //WRITE_FILE(sessionId); 
 }
