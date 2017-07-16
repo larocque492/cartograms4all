@@ -2,9 +2,9 @@
 
 //Create cookie will be use to store user setting and data file information
 //It will be consumed when we export the cookie information as a JSON to server
-function create_cookie(name, value, days2expire, path) {
+function createCookie(name, value, daysToExpire, path) {
   var date = new Date();
-  date.setTime(date.getTime() + (days2expire * 24 * 60 * 60 * 1000)); //number of days before expire
+  date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000)); //number of days before expire
   var expires = date.toUTCString();
   //Setting the expire date and path of the cookie on the site
   document.cookie = name + '=' + value + ';' +
@@ -14,12 +14,12 @@ function create_cookie(name, value, days2expire, path) {
 
 // return value of cookie specified by name
 function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    var nameAttr = name + "=";
+    var cookies = document.cookie.split(';');
+    for(var cookie=0;i < cookies.length;i++) {
+        var cookie = ca[i];
+        while (cookie.charAt(0)==' ') cookie = cookie.substring(1,cookie.length);
+        if (cookie.indexOf(nameAttr) == 0) return cookie.substring(nameAttr.length,cookie.length);
     }
     return null;
 }
@@ -52,8 +52,10 @@ function importUserSettings() {
 
 //Export cookie information and call API to write file as sessionId.json
 function exportUserSettings() {
-  var userCookie = exportCookie();
+  createCookie("fileName", USER_CSV, 30, "/");
+  var userCookieJson = exportCookie();
   var sessionId = userCookie['c4a_session_id'];
+ 
   //CALL API to write the cookie information into sessionId
-  //WRITE_FILE(sessionId);
+  //WRITE_FILE(sessionId, userCookieJson);
 }
