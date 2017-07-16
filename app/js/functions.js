@@ -4,7 +4,7 @@ var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 var USER_CSV; // holds object containing .csv file
 var CSV_URL; // DOMString containing URL representing USER_CSV
-var USER_SESSION_COOKIE;
+var SESSION_ID;
 
 var fields;
 var states;
