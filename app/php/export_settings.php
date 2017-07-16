@@ -1,7 +1,7 @@
 
 <?php
 
-    if(!empty($_POST['data'])){
+    if(!empty($_POST['name'])){
         $session_file_name = "settings/";
         $session_id = $_POST['name'];
         $session_file_name .= ($session_id .= ".json");
