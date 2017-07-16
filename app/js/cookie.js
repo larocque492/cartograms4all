@@ -24,7 +24,6 @@ function readCookie(name) {
     return null;
 }
 
-
 //Export cookie information as JSON
 function exportCookie() {
   //parse all the cookie information

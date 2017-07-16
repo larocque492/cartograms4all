@@ -1,5 +1,5 @@
 <?php
-
+// write settings string to file on server
 if(!empty($_POST['data'])){
     $settings_string = $_POST['data'];
     $session_file_name = "settings/";

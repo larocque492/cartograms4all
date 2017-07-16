@@ -42,11 +42,15 @@ function init() {
     return;
   }
 
+
   USER_SESSION_COOKIE = readCookie('user_session_cookie');
-  console.log(USER_SESSION_COOKIE);
 
   var send_text = "my_text_to_save";
-  callPHP(USER_SESSION_COOKIE, send_text);
+  writeToServer(USER_SESSION_COOKIE, send_text);
+  console.log(USER_SESSION_COOKIE);
+
+  var return_string = readFromServer(USER_SESSION_COOKIE);
+  console.log(return_string);
 
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");

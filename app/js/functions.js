@@ -27,13 +27,25 @@ function generate_session_id(length) {
   return result;
 }
 
-function callPHP(session_id, string_to_save){
+function writeToServer(session_id, string_to_save){
   var data = new FormData();
   data.append("data" , string_to_save);
   data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
   xhr.open( 'post', 'php/import_settings.php', true );
   xhr.send(data);
+}
+
+function readFromServer(session_id){
+  $.get("php/export_settings.php", function(session_id){return data;}, "text");
+
+  /*
+  var data = new FormData();
+  data.append("name", session_id);
+  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  xhr.open( 'post', 'php/export_settings.php', true );
+  xhr.send(data);
+  */
 }
 
 //Send fields array back inside the called function
