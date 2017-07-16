@@ -2,6 +2,7 @@
 var csvFields;
 var map;
 var zoom;
+var scale = .94;
 var layer;
 var percent;
 var fieldSelect;
@@ -20,6 +21,10 @@ console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
   init();
+
+  map
+    .call(updateZoom)
+    .call(zoom.event);
 });
 /*
  * End of main program instructions
@@ -39,7 +44,7 @@ Or we could just put the main logic back in index.html, even though that's not a
 
 function init() {
   // don't initialize until user has uploaded a .csv file
-  if(document.getElementById('input_csv').files[0] == null){
+  if (document.getElementById('input_csv').files[0] == null) {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
   }
@@ -48,14 +53,16 @@ function init() {
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
     .translate([-38, 32])
-    .scale(.94)
-    .scaleExtent([0.5, 10.0])
+    .scale(scale)
+    .scaleExtent([0.1, 20.0])
     .on("zoom", updateZoom);
   layer = map.append("g")
-    .attr("id", "layer"),
+    .attr("id", "layer")
+    .call(zoom),
     states = layer.append("g")
     .attr("id", "states")
-    .selectAll("path");
+    .selectAll("path")
+    .call(zoom);
 
   csvFields = getCSVFields(initCartogram);
 
@@ -136,7 +143,7 @@ function initCartogram(csvFields) {
     fields = csvFields,
     // TODO: Make this customizable
     // NOTE: Might just have this detect if there are digits at the end of the column or beginning,
-      // and if there are then use those as a year
+    // and if there are then use those as a year
     // TODO: Make a custom function getTimeInField() which will clear
     fieldsById = d3.nest()
     .key(function(d) {
