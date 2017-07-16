@@ -12,6 +12,8 @@
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="node_modules/papaparse/papaparse.min.js"></script>
 
+  <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -48,6 +50,18 @@
     </div>
     <button class="tight waves-effect waves-light btn" id="cust_file">Custom CSV</button>
   -->
+   Enter the Porjection:
+               <textarea rows="10" cols="40" name="proj">1
+            </textarea>
+             <textarea rows="10" cols="40" name="proj">1
+            </textarea>
+   Enter the scale:   
+         <textarea rows="10" cols="40" name="proj">1
+            </textarea>
+   Enter set of colors:
+    <textarea rows="10" cols="40" id="colo">1
+            </textarea>
+           
     <div class="row">
       <div class="col s12 m12 push-l2 l8">
         <div class="card card-map">
@@ -77,18 +91,33 @@
         <div class="row">
           <div class="col s1">
             <div class="cust_data">
-              Data1:<br>
-              <textarea rows="10" cols="40" id="data_col_1">
+              <div>
+              Enter the Porjection
+               <textarea rows="10" cols="40" name="proj"> 
             </textarea>
+             <textarea rows="10" cols="40" name="proj">
+            </textarea>
+              </div>
+             <div id="NewEntry">
+             
+            <table> <td> Fieldset1 </td> <td> Fieldset2 </td></table>.
+            <table> <td> <textarea rows="10" cols="40" name="data_col_1">
+            </textarea> </td> <td> <textarea rows="10" cols="40" name="data_col_2">
+            </textarea> </td></table>.
+           
+             
+            </div>
+
             </div>
           </div>
           <div class="col s1">
             <div class="cust_data">
-              Data2:<br>
-              <textarea rows="10" cols="40" id="data_col_2">
-            </textarea>
+              
+              
+             
             </div>
           </div>
+           <input type="button" value="Add another text input" onClick="addInput('NewEntry');">
         </div>
 
       </div>

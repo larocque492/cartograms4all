@@ -12,6 +12,10 @@ var topology;
 var carto;
 var geometries;
 var URL_TOPO;
+var latitude = null;
+var longitude = null;
+var col = null;
+var pScale = null;
 
 
 /*
@@ -38,7 +42,12 @@ Or we could just put the main logic back in index.html, even though that's not a
 
 //initialization of the entire map
 
+function inito (){
+    init();
+}
+
 function init() {
+  run();
   // don't initialize until user has uploaded a .csv file
   if(document.getElementById('input_csv').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
@@ -49,6 +58,21 @@ function init() {
     console.log("Cartograms 4 All: Waiting for user inputted topojson file");
     return;
   }
+ if(latitude == null){
+    console.log("please enter the projection for latitude");
+    return;
+  }
+
+  if(longitude == null){
+    console.log("please enter the projection for longitude");
+    return;
+  }
+
+  if(pScale == null){
+    console.log("please enter the scale of projection");
+    return;
+  }
+
   USER_CSV = document.getElementById('input_csv').files[0];
   USER_TOPO = document.getElementById('input_topo').files[0];
   console.log(USER_TOPO.name);
@@ -69,10 +93,34 @@ function init() {
     .selectAll("path");
 
   csvFields = getCSVFields(initCartogram);
+var width = 1215,  //2100
+    height = 600;
+
+//var center = [38.996815, 34.802075];
+var center = [latitude, longitude];
+
+//d3.geo.albersUsa()
+
+if (latitude == 1){
 
   var proj = d3.geo.albersUsa(),
+      rawData,
+    dataById = {};
+
+}else{
+  
+  var proj = d3.geo.conicConformal()  
+    .center(center)
+    .clipAngle(180)
+    // Size of the map itself, you may want to play around with this in 
+    // relation to your canvas size
+    .scale(pScale)
+    // Center the map in the middle of the canvas
+    .translate([width / 2, height / 2])
+    .precision(.1),
     rawData,
     dataById = {};
+  }
 
   carto = d3.cartogram()
     .projection(proj)
@@ -115,6 +163,9 @@ function init() {
       // Waits until fields has been defined
       function waitForFields() {
         if (typeof someVariable !== "undefined") {
+          
+            console.log("calling PaserHash");
+
           parseHash(fieldsById);
         } else {
           setTimeout(waitForFields, 250);
@@ -124,6 +175,8 @@ function init() {
       // Waits until fields has been defined
       function waitForTopology() {
         if (typeof someVariable !== "undefined") {
+          console.log("calling PaserHash");
+
           initTopo();
         } else {
           setTimeout(topology, 250);
@@ -160,7 +213,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[0],
+    field = fields[1],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
@@ -208,6 +261,7 @@ function initCartogram(csvFields) {
 }
 
 window.onhashchange = function() {
+  console.log("calling parseHash(fieldsById)")
   parseHash(fieldsById);
 };
 
