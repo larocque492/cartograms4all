@@ -44,11 +44,11 @@ function readFromServer(session_id){
   xhr.responseType = 'text';
   xhr.onload = function(){
     if (xhr.readyState === xhr.DONE) {
-      console.log(xhr.responseText);
+      console.log("in readFromServer() "+xhr.responseText);
       return_string = xhr.responseText;
     }
   }
-  xhr.open( 'post', 'php/export_settings.php', true );
+  xhr.open( 'post', 'php/export_settings.php', false );
   xhr.send(data);
   return return_string;
 
