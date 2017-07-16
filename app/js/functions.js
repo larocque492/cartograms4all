@@ -43,10 +43,10 @@ function readFromServer(session_id){
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
   xhr.responseType = 'text';
   xhr.onload = function(){
-    //if (xhr.readyState === xhr.DONE) {
-      console.log(xhr.response);
+    if (xhr.readyState === xhr.DONE) {
       console.log(xhr.responseText);
-    //}
+      return_string = xhr.responseText;
+    }
   }
   xhr.open( 'get', 'php/export_settings.php', true );
   xhr.send(data);
