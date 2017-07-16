@@ -42,7 +42,7 @@ function init() {
     return;
   }
 
-  USER_SESSION_COOKIE = getCookie2('user_session_cookie');
+  USER_SESSION_COOKIE = 'UleiDetf5pIgPU2a';//getCookie('user_session_cookie');
   console.log(USER_SESSION_COOKIE);
 
   var send_text = "my_text_to_save";
