@@ -1,7 +1,7 @@
 <?php
 //Php script that allow user to upload their own data to our remote location
 
-$sessionId = $_COOKIE['c4a_session_id'];
+$sessionId = $_COOKIE['user_session_id'];
 $targetDir = "/app/data";
 $targetFile = $target_dir . $sessionId . "_" . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
