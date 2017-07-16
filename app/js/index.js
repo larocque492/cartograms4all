@@ -42,7 +42,7 @@ function init() {
     return;
   }
 
-
+// JUST CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
   USER_SESSION_COOKIE = readCookie('user_session_cookie');
 
   var send_text = "my_text_to_save";
@@ -51,6 +51,8 @@ function init() {
 
   var return_string = readFromServer(USER_SESSION_COOKIE);
   console.log(return_string);
+// JUST CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
+
 
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");

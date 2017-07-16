@@ -27,6 +27,7 @@ function generate_session_id(length) {
   return result;
 }
 
+// writes string_to_save to app/php/settings/<session_id>.json
 function writeToServer(session_id, string_to_save){
   var data = new FormData();
   data.append("data" , string_to_save);
@@ -36,6 +37,7 @@ function writeToServer(session_id, string_to_save){
   xhr.send(data);
 }
 
+// returns contents from app/php/settings/<session_id>.json as a string
 function readFromServer(session_id){
   var return_string;
   var data = new FormData();
@@ -47,17 +49,9 @@ function readFromServer(session_id){
       return_string = xhr.responseText;
     }
   }
-  xhr.open( 'post', 'php/export_settings.php', true );
+  xhr.open( 'post', 'php/export_settings.php', false );
   xhr.send(data);
   return return_string;
-
-  /*
-  var data = new FormData();
-  data.append("name", session_id);
-  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  xhr.open( 'post', 'php/export_settings.php', true );
-  xhr.send(data);
-  */
 }
 
 //Send fields array back inside the called function
