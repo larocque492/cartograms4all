@@ -32,13 +32,20 @@ function writeToServer(session_id, string_to_save){
   data.append("data" , string_to_save);
   data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  xhr.open( 'post', 'php/import_settings.php', false );
+  xhr.open( 'post', 'php/import_settings.php', true );
   xhr.send(data);
 }
 
 function readFromServer(session_id){
   var return_string;
-  $.get("php/export_settings.php", function(session_id){return_string = session_id;}, "text");
+  var data = new FormData();
+  data.append("name", session_id);
+  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  xhr.onload = function(){
+    return_string = this.responseText;
+  }
+  xhr.open( 'get', 'php/export_settings.php', true );
+  xhr.send(data);
   return return_string;
 
   /*
