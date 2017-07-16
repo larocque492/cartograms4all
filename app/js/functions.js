@@ -41,7 +41,7 @@ function readFromServer(session_id){
   var data = new FormData();
   data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  xhr.responseType = 'text';
+  //xhr.responseType = 'text';
   xhr.onload = function(){
     if (xhr.readyState === xhr.DONE) {
       console.log("in readFromServer() "+xhr.responseText);
