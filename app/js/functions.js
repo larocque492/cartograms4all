@@ -44,7 +44,6 @@ function readFromServer(session_id){
   //xhr.responseType = 'text';
   xhr.onload = function(){
     if (xhr.readyState === xhr.DONE) {
-      console.log("in readFromServer() "+xhr.responseText);
       return_string = xhr.responseText;
     }
   }
