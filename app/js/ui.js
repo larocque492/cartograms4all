@@ -2,6 +2,11 @@
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
 document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
+
+};
+
+document.getElementById('upload_topo').onclick = function() {
+  document.getElementById('input_topo').click();
 };
 /*
  * Code to run when document is ready
@@ -50,17 +55,67 @@ exit.onclick = function() {
 // run is called when the submit button is clicked
 // it saves whatever is in each textarea to a variable
 // TODO: parse the input to work with cartogram
+
+var counter = 1;
+var limit = 50;
+function addInput(divName){
+     if (counter == limit)  {
+          alert("You have reached the limit of adding " + counter + " inputs");
+     }
+     else {
+          var newdiv = document.createElement('div');
+          newdiv.innerHTML =  " <table> <td> <textarea rows='10' cols='40' name='data_col_1'></textarea> </td> <td> <textarea rows='10' cols='40' name='data_col_2'></textarea> </td></table>";
+          document.getElementById(divName).appendChild(newdiv);
+           
+          counter++;
+     }
+};
+
 function run() {
   //var cust_file_name = document.getElementById("file_name").value;
-  var col_1_input = document.getElementById("data_col_1").value;
-  var col_2_input = document.getElementById("data_col_2").value;
+  //var col_1_input = document.getElementById("data_col_1").value;
+  //var col_2_input = document.getElementById("data_col_2").value;
+
+var cells1 = document.getElementsByName("data_col_1");
+var cells2 = document.getElementsByName("data_col_2"); 
+var Projection = document.getElementsByName("proj");
+var cal = document.getElementById("colo").value;
+col = cal;
+latitude = Projection[0].value;
+longitude = Projection[1].value;
+pScale = Projection[2].value;
+
+ console.log("col is" + col);
+
+ console.log(latitude);
+    console.log(longitude);
+        console.log("Scale value" + pScale);
+
+   
+
+for (var i = 0; i < cells1.length; i++) { 
+    
+   
+    console.log(cells1[i].value + "1");
+    console.log(cells2[i].value + "2");
+   
+    }
+
+  //for (i = 0; i < 10; i++) { 
+  //  var TESTO = document.getElementsByName("data_col_1").[i];
+  //    console.log(TESTO.name);
+  //  }
   //var col_3_input =  document.getElementById("data_col_3").value;
   //console.log(cust_file_name);
-  console.log(col_1_input);
-  console.log(col_2_input);
+  //console.log(col_1_input);
+  //console.log(col_2_input);
   //console.log(col_3_input);
+ // inito();
 
-}
+
+};
+
+
 
 //------------------Share Cartogram Button-----------//
 var share_modal = document.getElementById('share_modal');
@@ -355,3 +410,4 @@ function share_twitter(){
     console.log("tweet");
     window.open(href="https://twitter.com/intent/tweet?text=Hello%20world", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }
+
