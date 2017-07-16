@@ -3,6 +3,7 @@ var DATASHEET = "nst_2011.csv";
 var DATA_DIRECTORY = "data/";
 var DATA = DATA_DIRECTORY + DATASHEET;
 var USER_CSV; // holds object containing .csv file
+var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
 
 var fields;
@@ -86,6 +87,7 @@ function updateZoom() {
 
 //get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
+  console.log(topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj); //d3.geo.path is d3's main drawing function
@@ -110,7 +112,7 @@ function initTopo() {
 function reset() {
   stat.text("");
   body.classed("updating", false);
-
+  
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj);
@@ -148,9 +150,15 @@ function update() {
     lo = values[0],
     hi = values[values.length - 1];
 
-  var color = d3.scale.linear()
-    .range(colors)
-    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
+    console.log(values);
+
+    console.log(" col is"+ col);
+ var colo =[col]
+
+    var color = d3.scale.linear()
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi])
+    .range(colors);
+  
 
   // normalize the scale to positive numbers
   var scale = d3.scale.linear()
@@ -190,11 +198,20 @@ function update() {
 
 
 function parseHash(fieldsById) {
+  var FBI = fieldsById;
+  console.log(FBI);
   var parts = location.hash.substr(1).split("/"),
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
 
+    console.log("desiredFieldId: " + desiredFieldId);
+    console.log("desiredYear: " + desiredYear);
+
+
+
   var field = fieldsById[desiredFieldId] || fields[0];
+
+  console.log("field: " + field);
   //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
   fieldSelect.property("selectedIndex", fields.indexOf(field));
