@@ -47,7 +47,7 @@ function readFromServer(session_id){
       return_string = xhr.responseText;
     }
   }
-  xhr.open( 'post', 'php/export_settings.php', false );
+  xhr.open( 'post', 'php/export_settings.php', true );
   xhr.send(data);
   return return_string;
 
