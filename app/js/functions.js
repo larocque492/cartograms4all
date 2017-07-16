@@ -44,7 +44,7 @@ function readFromServer(session_id){
   xhr.onload = function(){
     return_string = this.responseText;
   }
-  xhr.open( 'POST', 'php/export_settings.php', true );
+  xhr.open( 'GET', 'php/export_settings.php', true );
   xhr.send(data);
   return "myString";//return_string;
 
