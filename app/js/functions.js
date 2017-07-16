@@ -41,10 +41,14 @@ function readFromServer(session_id){
   var data = new FormData();
   data.append("name", session_id);
   var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  xhr.responseType = 'text';
   xhr.onload = function(){
-    return_string = this.responseText;
+    if (xhr.readyState === xhr.DONE) {
+      console.log(xhr.response);
+      console.log(xhr.responseText);
+    }
   }
-  xhr.open( 'GET', 'php/export_settings.php', true );
+  xhr.open( 'get', 'php/export_settings.php', true );
   xhr.send(data);
   return return_string;
 
