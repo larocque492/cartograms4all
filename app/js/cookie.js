@@ -29,6 +29,12 @@ function getCookie(cname) {
     return "";
 }
 
+function getCookie2(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 
 //Export cookie information as JSON
 function exportCookie() {
