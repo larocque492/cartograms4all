@@ -46,7 +46,7 @@ function readFromServer(session_id){
   }
   xhr.open( 'GET', 'php/export_settings.php', true );
   xhr.send(data);
-  return "myString";//return_string;
+  return return_string;
 
   /*
   var data = new FormData();
