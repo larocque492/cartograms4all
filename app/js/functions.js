@@ -20,10 +20,12 @@ function getCSVFields(callback) {
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
-function generate_session_id(length) {
+function generateSessionID(length) {
   var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   var result = '';
-  for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  for (var i = length; i > 0; --i){
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
   return result;
 }
 
@@ -32,9 +34,9 @@ function writeToServer(session_id, string_to_save){
   var data = new FormData();
   data.append("data" , string_to_save);
   data.append("name", session_id);
-  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  xhr.open( 'post', 'php/import_settings.php', true );
-  xhr.send(data);
+  var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  XHR.open( 'post', 'php/import_settings.php', true );
+  XHR.send(data);
 }
 
 // returns contents from app/php/settings/<session_id>.json as a string
@@ -42,15 +44,15 @@ function readFromServer(session_id){
   var return_string;
   var data = new FormData();
   data.append("name", session_id);
-  var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-  //xhr.responseType = 'text';
-  xhr.onload = function(){
-    if (xhr.readyState === xhr.DONE) {
-      return_string = xhr.responseText;
+  var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  //XHR.responseType = 'text';
+  XHR.onload = function(){
+    if (XHR.readyState === XHR.DONE) {
+      return_string = XHR.responseText;
     }
   }
-  xhr.open( 'post', 'php/export_settings.php', false );
-  xhr.send(data);
+  XHR.open( 'post', 'php/export_settings.php', false );
+  XHR.send(data);
   return return_string;
 }
 

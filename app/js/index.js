@@ -42,16 +42,16 @@ function init() {
     return;
   }
 
-// JUST CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
+// CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
   USER_SESSION_COOKIE = readCookie('user_session_cookie');
 
   var send_text = "my_text_to_save";
   writeToServer(USER_SESSION_COOKIE, send_text);
-  console.log(USER_SESSION_COOKIE);
+  //console.log(USER_SESSION_COOKIE);
 
   var return_string = readFromServer(USER_SESSION_COOKIE);
-  console.log(return_string);
-// JUST CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
+  //console.log(return_string);
+// CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
 
 
   USER_CSV = document.getElementById('input_csv').files[0];
