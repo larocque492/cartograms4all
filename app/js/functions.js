@@ -37,7 +37,7 @@ function writeToServer(session_id, string_to_save){
 }
 
 function readFromServer(session_id){
-  $.get("php/export_settings.php", function(session_id){return data;}, "text");
+  return $.get("php/export_settings.php", function(session_id){return session_id;}, "text");
 
   /*
   var data = new FormData();
