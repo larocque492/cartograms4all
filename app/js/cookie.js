@@ -31,7 +31,7 @@ function exportCookie() {
     var i = cookieRecord.indexOf('=');
     //It splits the cookieName and cookieValue and save them as a tuple
     return [cookieRecord.substring(0,i), cookieRecord.substring(i+1)];
-  })
+  });
   return JSON.stringify(cookieInString);
 }
 
