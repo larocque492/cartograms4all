@@ -5,6 +5,7 @@ var DATA = DATA_DIRECTORY + DATASHEET;
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
+var SESSION_ID;
 
 var fields;
 var states;
@@ -21,42 +22,71 @@ function getCSVFields(callback) {
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
+function generateSessionID(length) {
+  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var result = '';
+  for (var i = length; i > 0; --i) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return result;
+}
+
+// writes string_to_save to app/php/settings/<session_id>.json
+function writeToServer(session_id, string_to_save) {
+  var data = new FormData();
+  data.append("data", string_to_save);
+  data.append("name", session_id);
+  var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  XHR.open('post', 'php/importSettings.php', true);
+  XHR.send(data);
+}
+
+// returns contents from app/php/settings/<session_id>.json as a string
+function readFromServer(session_id) {
+  var return_string;
+  var data = new FormData();
+  data.append("name", session_id);
+  var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+  //XHR.responseType = 'text';
+  XHR.onload = function() {
+    if (XHR.readyState === XHR.DONE) {
+      return_string = XHR.responseText;
+    }
+  }
+  XHR.open('post', 'php/exportSettings.php', false);
+  XHR.send(data);
+  return return_string;
+}
+
 //Save CSV to uploader/upload path via an ajax call
 //The saved CSV can be use for other user as it is public
 function saveCSV(userCSV) {
 
   var data = new FormData();
   data.append("input_csv", userCSV);
-  
+
   $.ajax({
-        url: 'uploader/upload-manager.php',
-        type: 'POST',
-        data: data,
-        cache: false,
-        processData: false, // Don't process the files
-        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR)
-        {
-            if(typeof data.error === 'undefined')
-            {
-                // Success so call function to process the form
-                submitForm(event, data);
-            }
-            else
-            {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            // STOP LOADING SPINNER
-        }
-    });
-
-
+    url: 'uploader/upload-manager.php',
+    type: 'POST',
+    data: data,
+    cache: false,
+    processData: false, // Don't process the files
+    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+    success: function(data, textStatus, jqXHR) {
+      if (typeof data.error === 'undefined') {
+        // Success so call function to process the form
+        submitForm(event, data);
+      } else {
+        // Handle errors here
+        console.log('ERRORS: ' + data.error);
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      // Handle errors here
+      console.log('ERRORS: ' + textStatus);
+      // STOP LOADING SPINNER
+    }
+  });
 }
 
 //Send fields array back inside the called function
@@ -112,7 +142,7 @@ function initTopo() {
 function reset() {
   stat.text("");
   body.classed("updating", false);
-  
+
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj);
@@ -150,15 +180,15 @@ function update() {
     lo = values[0],
     hi = values[values.length - 1];
 
-    console.log(values);
+  console.log(values);
 
-    console.log(" col is"+ col);
- var colo =[col]
+  console.log(" col is" + col);
+  var colo = [col]
 
-    var color = d3.scale.linear()
+  var color = d3.scale.linear()
     .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi])
     .range(colors);
-  
+
 
   // normalize the scale to positive numbers
   var scale = d3.scale.linear()
@@ -204,8 +234,8 @@ function parseHash(fieldsById) {
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
 
-    console.log("desiredFieldId: " + desiredFieldId);
-    console.log("desiredYear: " + desiredYear);
+  console.log("desiredFieldId: " + desiredFieldId);
+  console.log("desiredYear: " + desiredYear);
 
 
 
@@ -221,7 +251,7 @@ function parseHash(fieldsById) {
     //yearSelect.attr("disabled", "disabled");
     reset();
 
-  } else
+  } else {
     /*
             if (field.years) {
                 if (field.yecs.indexOf(year) === -1) {
@@ -241,12 +271,13 @@ function parseHash(fieldsById) {
                 .attr("disabled", null);
     */
     deferredUpdate();
-    location.replace("#" + field.id);
-
-    hashish.attr("href", function(href) {
-      return href + location.hash;
-    });
   }
+  location.replace("#" + field.id);
+
+  hashish.attr("href", function(href) {
+    return href + location.hash;
+  });
+}
 
 //Inital map setup
 var map = d3.select("#map"),

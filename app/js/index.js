@@ -24,21 +24,19 @@ var pScale = null;
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
+  // if not already set, set new cookie.
+  var session_id = generateSessionID(16);
+  if( readCookie('user_session_cookie') === null ){
+    createCookie('user_session_cookie', session_id, 10, '/');
+  }else{
+    //importUserSettings()
+  }
   init();
 });
+
 /*
  * End of main program instructions
  */
-
-/*
-I'm noticing that Chrome is complaining a lot about undefined functions in index.js. This leads me to believe that
-we don't have any way of including scripts within each other - unless I'm an idiot and something is being used that
-I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
-to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
-include functions.js and cartogram.js in index.js, or they won't work together (I think!)
-Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
-
-*/
 
 //initialization of the entire map
 
@@ -72,6 +70,18 @@ function init() {
     console.log("please enter the scale of projection");
     return;
   }
+
+  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
+  SESSION_ID = readCookie('user_session_cookie');
+
+  //var send_text = "my_text_to_save";
+  //writeToServer(SESSION_ID, send_text);
+  //console.log(SESSION_ID);
+
+  //var return_string = readFromServer(SESSION_ID);
+  //console.log(return_string);
+  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
+
 
   USER_CSV = document.getElementById('input_csv').files[0];
   saveCSV(USER_CSV);  
