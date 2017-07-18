@@ -1,0 +1,15 @@
+*       @caseyhillers
+
+*.js    @klin10
+
+ui.js   @mbcrane
+*.html  @mbcrane
+*.scss  @mbcrane
+*.css   @mbcrane
+
+
+app/data/*      @larocque492
+
+app/php/*       @BrightSun95
+app/uploader/*  @BrightSun95
+~                            
