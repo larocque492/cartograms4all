@@ -25,9 +25,9 @@ console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
   // if not already set, set new cookie.
-  var session_id = generate_session_id(16);
+  var session_id = generateSessionID(16);
   if( readCookie('user_session_cookie') === null ){
-    create_cookie('user_session_cookie', session_id, 10, '/');
+    createCookie('user_session_cookie', session_id, 10, '/');
   }else{
     //importUserSettings()
   }
