@@ -19,6 +19,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
+    
+    
 <body>
   <div id="container">
     <div>
@@ -38,10 +40,11 @@
               <a href="#test3"><i class="material-icons">settings</i></a>
             </li>
             <li class="tab" id="share_cartogram">
-              <a href="#test4"><i class="material-icons">share</i></a>
+              <a href="#modal1"><i class="material-icons">share</i></a>    
+             <!-- <a href="#test4"><i class="material-icons">share</i></a> -->
             </li>
             <li class="tab" id="download_cartogram">
-              <a href="#test5"><i class="material-icons">file_download</i></a>
+              <a href="#modal2"><i class="material-icons">file_download</i></a>
             </li>  
           </ul>
         </div>
@@ -74,6 +77,43 @@
       </div>
     </div>
 
+      
+      
+      
+      
+      <!-- TEST TEST TEST Modal Trigger 
+  <a class="waves-effect waves-light btn" href="#modal1">Modal</a> -->
+
+  <!-- TEST TEST TEST Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h5>Share</h5> 
+           <a class="waves-effect waves-light btn" onclick="share_email()">e-Mail</a>
+           <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
+           <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
+           <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+      
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h5>Publish</h5> 
+           <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
+           <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+          
+      
+      
+      
+      
+      
     <!-- Customize Modal Structure -->
     <div id="modal" class="modal modal-fixed-footer">
       <div class="modal-content">
@@ -105,21 +145,25 @@
     </div>
       
     <!-- Share Modal Structure -->
+  <!--    
     <div id="share_modal" class= "modal modal-fixed-footer">
-       <div class="modal-content"> <!--Prob need to change class --> 
+       <div class="modal-content">  
           <span class="share_close">&times;</span>
           <h5>Share</h5> 
            <a class="waves-effect waves-light btn" onclick="share_email()">e-Mail</a>
            <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
        </div>  
+       <div class="modal-footer">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+       </div>
     </div>
-      
+-->    
     <!-- Publish Modal Structure -->
     <div id="publish_modal" class= "modal modal-fixed-footer">
        <div class="modal-content"> <!--Prob need to change class -->
           <span class="publish_close">&times;</span>
           <h5>Publish</h5>
-           <a class="waves-effect waves-light btn" onclick="download_svg()">SVG</a>
+           <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
            <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
        </div>  
     </div>

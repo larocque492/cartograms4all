@@ -4,6 +4,7 @@ $primary-color: color("blue", "darken-1");
 $secondary-color: color("yellow", "darken-2");
 
 
+
 @import "node_modules/materialize-css/sass/materialize";
 
 /*
@@ -67,7 +68,7 @@ path.state:hover {
 /*-------------Custom Modal ------------------*/
 
 /*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
-
+/*
 .modal {
    display: none;
    position: fixed;
@@ -117,8 +118,8 @@ path.state:hover {
   width: 100%;
   height: 100%;
 }
-
-/*-------------Share Modal ------------------*/
+*/
+/*-------------Share Modal ------------------
 .share_modal {
    display: none;
    position: fixed;
@@ -130,10 +131,11 @@ path.state:hover {
    overflow: auto;
    background-color: rgba(0,0,0,0.4);
 }
-
+*/
 
 
 /*-------------Publish Modal ------------------*/
+/*
 .publish_modal {
    display: none;
    position: fixed;
@@ -145,7 +147,7 @@ path.state:hover {
    overflow: auto;
    background-color: rgba(0,0,0,0.4);
 }
-
+*/
 
 
 
