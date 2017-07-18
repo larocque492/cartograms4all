@@ -110,18 +110,21 @@ var center = [latitude, longitude];
 var latitude  = 1 // default to be USA
 //if (latitude == 1){
 
-  var proj = d3.geo.albersUsa(),
-      rawData,
-    dataById = {},
 
-  carto = d3.cartogram()
-    .projection(proj)
-    .properties(function(d) {
-      return dataById[d.id];
-    })
-    .value(function(d) {
-      return +d.properties[field];
-    });
+
+var proj = d3.geo.albersUsa(),
+          topology,
+          geometries,
+          rawData,
+          dataById = {},
+          carto = d3.cartogram()
+            .projection(proj)
+            .properties(function(d) {
+              return dataById[d.id];
+            })
+            .value(function(d) {
+              return +d.properties[field];
+            });
 
   console.log("Before state initlization"); 
   var URL_TOPO = DATA_DIRECTORY + "us-states.topojson";

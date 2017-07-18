@@ -230,8 +230,6 @@ function update() {
 
 
 function parseHash(fieldsById) {
-  var FBI = fieldsById;
-  console.log(FBI);
   var parts = location.hash.substr(1).split("/"),
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
