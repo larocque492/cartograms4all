@@ -119,7 +119,7 @@ function updateZoom() {
 
 //get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
-  console.log(topology);
+  console.log("Starting a topo" + topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj); //d3.geo.path is d3's main drawing function
