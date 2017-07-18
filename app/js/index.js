@@ -38,11 +38,6 @@ $(document).ready(function() {
  * End of main program instructions
  */
 
-//initialization of the entire map
-
-function inito (){
-    init();
-}
 
 function init() {
   run();
@@ -88,7 +83,7 @@ function init() {
   
   USER_TOPO = document.getElementById('input_topo').files[0]
   if (USER_TOPO == null){
-    USER_TOPO = "data/us-states.topojson";
+    TOPO_URL = "data/us-states.topojson";
   }
   
   console.log("Cartograms 4 All: Start init()");
@@ -112,7 +107,7 @@ var width = 1215,  //2100
 var center = [latitude, longitude];
 
 //d3.geo.albersUsa()
-
+var latitude = 1 // default to be USA
 if (latitude == 1){
 
   var proj = d3.geo.albersUsa(),
@@ -142,7 +137,7 @@ if (latitude == 1){
     .value(function(d) {
       return +d.properties[field];
     });
-      URL_TOPO = URL.createObjectURL(USER_TOPO);
+      //URL_TOPO = URL.createObjectURL(USER_TOPO);
 
   
   //var topoURL = DATA_DIRECTORY + "us-states.topojson";
