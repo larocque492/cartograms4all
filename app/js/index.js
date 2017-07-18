@@ -83,7 +83,7 @@ function init() {
   
   USER_TOPO = document.getElementById('input_topo').files[0]
   if (USER_TOPO == null){
-    TOPO_URL = "data/us-states.topojson";
+    URL_TOPO = "data/us-states.topojson";
   }
   
   console.log("Cartograms 4 All: Start init()");
