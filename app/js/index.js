@@ -74,7 +74,7 @@ function init() {
 
   proj = d3.geo.albersUsa(),
           rawData,
-          dataById = {};
+          dataById = {},
 
   carto = d3.cartogram()
     .projection(proj)
