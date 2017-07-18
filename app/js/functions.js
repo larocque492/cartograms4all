@@ -184,8 +184,6 @@ function update() {
 
   console.log(values);
 
-  var colo = [col]
-
   var color = d3.scale.linear()
     .range(colors)
     .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
