@@ -119,7 +119,7 @@ var proj = d3.geo.albersUsa(),
           carto = d3.cartogram()
             .projection(proj)
             .properties(function(d) {
-              console.log("D is d" + d + "D.id is " + d.id;
+              console.log("D is d" + d + "D.id is " + d.id);
               return dataById[d.id];
             })
             .value(function(d) {
