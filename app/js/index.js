@@ -140,7 +140,7 @@ if (latitude == 1){
       //URL_TOPO = URL.createObjectURL(USER_TOPO);
 
   
-  //var topoURL = DATA_DIRECTORY + "us-states.topojson";
+  var URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
   d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
