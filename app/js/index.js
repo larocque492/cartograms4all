@@ -108,13 +108,13 @@ var center = [latitude, longitude];
 
 //d3.geo.albersUsa()
 var latitude  = 1 // default to be USA
-if (latitude == 1){
+//if (latitude == 1){
 
   var proj = d3.geo.albersUsa(),
       rawData,
-    dataById = {};
+    dataById = {},
 
-}else{
+/*}else{
   
   var proj = d3.geo.conicConformal()  
     .center(center)
@@ -127,7 +127,7 @@ if (latitude == 1){
     .precision(.1),
     rawData,
     dataById = {};
- }
+ }*/
   console.log("CARTOGRAMS setup");
   carto = d3.cartogram()
     .projection(proj)
