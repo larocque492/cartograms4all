@@ -107,7 +107,7 @@ var width = 1215,  //2100
 var center = [latitude, longitude];
 
 //d3.geo.albersUsa()
-var latitude = 1 // default to be USA
+var latitude  = 1 // default to be USA
 if (latitude == 1){
 
   var proj = d3.geo.albersUsa(),
@@ -127,7 +127,7 @@ if (latitude == 1){
     .precision(.1),
     rawData,
     dataById = {};
-  }
+ }
   console.log("CARTOGRAMS setup");
   carto = d3.cartogram()
     .projection(proj)
