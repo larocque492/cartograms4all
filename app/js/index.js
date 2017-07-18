@@ -128,7 +128,6 @@ var latitude  = 1 // default to be USA
     rawData,
     dataById = {};
  }*/
-  console.log("CARTOGRAMS setup");
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
