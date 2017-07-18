@@ -1,4 +1,7 @@
 
+<<<<<<< HEAD
+<?php header( 'Location: /app/index.html' ); ?>
+=======
 <?php 
 
 if (!isset($_COOKIE['user_session_id'])) {
@@ -9,3 +12,4 @@ if (!isset($_COOKIE['user_session_id'])) {
 
 header( 'Location: /app/index.html' ); 
 ?>
+>>>>>>> 6d05c053d7b4e7bd336d6ab4a7008aea93766e4e
