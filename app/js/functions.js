@@ -244,12 +244,12 @@ function parseHash(fieldsById) {
 
   fieldSelect.property("selectedIndex", fields.indexOf(field));
 
-  if (field === "none") {
+  if (field.id === "none") {
 
     //yearSelect.attr("disabled", "disabled");
     reset();
 
-  } else {
+  } else
     /*
             if (field.years) {
                 if (field.yecs.indexOf(year) === -1) {
@@ -269,7 +269,6 @@ function parseHash(fieldsById) {
                 .attr("disabled", null);
     */
     deferredUpdate();
-  }
   location.replace("#" + field.id);
 
   hashish.attr("href", function(href) {
