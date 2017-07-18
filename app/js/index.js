@@ -51,7 +51,7 @@ function init() {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;  
   }
-
+/*
   if(document.getElementById('input_topo').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted topojson file");
     return;
@@ -70,7 +70,7 @@ function init() {
     console.log("please enter the scale of projection");
     return;
   }
-
+*/
   // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
   SESSION_ID = readCookie('user_session_cookie');
 
@@ -87,7 +87,10 @@ function init() {
   saveCSV(USER_CSV);  
   
   USER_TOPO = document.getElementById('input_topo').files[0]
-
+  if (USER_TOPO == null){
+    USER_TOPO = "data/us-states.topojson";
+  }
+  
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
