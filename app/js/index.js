@@ -89,7 +89,7 @@ function init() {
   d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(CSV_URL, function(rawData) {
+    d3.csv(USER_CSV, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;
