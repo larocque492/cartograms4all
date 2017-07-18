@@ -11,11 +11,6 @@ var body;
 var topology;
 var carto;
 var geometries;
-var URL_TOPO;
-var latitude = null;
-var longitude = null;
-var col = null;
-var pScale = null;
 
 
 /*
@@ -40,32 +35,12 @@ $(document).ready(function() {
 
 
 function init() {
-  run();
   // don't initialize until user has uploaded a .csv file
   if(document.getElementById('input_csv').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;  
   }
-/*
-  if(document.getElementById('input_topo').files[0] == null){
-    console.log("Cartograms 4 All: Waiting for user inputted topojson file");
-    return;
-  }
- if(latitude == null){
-    console.log("please enter the projection for latitude");
-    return;
-  }
 
-  if(longitude == null){
-    console.log("please enter the projection for longitude");
-    return;
-  }
-
-  if(pScale == null){
-    console.log("please enter the scale of projection");
-    return;
-  }
-*/
   // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
   SESSION_ID = readCookie('user_session_cookie');
 
@@ -100,36 +75,23 @@ function init() {
     .selectAll("path");
 
   csvFields = getCSVFields(initCartogram);
-var width = 1215,  //2100
-    height = 600;
-
-//var center = [38.996815, 34.802075];
-var center = [latitude, longitude];
-
-//d3.geo.albersUsa()
-var latitude  = 1 // default to be USA
-//if (latitude == 1){
 
 
-
-var proj = d3.geo.albersUsa(),
-          geometries,
+  var proj = d3.geo.albersUsa(),
           rawData,
-          dataById = {},
-          carto = d3.cartogram()
-            .projection(proj)
-            .properties(function(d) {
-              console.log("D is d" + d + "D.id is " + d.id);
-              return dataById[d.id];
-            })
-            .value(function(d) {
-              return +d.properties[field];
-            });
+          dataById = {};
 
-  console.log("Before state initlization"); 
-  var URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
-  var CSV_URL = DATA_DIRECTORY + "nst_2011.csv";
-  d3.json(URL_TOPO, function(topology) {
+  carto = d3.cartogram()
+    .projection(proj)
+    .properties(function(d) {
+      return dataById[d.id];
+    })
+    .value(function(d) {
+      return +d.properties[field];
+    });
+
+  var topoURL = DATA_DIRECTORY + "us-states.topojson";
+  d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
     d3.csv(CSV_URL, function(rawData) {
@@ -157,10 +119,7 @@ var proj = d3.geo.albersUsa(),
 
       // Waits until fields has been defined
       function waitForFields() {
-        if (typeof someVariable !== "undefined") {
-          
-            console.log("calling PaserHash");
-
+        if (typeof someVariable !== "undefined") { 
           parseHash(fieldsById);
         } else {
           setTimeout(waitForFields, 250);
@@ -170,8 +129,6 @@ var proj = d3.geo.albersUsa(),
       // Waits until fields has been defined
       function waitForTopology() {
         if (typeof someVariable !== "undefined") {
-          console.log("calling PaserHash");
-
           initTopo();
         } else {
           setTimeout(topology, 250);
@@ -208,7 +165,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[1],
+    field = fields[0],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
@@ -256,7 +213,6 @@ function initCartogram(csvFields) {
 }
 
 window.onhashchange = function() {
-  console.log("calling parseHash(fieldsById)")
   parseHash(fieldsById);
 };
 
