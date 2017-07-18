@@ -114,20 +114,6 @@ var latitude  = 1 // default to be USA
       rawData,
     dataById = {},
 
-/*}else{
-  
-  var proj = d3.geo.conicConformal()  
-    .center(center)
-    .clipAngle(180)
-    // Size of the map itself, you may want to play around with this in 
-    // relation to your canvas size
-    .scale(pScale)
-    // Center the map in the middle of the canvas
-    .translate([width / 2, height / 2])
-    .precision(.1),
-    rawData,
-    dataById = {};
- }*/
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
@@ -136,7 +122,6 @@ var latitude  = 1 // default to be USA
     .value(function(d) {
       return +d.properties[field];
     });
-      //URL_TOPO = URL.createObjectURL(USER_TOPO);
 
   console.log("Before state initlization"); 
   var URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
