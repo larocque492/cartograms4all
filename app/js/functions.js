@@ -241,7 +241,7 @@ function parseHash(fieldsById) {
 
 
 
-  var field = fieldsById[desiredFieldId] || fields[0];
+  var field = desiredFieldId || fieldsById[desiredFieldId] || fields[0];
 
   console.log("field: " + field);
   //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
