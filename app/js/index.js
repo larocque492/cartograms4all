@@ -128,7 +128,7 @@ if (latitude == 1){
     rawData,
     dataById = {};
   }
-
+  console.log("CARTOGRAMS setup");
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
