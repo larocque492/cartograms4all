@@ -113,13 +113,13 @@ var latitude  = 1 // default to be USA
 
 
 var proj = d3.geo.albersUsa(),
-          topology,
           geometries,
           rawData,
           dataById = {},
           carto = d3.cartogram()
             .projection(proj)
             .properties(function(d) {
+              console.log("D is d" + d + "D.id is " + d.id;
               return dataById[d.id];
             })
             .value(function(d) {
