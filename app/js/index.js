@@ -11,7 +11,7 @@ var body;
 var topology;
 var carto;
 var geometries;
-
+var proj;
 
 /*
  * Main program instructions
@@ -72,7 +72,7 @@ function init() {
   csvFields = getCSVFields(initCartogram);
 
 
-  var proj = d3.geo.albersUsa(),
+  proj = d3.geo.albersUsa(),
           rawData,
           dataById = {};
 
