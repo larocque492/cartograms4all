@@ -141,6 +141,7 @@ if (latitude == 1){
 
   console.log("Before state initlization"); 
   var URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
+  var CSV_URL = DATA_DIRECTORY + "nst_2011.csv";
   d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
@@ -161,7 +162,7 @@ if (latitude == 1){
         .append("path")
         .attr("class", "state")
         .attr("id", function(d) {
-          return d.id;
+          return d.properties.NAME;
         })
         .attr("fill", "#fff")
         .attr("d", path);
