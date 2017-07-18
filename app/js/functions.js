@@ -188,8 +188,8 @@ function update() {
   var colo = [col]
 
   var color = d3.scale.linear()
-    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi])
-    .range(colors);
+    .range(colors)
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
 
   // normalize the scale to positive numbers
