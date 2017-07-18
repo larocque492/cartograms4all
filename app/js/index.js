@@ -12,11 +12,6 @@ var body;
 var topology;
 var carto;
 var geometries;
-var URL_TOPO;
-var latitude = null;
-var longitude = null;
-var col = null;
-var pScale = null;
 
 
 /*
@@ -29,8 +24,6 @@ $(document).ready(function() {
   var session_id = generateSessionID(16);
   if( readCookie('userSessionCookie') === null ){
     createCookie('userSessionCookie', session_id, 10, '/');
-  }else{
-    //importUserSettings()
   }
   init();
 
@@ -38,44 +31,28 @@ $(document).ready(function() {
     .call(updateZoom)
     .call(zoom.event);
 });
-
 /*
  * End of main program instructions
  */
 
+/*
+I'm noticing that Chrome is complaining a lot about undefined functions in index.js. This leads me to believe that
+we don't have any way of including scripts within each other - unless I'm an idiot and something is being used that
+I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
+to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
+include functions.js and cartogram.js in index.js, or they won't work together (I think!)
+Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
+
+*/
+
 //initialization of the entire map
 
-function inito (){
-    init();
-}
-
 function init() {
-  run();
   // don't initialize until user has uploaded a .csv file
   if (document.getElementById('input_csv').files[0] == null) {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
-    return;  
-  }
-
-  if(document.getElementById('input_topo').files[0] == null){
-    console.log("Cartograms 4 All: Waiting for user inputted topojson file");
     return;
   }
- if(latitude == null){
-    console.log("please enter the projection for latitude");
-    return;
-  }
-
-  if(longitude == null){
-    console.log("please enter the projection for longitude");
-    return;
-  }
-
-  if(pScale == null){
-    console.log("please enter the scale of projection");
-    return;
-  }
-
   // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
   SESSION_ID = readCookie('userSessionCookie');
 
@@ -87,12 +64,7 @@ function init() {
   //console.log(return_string);
   // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
 
-
   USER_CSV = document.getElementById('input_csv').files[0];
-  saveCSV(USER_CSV);  
-  
-  USER_TOPO = document.getElementById('input_topo').files[0]
-
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
@@ -109,34 +81,21 @@ function init() {
     .call(zoom);
 
   csvFields = getCSVFields(initCartogram);
-var width = 1215,  //2100
-    height = 600;
-
-//var center = [38.996815, 34.802075];
-var center = [latitude, longitude];
-
-//d3.geo.albersUsa()
-
-if (latitude == 1){
 
   var proj = d3.geo.albersUsa(),
-      rawData,
-    dataById = {};
-
-}else{
-  
-  var proj = d3.geo.conicConformal()  
-    .center(center)
-    .clipAngle(180)
-    // Size of the map itself, you may want to play around with this in 
-    // relation to your canvas size
-    .scale(pScale)
-    // Center the map in the middle of the canvas
-    .translate([width / 2, height / 2])
-    .precision(.1),
     rawData,
     dataById = {};
-  }
+
+  /**
+  var proj = d3.geo.conicConformal()
+      .center(center)
+      .clip(Angle(180))
+      .scale(pScale)
+      .translate(width / 2, height / 2)
+      .precision(.1),
+      rawData,
+      dataById = {};
+ **/
 
   carto = d3.cartogram()
     .projection(proj)
@@ -146,11 +105,10 @@ if (latitude == 1){
     .value(function(d) {
       return +d.properties[field];
     });
-      URL_TOPO = URL.createObjectURL(USER_TOPO);
 
-  
-  //var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  d3.json(URL_TOPO, function(topology) {
+  var topoURL = DATA_DIRECTORY + "us-states.topojson";
+  //var topoURL = DATA_DIRECTORY + "CAcounty.topojson";
+  d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
     d3.csv(CSV_URL, function(rawData) {
@@ -179,9 +137,6 @@ if (latitude == 1){
       // Waits until fields has been defined
       function waitForFields() {
         if (typeof someVariable !== "undefined") {
-          
-            console.log("calling PaserHash");
-
           parseHash(fieldsById);
         } else {
           setTimeout(waitForFields, 250);
@@ -191,8 +146,6 @@ if (latitude == 1){
       // Waits until fields has been defined
       function waitForTopology() {
         if (typeof someVariable !== "undefined") {
-          console.log("calling PaserHash");
-
           initTopo();
         } else {
           setTimeout(topology, 250);
@@ -229,7 +182,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[1],
+    field = fields[0],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
@@ -277,7 +230,6 @@ function initCartogram(csvFields) {
 }
 
 window.onhashchange = function() {
-  console.log("calling parseHash(fieldsById)")
   parseHash(fieldsById);
 };
 

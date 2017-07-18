@@ -76,7 +76,8 @@ function saveCSV(userCSV) {
     success: function(data, textStatus, jqXHR) {
       if (typeof data.error === 'undefined') {
         // Success so call function to process the form
-        submitForm(event, data);
+        //submitForm(event, data);
+	console.log('Success' + textStatus);
       } else {
         // Handle errors here
         console.log('ERRORS: ' + data.error);
@@ -118,7 +119,7 @@ function updateZoom() {
 
 //get  from the nitty gritty cartogram function in cartogram.js
 function initTopo() {
-  console.log(topology);
+  console.log("Starting a topo" + topology);
   var features = carto.features(topology, geometries),
     path = d3.geo.path()
     .projection(proj); //d3.geo.path is d3's main drawing function
@@ -183,12 +184,9 @@ function update() {
 
   console.log(values);
 
-  console.log(" col is" + col);
-  var colo = [col]
-
   var color = d3.scale.linear()
-    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi])
-    .range(colors);
+    .range(colors)
+    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
 
   // normalize the scale to positive numbers
@@ -204,7 +202,6 @@ function update() {
   // generate the new features, pre-projected
   var features = carto(topology, geometries).features;
 
-  console.log("update", states);
   // update the data
   states.data(features)
     .select("title")
@@ -229,8 +226,6 @@ function update() {
 
 
 function parseHash(fieldsById) {
-  var FBI = fieldsById;
-  console.log(FBI);
   var parts = location.hash.substr(1).split("/"),
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
@@ -252,7 +247,7 @@ function parseHash(fieldsById) {
     //yearSelect.attr("disabled", "disabled");
     reset();
 
-  } else {
+  } else
     /*
             if (field.years) {
                 if (field.yecs.indexOf(year) === -1) {
@@ -272,7 +267,6 @@ function parseHash(fieldsById) {
                 .attr("disabled", null);
     */
     deferredUpdate();
-  }
   location.replace("#" + field.id);
 
   hashish.attr("href", function(href) {
