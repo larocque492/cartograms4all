@@ -248,7 +248,7 @@ function parseHash(fieldsById) {
 
   fieldSelect.property("selectedIndex", fields.indexOf(field));
 
-  if (field.id === "none") {
+  if (field === "none") {
 
     //yearSelect.attr("disabled", "disabled");
     reset();
