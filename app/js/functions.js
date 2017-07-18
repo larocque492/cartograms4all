@@ -205,7 +205,6 @@ function update() {
   // generate the new features, pre-projected
   var features = carto(topology, geometries).features;
 
-  console.log("update", states);
   // update the data
   states.data(features)
     .select("title")
