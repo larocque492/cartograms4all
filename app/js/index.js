@@ -161,7 +161,7 @@ if (latitude == 1){
         .append("path")
         .attr("class", "state")
         .attr("id", function(d) {
-          return d.properties.NAME;
+          return d.properties.id;
         })
         .attr("fill", "#fff")
         .attr("d", path);
