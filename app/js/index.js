@@ -56,11 +56,6 @@ function init() {
   USER_CSV = document.getElementById('input_csv').files[0];
   saveCSV(USER_CSV);  
   
-  USER_TOPO = document.getElementById('input_topo').files[0]
-  if (USER_TOPO == null){
-    URL_TOPO = "data/us-states.topojson";
-  }
-  
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()

@@ -184,7 +184,6 @@ function update() {
 
   console.log(values);
 
-  console.log(" col is" + col);
   var colo = [col]
 
   var color = d3.scale.linear()
