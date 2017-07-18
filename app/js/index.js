@@ -26,8 +26,8 @@ console.log("Running Cartograms 4 All Web App");
 $(document).ready(function() {
   // if not already set, set new cookie.
   var session_id = generateSessionID(16);
-  if( readCookie('user_session_cookie') === null ){
-    createCookie('user_session_cookie', session_id, 10, '/');
+  if( readCookie('userSessionCookie') === null ){
+    createCookie('userSessionCookie', session_id, 10, '/');
   }else{
     //importUserSettings()
   }
@@ -72,7 +72,7 @@ function init() {
   }
 
   // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-  SESSION_ID = readCookie('user_session_cookie');
+  SESSION_ID = readCookie('userSessionCookie');
 
   //var send_text = "my_text_to_save";
   //writeToServer(SESSION_ID, send_text);

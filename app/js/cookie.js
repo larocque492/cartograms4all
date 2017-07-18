@@ -41,7 +41,7 @@ function exportCookie() {
 //It then sets it for the user
 function importUserSettings() {
   //call API
-  var session_id = readCookie('user_session_cookie');
+  var session_id = readCookie('userSessionCookie');
   var jsonString = readFromServer(session_id); // jsonString is read in from the correct file in php/settings folder
   //Set value of userObj (global)
   userObj = JSON.parse(jsonString);
@@ -53,7 +53,7 @@ function importUserSettings() {
 function exportUserSettings() {
   createCookie("fileName", USER_CSV, 30, "/");
   var userCookieJson = exportCookie(); // a string representation of the JSON
-  var session_id = readCookie('user_session_cookie'); // session_id is read from the cookie
+  var session_id = readCookie('userSessionCookie'); // session_id is read from the cookie
 
   //CALL API to write the cookie information into settings/<session_id>.json
   writeToServer(session_id, userCookieJson);
