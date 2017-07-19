@@ -1,10 +1,6 @@
 //------------Input Button Stuff----------------------//
 // Reference: http://jsfiddle.net/gregorypratt/dhyzV/ //
-document.getElementById('upload_link_csv').onclick = function() {
-  document.getElementById('input_topo').click();
-};
-
-document.getElementById('upload_link_topo').onclick = function() {
+document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
 };
 /*
