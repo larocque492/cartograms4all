@@ -8499,7 +8499,8 @@ path.state:hover {
   top: 160px; }
 
 #upload_link {
-  text-decoration: none; }
+  text-decoration: none; 
+  margin-right: 5px;}
 
 #upload {
   display: none; }
