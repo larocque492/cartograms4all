@@ -3,11 +3,15 @@
 document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
 };
+
+document.getElementById('upload_link_topo').onclick = function() {
+  document.getElementById('input_topo').click();
+};
 /*
  * Code to run when document is ready
  */
 $(document).ready(function() {
-  // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+  // the "href" attribute of the modal trigger must specify the modal ID that wantsupload_link_topo to be triggered
   $('.modal').modal();
 
   $('.modal').modal({
