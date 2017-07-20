@@ -12,7 +12,8 @@ var body;
 var topology;
 var carto;
 var geometries;
-
+var userSessionCookie;
+var userData; 
 
 /*
  * Main program instructions
@@ -22,14 +23,16 @@ console.log("Running Cartograms 4 All Web App");
 $(document).ready(function() {
   // if not already set, set new cookie.
   var session_id = generateSessionID(16);
-  if( readCookie('userSessionCookie') === null ){
+  if( readCookie('userSessionCookie') === null ){ 
     createCookie('userSessionCookie', session_id, 10, '/');
+    userSessionCookie = session_id;
   }
   init();
-
-  map
+  //set default data file and topoJSON
+  /*map
     .call(updateZoom)
     .call(zoom.event);
+  */
 });
 /*
  * End of main program instructions
@@ -53,18 +56,16 @@ function init() {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
   }
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-  SESSION_ID = readCookie('userSessionCookie');
 
-  //var send_text = "my_text_to_save";
-  //writeToServer(SESSION_ID, send_text);
-  //console.log(SESSION_ID);
+  var csv = document.getElementById('input_csv').files[0];
+  //Save user input if it is given and override the default
+  if (csv != null) { 
+    saveCsv(csv);  
+  }
+  
+  console.log(csv);
+  userData = DEFAULT_DATA; 
 
-  //var return_string = readFromServer(SESSION_ID);
-  //console.log(return_string);
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-
-  USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
@@ -106,12 +107,11 @@ function init() {
       return +d.properties[field];
     });
 
-  var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  //var topoURL = DATA_DIRECTORY + "CAcounty.topojson";
-  d3.json(topoURL, function(topology) {
+  
+  d3.json(DEFAULT_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(CSV_URL, function(rawData) {
+    d3.csv(userData, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;

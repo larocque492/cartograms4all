@@ -1,7 +1,7 @@
 // DATASHEET CONFIG
-var DATASHEET = "nst_2011.csv";
+var DEFAULT_DATA = "data/nst_2011.csv";
+var DEFAULT_TOPO = "data/us-states.topojson";
 var DATA_DIRECTORY = "data/";
-var DATA = DATA_DIRECTORY + DATASHEET;
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
@@ -61,7 +61,7 @@ function readFromServer(session_id) {
 
 //Save CSV to uploader/upload path via an ajax call
 //The saved CSV can be use for other user as it is public
-function saveCSV(userCSV) {
+function saveCsv(userCSV) {
 
   var data = new FormData();
   data.append("input_csv", userCSV);
