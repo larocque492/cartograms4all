@@ -39,11 +39,11 @@
             <li class="upload-tabs" id="upload_topo"><a id="upload_link_topo"><i class="material-icons">file_upload</i></a>
               <input type="file" id="input_topo" onchange="init()" />
             </li>
-            <!-- tab 3 -->
+            <!-- Customize CSV File tab -->
             <li class="tab" id="cust_csv">
                 <a href="#cust_modal"><i class="material-icons">view_array</i></a>
             </li>
-            <!--tab 4-->
+            <!--Settings tab-->
             <li class="tab">
               <a href="#settings_modal"><i class="material-icons">settings</i></a>
             </li>
@@ -91,14 +91,16 @@
            <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
            <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
            <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
-           <a class="waves-effect waves-light"> <textarea cols="17" readonly>0123456789ABCDEF</textarea></a>
+           <a class="materialize-textarea"> 
+              <textarea cols="20" id="copy_session_id" readonly>0123456789ABCDEF</textarea>
+           </a>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
       
-  <!-- Modal of Your Choice -->      
+  <!-- Customize CSV File modal -->      
   <div id="cust_modal" class="modal">
     <div class="modal-content">
       <h5>Customize</h5> 
@@ -109,22 +111,34 @@
     </div>
   </div>
       
-  <!-- Modal of Your Choice -->      
+  <!-- Settings modal -->      
   <div id="settings_modal" class="modal">
     <div class="modal-content">
-      <h5>Modal 3</h5> 
-           <!-- Modal content goes here -->
+      <h5>Settings</h5> 
+           <a class="materialize-textarea"> 
+              <textarea cols="20" id="paste_session_id" >Enter projection</textarea>
+           </a>
+           <a class="materialize-textarea"> 
+              <textarea cols="20" id="paste_session_id" >Enter scale</textarea>
+           </a>
+           <a class="materialize-textarea"> 
+              <textarea cols="20" id="paste_session_id" >Enter set of colors</textarea>
+           </a>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
   </div>
 
-  <!-- Modal of Your Choice -->      
+  <!-- Backup Session Info modal -->      
   <div id="backup_modal" class="modal">
     <div class="modal-content">
       <h5>Backup</h5> 
-           <!-- Modal content goes here -->
+           <a class="waves-effect waves-light btn" onclick="share_email()">Save my session</a>
+           <a class="waves-effect waves-light btn" onclick="share_email()">Load my session</a>
+           <a class="materialize-textarea"> 
+              <textarea cols="20" id="paste_session_id" >Enter session ID</textarea>
+           </a>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>

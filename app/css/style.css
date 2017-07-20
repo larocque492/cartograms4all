@@ -8513,6 +8513,10 @@ path.state:hover {
   text-decoration: none;
   width: 5%;}
 
+#session_id_area {
+  position: relative;
+}
+
 
 
 /*-------------Custom Modal ------------------*/
