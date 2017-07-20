@@ -63,7 +63,9 @@ function init() {
     userData = DEFAULT_DATA;
   } else {
       var csv = document.getElementById('input_csv').files[0];
-      csv.name = userSessionCookie + "_" + csv.name;
+      var temp = userSessionCookie + "_" + csv.name;
+      console.log(temp);
+      csv.name = temp;
      //Save user input if it is given and override the default
       if (csv != null) { 
         saveCsv(csv);  
