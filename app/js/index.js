@@ -56,7 +56,7 @@ function init() {
   // Start with default data and topo for user
   // Switch to user data when given
   if (userSessionCookie == null) {
-    userSessionCookie = document.cookie['userSessionCookie'];
+    userSessionCookie = readCookie('userSessionCookie');
   }
 
   if (document.getElementById('input_csv').files[0] == null) {
