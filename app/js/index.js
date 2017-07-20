@@ -25,9 +25,6 @@ $(document).ready(function() {
   var session_id = generateSessionID(16);
   if( readCookie('userSessionCookie') === null ){ 
     createCookie('userSessionCookie', session_id, 10, '/'); 
-    userSessionCookie = session_id;
-    console.log(session_id);
-    console.log(userSessionCookie);
   }
   init();
   //set default data file and topoJSON
@@ -62,15 +59,12 @@ function init() {
   if (document.getElementById('input_csv').files[0] == null) {
     userData = DEFAULT_DATA;
   } else {
+      //File object is immutable, so it does not rename to make it unique per user in js
       var csv = document.getElementById('input_csv').files[0];
-      var temp = userSessionCookie + "_" + csv.name;
-      console.log(temp);
-      csv.name = temp;
      //Save user input if it is given and override the default
       if (csv != null) { 
         saveCsv(csv);  
       }
-      console.log(csv);
       userData = USER_DIRECTORY + csv.name;
   }
 
