@@ -14,6 +14,7 @@ function clearContents(element) {
 
 // loads the session ID into sharing form
 function shareSessionID(element){
+  console.log(userSessionCookie);
   if(userSessionCookie===null){
     element.value = "ERROR: SESSION COOKIE NOT SET";
   }else{
@@ -37,7 +38,6 @@ $(document).ready(function() {
     endingTop: '10%', // Ending top style attribute
     ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
       //alert("Ready test 1 2");
-      console.log(modal, trigger);
     },
     complete: function() {
       //alert('Closed test test');
@@ -51,7 +51,6 @@ $(document).ready(function() {
 
 
 function download_png(){
-   console.log("download png");   
    var svg = d3.select('svg');
    saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
 }
@@ -68,7 +67,6 @@ $('#download_svg').click(function(){
 
 
 function share_email(){
-    console.log("email");
     svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
     //   console.log('uri', uri);     
     //   var pic = d3.select('svg');
@@ -79,16 +77,13 @@ function share_email(){
 }
 
 function share_twitter(){
-    console.log("tweet");
     window.open(href="https://twitter.com/intent/tweet?text=Hello%20world", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }
 
 function saveSession(){
-  console.log("saveSession()");
 }
 
 function loadSession(){
-  console.log("loadSession()");
 }
   
       
