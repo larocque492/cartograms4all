@@ -11,8 +11,8 @@ var fields;
 var states;
 
 //Return usable object from CSV file
-function getCSVFields(callback, Csv) {
-  var dataset = Papa.parse(Csv, {
+function getCSVFields(callback, CSV) {
+  var dataset = Papa.parse(CSV, {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
@@ -60,7 +60,7 @@ function readFromServer(session_id) {
 
 //Save CSV to uploader/upload path via an ajax call
 //The saved CSV can be use for other user as it is public
-function saveCsv(userCSV) {
+function saveCSV(userCSV) {
 
   var data = new FormData();
   data.append("input_csv", userCSV);

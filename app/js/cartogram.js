@@ -90,7 +90,6 @@
       var i = 0;
       while (i++ < iterations) {
         var areas = objects.map(path.area);
-        //console.log(objects)
         var totalArea = d3.sum(areas),
           sizeErrorsTot = 0,
           sizeErrorsNum = 0,
