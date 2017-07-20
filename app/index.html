@@ -12,8 +12,8 @@
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="node_modules/papaparse/papaparse.min.js"></script>
   <!--Sources for svg/png download -->  
-  <script src="//d3js.org/d3.v4.min.js"></script>
   <script src="https://rawgit.com/exupero/saveSvgAsPng/gh-pages/saveSvgAsPng.js"></script>
+
 
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -31,9 +31,10 @@
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent text-center">
-             <!--Upload CSV File Tab-->
-            <li class="upload-tabs" id="upload_csv"><a id="upload_link"><i class="material-icons" >file_upload</i></a>
-              <input type="file" id="input_csv" onchange="init()" />
+            <form action="uploader/upload-manager.php" method="post" enctype="multipart/form-data">
+            <li class="upload-tabs" id="upload_csv"><a id="upload_link"><i class="material-icons">file_upload</i></a>
+              <input type="file" id="input_csv" name="input_csv" onchange="init()" />
+            </form>
             </li>
              <!--Upload Topojson Tab -->
             <li class="upload-tabs" id="upload_topo"><a id="upload_link_topo"><i class="material-icons">file_upload</i></a>
@@ -78,10 +79,6 @@
         </div>
       </div>
     </div>
-
-      
-      
-      
       
   <!-- Share Modal -->     
   <div id="share_modal" class="modal">
@@ -179,6 +176,7 @@
     </footer>
   </div>
 </body>
+<script src="js/cookie.js"></script>
 <script src="lib/colorbrewer.js"></script>
 <script src="js/functions.js"></script>
 <script src="lib/topojson.js"></script>
