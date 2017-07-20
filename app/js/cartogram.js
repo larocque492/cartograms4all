@@ -39,6 +39,7 @@
     function carto(topology, geometries) {
       // copy it first
       var topo = copy(topology);
+      console.log(topology, "hi")
       // objects are projected into screen coordinates
       // project the arcs into screen space
       var tf = transformer(topo.transform),
@@ -106,7 +107,7 @@
               sizeError = Math.max(area, desired) / Math.min(area, desired);
             sizeErrorsTot += sizeError;
             sizeErrorsNum++;
-            //console.log(o.id, "@", j, "area:", area, "value:", v, "->", desired, radius, mass, sizeError);
+            console.log(o.id, "@", j, "area:", area, "value:", v, "->", desired, radius, mass, sizeError);
             return {
               id: o.id,
               area: area,

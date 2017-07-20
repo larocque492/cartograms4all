@@ -2,7 +2,6 @@
 var csvFields;
 var map;
 var zoom;
-var scale = .94;
 var layer;
 var percent;
 var fieldSelect;
@@ -20,16 +19,7 @@ var geometries;
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
-  // if not already set, set new cookie.
-  var session_id = generateSessionID(16);
-  if( readCookie('userSessionCookie') === null ){
-    createCookie('userSessionCookie', session_id, 10, '/');
-  }
   init();
-
-  map
-    .call(updateZoom)
-    .call(zoom.event);
 });
 /*
  * End of main program instructions
@@ -49,53 +39,29 @@ Or we could just put the main logic back in index.html, even though that's not a
 
 function init() {
   // don't initialize until user has uploaded a .csv file
-  if (document.getElementById('input_csv').files[0] == null) {
+  if(document.getElementById('input_csv').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
   }
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-  SESSION_ID = readCookie('userSessionCookie');
-
-  //var send_text = "my_text_to_save";
-  //writeToServer(SESSION_ID, send_text);
-  //console.log(SESSION_ID);
-
-  //var return_string = readFromServer(SESSION_ID);
-  //console.log(return_string);
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
     .translate([-38, 32])
-    .scale(scale)
-    .scaleExtent([0.1, 20.0])
+    .scale(.94)
+    .scaleExtent([0.5, 10.0])
     .on("zoom", updateZoom);
   layer = map.append("g")
-    .attr("id", "layer")
-    .call(zoom),
+    .attr("id", "layer"),
     states = layer.append("g")
     .attr("id", "states")
-    .selectAll("path")
-    .call(zoom);
+    .selectAll("path");
 
   csvFields = getCSVFields(initCartogram);
 
   var proj = d3.geo.albersUsa(),
     rawData,
     dataById = {};
-
-  /**
-  var proj = d3.geo.conicConformal()
-      .center(center)
-      .clip(Angle(180))
-      .scale(pScale)
-      .translate(width / 2, height / 2)
-      .precision(.1),
-      rawData,
-      dataById = {};
- **/
 
   carto = d3.cartogram()
     .projection(proj)
@@ -107,7 +73,6 @@ function init() {
     });
 
   var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  //var topoURL = DATA_DIRECTORY + "CAcounty.topojson";
   d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
@@ -171,7 +136,7 @@ function initCartogram(csvFields) {
     fields = csvFields,
     // TODO: Make this customizable
     // NOTE: Might just have this detect if there are digits at the end of the column or beginning,
-    // and if there are then use those as a year
+      // and if there are then use those as a year
     // TODO: Make a custom function getTimeInField() which will clear
     fieldsById = d3.nest()
     .key(function(d) {
