@@ -31,28 +31,20 @@
         </div>
         <div class="nav-content">
           <ul class="tabs tabs-transparent text-center">
+
              <!--Upload CSV File Tab-->
             <li class="upload-tabs" id="upload_csv"><a id="upload_link"><i class="material-icons" >file_upload</i></a>
               <input type="file" id="input_csv" onchange="init()" />
             </li>
-             <!--Upload Topojson Tab -->
-            <li class="upload-tabs" id="upload_topo"><a id="upload_link_topo"><i class="material-icons">file_upload</i></a>
-              <input type="file" id="input_topo" onchange="init()" />
-            </li>
-            <!-- Customize CSV File tab -->
-            <li class="tab" id="cust_csv">
-                <a href="#cust_modal"><i class="material-icons">view_array</i></a>
-            </li>
-            <!--Settings tab-->
-            <li class="tab">
-              <a href="#settings_modal"><i class="material-icons">settings</i></a>
-            </li>
-              <!--Share tab -->
+
+            <!--Share tab-->
             <li class="tab" id="share_cartogram">
               <a href="#share_modal"><i class="material-icons">share</i></a>    
             </li>
-            <li class="tab" id="backup_settings">
-              <a href="#backup_modal"><i class="material-icons">cloud_queue</i></a>    
+
+            <!--Session Info-->
+            <li class="tab" id="session_info">
+              <a href="#session_modal"><i class="material-icons">cloud_queue</i></a>    
             </li>
         
           </ul>
@@ -92,37 +84,7 @@
            <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
            <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
            <a class="materialize-textarea"> 
-              <textarea class="session-id-area" cols="20" id="copy_session_id" readonly>0123456789ABCDEF</textarea>
-           </a>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-  </div>
-      
-  <!-- Customize CSV File modal -->      
-  <div id="cust_modal" class="modal">
-    <div class="modal-content">
-      <h5>Customize</h5> 
-           <!-- Modal content goes here -->
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-  </div>
-      
-  <!-- Settings modal -->      
-  <div id="settings_modal" class="modal">
-    <div class="modal-content">
-      <h5>Settings</h5> 
-           <a class="materialize-textarea"> 
-              <textarea cols="20" id="user_projection" onfocus="clearContents(this)">Enter projection</textarea>
-           </a>
-           <a class="materialize-textarea"> 
-              <textarea cols="20" id="user_scale" onfocus="clearContents(this)">Enter scale</textarea>
-           </a>
-           <a class="materialize-textarea"> 
-              <textarea cols="20" id="user_color_set" onfocus="clearContents(this)" >Enter set of colors</textarea>
+              <textarea class="session-id-area" cols="20" id="copy_session_id" onload="shareSessionID(this)" readonly>""</textarea>
            </a>
     </div>
     <div class="modal-footer">
@@ -131,7 +93,7 @@
   </div>
 
   <!-- Backup Session Info modal -->      
-  <div id="backup_modal" class="modal">
+  <div id="session_modal" class="modal">
     <div class="modal-content">
       <h5>Backup</h5> 
            <a class="waves-effect waves-light btn" onclick="saveSession()">Save your session</a>

@@ -10,18 +10,18 @@ document.getElementById('upload_link_topo').onclick = function() {
 
 function clearContents(element) {
   switch(element.value) {
-    case "Enter projection":
-        element.value = '';
-        break;
-    case "Enter scale":
-        element.value = '';
-        break;
-    case "Enter set of colors":
-        element.value = '';
-        break;
     case "Enter session ID":
         element.value = '';
         break;
+  }
+}
+
+// loads the session ID into sharing form
+function shareSessionID(element){
+  if(userSessionCookie===null){
+    element.value = "ERROR: SESSION COOKIE NOT SET";
+  }else{
+    element.value = userSessionCookie;
   }
 }
 
