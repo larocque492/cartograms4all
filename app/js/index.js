@@ -65,6 +65,7 @@ function init() {
   
   console.log(csv);
   userData = DEFAULT_DATA; 
+  console.log(userData)
 
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
