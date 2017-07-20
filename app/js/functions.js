@@ -71,7 +71,7 @@ function saveCSV(userCSV) {
     data: data,
     cache: false,
     processData: false, // Don't process the files
-    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+    contentType: false, // jQuery will tell the server its a query string request
     success: function(data, textStatus, jqXHR) {
       if (typeof data.error === 'undefined') {
         // Success so call function to process the form
@@ -83,9 +83,7 @@ function saveCSV(userCSV) {
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      // Handle errors here
       console.log('ERRORS: ' + textStatus);
-      // STOP LOADING SPINNER
     }
   });
 }
