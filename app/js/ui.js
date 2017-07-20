@@ -10,6 +10,7 @@ document.getElementById('upload_link_topo').onclick = function() {
 
 function clearContents(element) {
   switch(element) {
+    console.log("clearContents()");
     case "Enter projection":
         element.value = '';
         break;
