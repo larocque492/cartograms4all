@@ -111,7 +111,7 @@ function init() {
   d3.json(DEFAULT_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(USER_DIRECTORY + userData.name, function(rawData) {
+    d3.csv(userData, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;
