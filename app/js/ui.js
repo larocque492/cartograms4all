@@ -72,8 +72,6 @@ $(document).ready(function() {
 });
 
 
-<<<<<<< HEAD
-=======
 //------------Customize Button Stuff----------------//
 var modal = document.getElementById('modal');
 var btn = document.getElementById("cust_file");
@@ -205,9 +203,6 @@ function download_svg() {
     buttonsContainer.style["left"] = 0;
 
 
->>>>>>> 4461ae6c6ad8eca29ff4dd5775288bc7124fea58
-
-
 function download_png(){
    console.log("download png");   
    var svg = d3.select('svg');
@@ -250,6 +245,3 @@ function loadSession(){
   console.log("loadSession()");
 }
   
-      
-=======
->>>>>>> 4461ae6c6ad8eca29ff4dd5775288bc7124fea58
