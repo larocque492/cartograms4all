@@ -8513,8 +8513,9 @@ path.state:hover {
   text-decoration: none;
   width: 5%;}
 
-#session_id_area {
+.session-id-area {
   position: relative;
+  margin-top: 5px;
 }
 
 

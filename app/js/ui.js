@@ -8,6 +8,23 @@ document.getElementById('upload_link_topo').onclick = function() {
   document.getElementById('input_topo').click();
 };
 
+function clearContents(element) {
+  switch(element) {
+    case "Enter projection":
+        element.value = '';
+        break;
+    case "Enter scale":
+        element.value = '';
+        break;
+    case "Enter set of colors":
+        element.value = '';
+        break;
+    case "Enter session ID":
+        element.value = '';
+        break;
+  }
+}
+
 /*
  * Code to run when document is ready
  */
