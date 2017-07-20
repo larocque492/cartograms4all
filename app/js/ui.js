@@ -4,10 +4,6 @@ document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
 };
 
-document.getElementById('upload_link_topo').onclick = function() {
-  document.getElementById('input_topo').click();
-};
-
 function clearContents(element) {
   switch(element.value) {
     case "Enter session ID":
