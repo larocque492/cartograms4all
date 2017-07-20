@@ -51,21 +51,19 @@ Or we could just put the main logic back in index.html, even though that's not a
 //initialization of the entire map
 
 function init() {
-  // don't initialize until user has uploaded a .csv file
+  // Start with default data and topo for user
+  // Switch to user data when given
   if (document.getElementById('input_csv').files[0] == null) {
-    console.log("Cartograms 4 All: Waiting for user inputted CSV file");
-    return;
+    userData = DEFAULT_DATA;
+  } else {
+      var csv = document.getElementById('input_csv').files[0];
+     //Save user input if it is given and override the default
+      if (csv != null) { 
+        saveCsv(csv);  
+      }
+      console.log(csv);
   }
 
-  var csv = document.getElementById('input_csv').files[0];
-  //Save user input if it is given and override the default
-  if (csv != null) { 
-    saveCsv(csv);  
-  }
-  
-  console.log(csv);
-  userData = DEFAULT_DATA; 
-  console.log(userData)
 
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
