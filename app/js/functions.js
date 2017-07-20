@@ -2,6 +2,7 @@
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
 var DATA_DIRECTORY = "data/";
+var USER_DIRECTORY = "uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
@@ -11,15 +12,14 @@ var fields;
 var states;
 
 //Return usable object from CSV file
-function getCSVFields(callback) {
-  var dataset = Papa.parse(USER_CSV, {
+function getCSVFields(callback, Csv) {
+  var dataset = Papa.parse(Csv, {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
     }
   });
 
-  CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
 function generateSessionID(length) {
