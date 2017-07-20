@@ -24,7 +24,7 @@ $(document).ready(function() {
   // if not already set, set new cookie.
   var session_id = generateSessionID(16);
   if( readCookie('userSessionCookie') === null ){ 
-    createCookie('userSessionCookie', session_id, 10, '/');
+    createCookie('userSessionCookie', session_id, 10, '/'); 
     userSessionCookie = session_id;
     console.log(session_id);
     console.log(userSessionCookie);
@@ -55,6 +55,10 @@ Or we could just put the main logic back in index.html, even though that's not a
 function init() {
   // Start with default data and topo for user
   // Switch to user data when given
+  if (userSessionCookie == null) {
+    userSessionCookie = document.cookie['userSessionCookie'];
+  }
+
   if (document.getElementById('input_csv').files[0] == null) {
     userData = DEFAULT_DATA;
   } else {
