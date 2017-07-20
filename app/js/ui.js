@@ -9,7 +9,6 @@ document.getElementById('upload_link_topo').onclick = function() {
 };
 
 function clearContents(element) {
-  console.log(element);
   switch(element.value) {
     case "Enter projection":
         element.value = '';
@@ -88,6 +87,12 @@ function share_twitter(){
     window.open(href="https://twitter.com/intent/tweet?text=Hello%20world", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }
 
+function saveSession(){
+  console.log("saveSession()");
+}
 
+function loadSession(){
+  console.log("loadSession()");
+}
   
       
