@@ -26,6 +26,8 @@ $(document).ready(function() {
   if( readCookie('userSessionCookie') === null ){ 
     createCookie('userSessionCookie', session_id, 10, '/');
     userSessionCookie = session_id;
+    console.log(session_id);
+    console.log(userSessionCookie);
   }
   init();
   //set default data file and topoJSON
