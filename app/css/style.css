@@ -8498,12 +8498,33 @@ path.state:hover {
   right: 190px;
   top: 160px; }
 
+<<<<<<< HEAD
 #upload_link {
   text-decoration: none; 
   margin-right: 5px;}
+=======
 
-#upload {
-  display: none; }
+
+#upload_csv {
+  margin-left: 15%;
+  text-decoration: none; }
+>>>>>>> 299a5a6adec08093dbafeb711d2e61f3ce8aacef
+
+#upload_topo {
+  margin-right: 5%;
+  text-decoration: none; }
+
+
+.upload-tabs {
+  text-decoration: none;
+  width: 5%;}
+
+.session-id-area {
+  position: relative;
+  margin-top: 15px;
+}
+
+
 
 /*-------------Custom Modal ------------------*/
 /*Reference: https://www.w3schools.com/howto/howto_css_modals.asp */
