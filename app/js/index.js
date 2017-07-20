@@ -63,9 +63,12 @@ function init() {
       var csv = document.getElementById('input_csv').files[0];
      //Save user input if it is given and override the default
       if (csv != null) { 
-        saveCsv(csv);  
+        saveCsv(csv); 
+        userData = USER_DIRECTORY + csv.name;
+      } else {
+        //Avoid null user file
+        userData = DEFAULT_DATA;
       }
-      userData = USER_DIRECTORY + csv.name;
   }
 
 
