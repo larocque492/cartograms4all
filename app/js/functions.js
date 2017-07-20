@@ -1,7 +1,6 @@
 // DATASHEET CONFIG
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var DATA_DIRECTORY = "data/";
 var USER_DIRECTORY = "uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
