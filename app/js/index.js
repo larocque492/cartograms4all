@@ -15,8 +15,13 @@ var carto;
 var geometries;
 var latitude = 0;
 var longitude = 0;
-var whichMap = 0;// Different integers correspond to different maps.
+var whichMap = 1;// Different integers correspond to different maps.
                 // The default, 0, is USA.
+
+var proj,
+    topoURL,
+    rawData,
+    dataById = {};
 
 /*
  * Main program instructions
@@ -88,10 +93,7 @@ function init() {
   csvFields = getCSVFields(initCartogram);
 
 
-  var proj,
-      topoURL,
-      rawData,
-      dataById = {};
+
 
   var width = 1215,
       height = 600;
@@ -99,12 +101,16 @@ function init() {
   if (whichMap == 0) {
     console.log("Using USA topojson");
     proj = d3.geo.albersUsa();
-    topoURL = "us-states.topojson";
+    topoURL = DATA + "us-states.topojson";
   }
 
   else if (whichMap == 1) {
+    pScale = 3500,
+    latitude = 38.996815,
+    longitude = 34.802075,
+    center = [latitude, longitude];
     console.log("Using Syria topojson");
-    topoURL = "SyriaGovernorates.json";
+    topoURL = DATA + "SyriaGovernorates.json";
     proj = d3.geo.conicConformal()
       .center(center)
       .clip(Angle(180))
