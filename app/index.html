@@ -58,7 +58,7 @@
 
             <!--Session Info-->
             <li class="tab" id="session_info">
-              <a href="#session_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Load/Save"   ><i class="material-icons">cloud_queue</i></a>    
+              <a href="#session_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save/Load"   ><i class="material-icons">cloud_queue</i></a>    
             </li>
         
           </ul>
@@ -93,12 +93,20 @@
   <div id="share_modal" class="modal">
     <div class="modal-content">
       <h5>Share</h5> 
-           <a class="waves-effect waves-light btn" onclick="share_email()">e-Mail</a>
-           <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
-           <a class="waves-effect waves-light btn" id="download_svg">SVG</a>
-           <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
+      <div class="center-align">
+           <a class="waves-effect waves-light btn-large" onclick="share_email()">e-Mail</a>
+           <a class="waves-effect waves-light btn-large" onclick="share_twitter()">Twitter</a>
+           <a class="waves-effect waves-light btn-large" id="download_svg">SVG</a>
+           <a class="waves-effect waves-light btn-large" onclick="download_png()">PNG</a>
            <a class="materialize-textarea"> 
+      </div>
+               <!--
               <textarea class="session-id-area" cols="20" id="copy_session_id" onclick="shareSessionID(this)" readonly></textarea>
+               -->
+            <div class="input-field col s12">
+               <input disabled value="Session ID" id="disabled" type="text" class="validate">
+               <label for="disabled"></label>
+            </div>
            </a>
     </div>
     <div class="modal-footer">
@@ -110,11 +118,19 @@
   <div id="session_modal" class="modal">
     <div class="modal-content">
       <h5>Backup</h5> 
-           <a class="waves-effect waves-light btn" onclick="saveSession()">Save your session</a>
-           <a class="waves-effect waves-light btn" onclick="loadSession()">Load your session</a>
+        <div class="center-align">
+           <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save your session</a>
+           <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load your session</a>
+        </div>
+           <!--
            <a class="materialize-textarea"> 
               <textarea class="session-id-area"cols="20" id="paste_session_id" onfocus="clearContents(this)" >Enter session ID</textarea>
            </a>
+           -->
+           <div class="input-field col s12">
+              <input id="paste_session_id" type="text" class="validate">
+              <label for="paste_session_id">Enter session ID</label>
+           </div>
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
