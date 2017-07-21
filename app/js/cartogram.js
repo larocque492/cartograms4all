@@ -47,6 +47,7 @@
         projectedArcs = new Array(len2);
       console.log(len2)
       while (i2 < len2) { //iterates through the length of the arcs array
+          //Script terminated by timeout error. For Ahmed's counties file.
         x = 0;
         y = 0;
         len1 = topo.arcs[i2].length;

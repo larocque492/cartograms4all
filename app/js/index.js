@@ -1,4 +1,5 @@
 // Global variables
+
 var csvFields;
 var map;
 var zoom;
@@ -12,7 +13,10 @@ var body;
 var topology;
 var carto;
 var geometries;
-
+var latitude = 0;
+var longitude = 0;
+var whichMap = 0;// Different integers correspond to different maps.
+                // The default, 0, is USA.
 
 /*
  * Main program instructions
@@ -28,9 +32,10 @@ $(document).ready(function() {
   init();
 
   map
-    .call(updateZoom)
+    .call(updateZoom())
     .call(zoom.event);
 });
+
 /*
  * End of main program instructions
  */
@@ -82,20 +87,26 @@ function init() {
 
   csvFields = getCSVFields(initCartogram);
 
-  var proj = d3.geo.albersUsa(),
-    rawData,
-    dataById = {};
 
-  /**
-  var proj = d3.geo.conicConformal()
+  var proj,
+      topoURL,
+      rawData,
+      dataById = {};
+
+  if (whichMap == 0) {
+    proj = d3.geo.albersUsa();
+    topoURL = "us-states.topojson";
+  }
+
+  else if (whichMap == 1) {
+    topoURL = "SyriaGovernorates.json";
+    proj = d3.geo.conicConformal()
       .center(center)
       .clip(Angle(180))
       .scale(pScale)
       .translate(width / 2, height / 2)
-      .precision(.1),
-      rawData,
-      dataById = {};
- **/
+      .precision(.1);
+  }
 
   carto = d3.cartogram()
     .projection(proj)
@@ -128,6 +139,7 @@ function init() {
         .append("path")
         .attr("class", "state")
         .attr("id", function(d) {
+          if (d.properties == "undefined") {return;}
           return d.properties.NAME;
         })
         .attr("fill", "#fff")

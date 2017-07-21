@@ -10,6 +10,18 @@ var SESSION_ID;
 var fields;
 var states;
 
+
+
+/**
+ *
+ * Syria information
+ *
+ * 38.996815 latitude
+ * 34.802075
+ * scale 4500
+ * colours 1
+**/
+
 //Return usable object from CSV file
 function getCSVFields(callback) {
   var dataset = Papa.parse(USER_CSV, {
@@ -228,10 +240,8 @@ function update() {
 function parseHash(fieldsById) {
   var parts = location.hash.substr(1).split("/"),
     desiredFieldId = parts[0],
-    desiredYear = +parts[1];
 
   console.log("desiredFieldId: " + desiredFieldId);
-  console.log("desiredYear: " + desiredYear);
 
 
 
@@ -275,11 +285,12 @@ function parseHash(fieldsById) {
 }
 
 //Inital map setup
-var
-  layer = map.append("g")
-  .attr("id", "layer"),
-  states = layer.append("g")
-  .attr("id", "states")
-  .selectAll("path");
+//var
+//  layer = map.append("g")
+//  .attr("id", "layer"),
+//  states = layer.append("g")
+//  .attr("id", "states")
+//  .selectAll("path");
 
-updateZoom();
+console.log("Initial map setup!");
+//updateZoom();
