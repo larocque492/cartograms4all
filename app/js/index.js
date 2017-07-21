@@ -69,6 +69,7 @@ function init() {
         //Avoid null user file
         userData = DEFAULT_DATA;
       }
+      //Add local file usage to avoid async js calls that breaks map
       userData = URL.createObjectURL(csv);
   }
 

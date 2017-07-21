@@ -227,15 +227,8 @@ function parseHash(fieldsById) {
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
 
-  console.log("desiredFieldId: " + desiredFieldId);
-  console.log("desiredYear: " + desiredYear);
-
-
 
   var field = fieldsById[desiredFieldId] || fields[0];
-
-  console.log("field: " + field);
-  //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
   fieldSelect.property("selectedIndex", fields.indexOf(field));
 
