@@ -61,16 +61,14 @@ function init() {
   } else {
       //File object is immutable, so it does not rename to make it unique per user in js
       var csv = document.getElementById('input_csv').files[0];
-      /*
      //Save user input if it is given and override the default
       if (csv != null) { 
         saveCSV(csv); 
-        userData = USER_DIRECTORY + csv.name;
+        //userData = USER_DIRECTORY + csv.name;
       } else {
         //Avoid null user file
         userData = DEFAULT_DATA;
       }
-      */
       userData = URL.createObjectURL(csv);
   }
 
