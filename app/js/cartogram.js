@@ -45,12 +45,10 @@
         x, y, len1, i1, out1, len2 = topo.arcs.length,
         i2 = 0,
         projectedArcs = new Array(len2);
-      console.log(len2)
       while (i2 < len2) { //iterates through the length of the arcs array
         x = 0;
         y = 0;
         len1 = topo.arcs[i2].length;
-        console.log(len1)
         i1 = 0;
         out1 = new Array(len1);
         while (i1 < len1) {
@@ -60,7 +58,6 @@
           i1++;
         }
         projectedArcs[i2++] = out1;
-        console.log("proj. arcs:", projectedArcs)
       }
 
 
@@ -93,7 +90,6 @@
       var i = 0;
       while (i++ < iterations) {
         var areas = objects.map(path.area);
-        console.log(objects)
         var totalArea = d3.sum(areas),
           sizeErrorsTot = 0,
           sizeErrorsNum = 0,

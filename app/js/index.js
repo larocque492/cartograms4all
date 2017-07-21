@@ -12,7 +12,8 @@ var body;
 var topology;
 var carto;
 var geometries;
-
+var userSessionCookie;
+var userData; 
 
 /*
  * Main program instructions
@@ -22,14 +23,15 @@ console.log("Running Cartograms 4 All Web App");
 $(document).ready(function() {
   // if not already set, set new cookie.
   var session_id = generateSessionID(16);
-  if( readCookie('userSessionCookie') === null ){
-    createCookie('userSessionCookie', session_id, 10, '/');
+  if(readCookie('userSessionCookie') === null) { 
+    createCookie('userSessionCookie', session_id, 10, '/'); 
   }
   init();
-
-  map
+  //set default data file and topoJSON
+  /*map
     .call(updateZoom)
     .call(zoom.event);
+  */
 });
 /*
  * End of main program instructions
@@ -48,23 +50,30 @@ Or we could just put the main logic back in index.html, even though that's not a
 //initialization of the entire map
 
 function init() {
-  // don't initialize until user has uploaded a .csv file
-  if (document.getElementById('input_csv').files[0] == null) {
-    console.log("Cartograms 4 All: Waiting for user inputted CSV file");
-    return;
+  // Start with default data and topo for user
+  // Switch to user data when given
+  if (userSessionCookie == null) {
+    userSessionCookie = readCookie('userSessionCookie');
   }
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-  SESSION_ID = readCookie('userSessionCookie');
 
-  //var send_text = "my_text_to_save";
-  //writeToServer(SESSION_ID, send_text);
-  //console.log(SESSION_ID);
+  if (document.getElementById('input_csv').files[0] == null) {
+    userData = DEFAULT_DATA;
+  } else {
+      //File object is immutable, so it does not rename to make it unique per user in js
+      var csv = document.getElementById('input_csv').files[0];
+     //Save user input if it is given and override the default
+      if (csv != null) { 
+        saveCSV(csv); 
+        //userData = USER_DIRECTORY + csv.name;
+      } else {
+        //Avoid null user file
+        userData = DEFAULT_DATA;
+      }
+      //Add local file usage to avoid async js calls that breaks map
+      userData = URL.createObjectURL(csv);
+  }
 
-  //var return_string = readFromServer(SESSION_ID);
-  //console.log(return_string);
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
 
-  USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
@@ -80,7 +89,7 @@ function init() {
     .selectAll("path")
     .call(zoom);
 
-  csvFields = getCSVFields(initCartogram);
+  csvFields = getCSVFields(initCartogram, userData);
 
   var proj = d3.geo.albersUsa(),
     rawData,
@@ -106,12 +115,11 @@ function init() {
       return +d.properties[field];
     });
 
-  var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  //var topoURL = DATA_DIRECTORY + "CAcounty.topojson";
-  d3.json(topoURL, function(topology) {
+  
+  d3.json(DEFAULT_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(CSV_URL, function(rawData) {
+    d3.csv(userData, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;
@@ -182,7 +190,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[0],
+    field = fields[9],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()

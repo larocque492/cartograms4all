@@ -1,7 +1,7 @@
 // DATASHEET CONFIG
-var DATASHEET = "nst_2011.csv";
-var DATA_DIRECTORY = "data/";
-var DATA = DATA_DIRECTORY + DATASHEET;
+var DEFAULT_DATA = "data/nst_2011.csv";
+var DEFAULT_TOPO = "data/us-states.topojson";
+var USER_DIRECTORY = "uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
@@ -11,15 +11,14 @@ var fields;
 var states;
 
 //Return usable object from CSV file
-function getCSVFields(callback) {
-  var dataset = Papa.parse(USER_CSV, {
+function getCSVFields(callback, CSV) {
+  var dataset = Papa.parse(CSV, {
     download: true,
     complete: function(results) {
       return parseFields(results.data, callback);
     }
   });
 
-  CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
 function generateSessionID(length) {
@@ -72,7 +71,7 @@ function saveCSV(userCSV) {
     data: data,
     cache: false,
     processData: false, // Don't process the files
-    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+    contentType: false, // jQuery will tell the server its a query string request
     success: function(data, textStatus, jqXHR) {
       if (typeof data.error === 'undefined') {
         // Success so call function to process the form
@@ -84,9 +83,7 @@ function saveCSV(userCSV) {
       }
     },
     error: function(jqXHR, textStatus, errorThrown) {
-      // Handle errors here
       console.log('ERRORS: ' + textStatus);
-      // STOP LOADING SPINNER
     }
   });
 }
@@ -230,15 +227,8 @@ function parseHash(fieldsById) {
     desiredFieldId = parts[0],
     desiredYear = +parts[1];
 
-  console.log("desiredFieldId: " + desiredFieldId);
-  console.log("desiredYear: " + desiredYear);
-
-
 
   var field = fieldsById[desiredFieldId] || fields[0];
-
-  console.log("field: " + field);
-  //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
   fieldSelect.property("selectedIndex", fields.indexOf(field));
 
