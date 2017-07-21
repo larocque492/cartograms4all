@@ -239,8 +239,7 @@ function update() {
 
 function parseHash(fieldsById) {
   var parts = location.hash.substr(1).split("/"),
-    desiredFieldId = parts[0],
-
+    desiredFieldId = parts[0];
   console.log("desiredFieldId: " + desiredFieldId);
 
 

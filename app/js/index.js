@@ -32,7 +32,7 @@ $(document).ready(function() {
   init();
 
   map
-    .call(updateZoom())
+    .call(updateZoom)
     .call(zoom.event);
 });
 
@@ -93,12 +93,17 @@ function init() {
       rawData,
       dataById = {};
 
+  var width = 1215,
+      height = 600;
+
   if (whichMap == 0) {
+    console.log("Using USA topojson");
     proj = d3.geo.albersUsa();
     topoURL = "us-states.topojson";
   }
 
   else if (whichMap == 1) {
+    console.log("Using Syria topojson");
     topoURL = "SyriaGovernorates.json";
     proj = d3.geo.conicConformal()
       .center(center)
@@ -117,8 +122,6 @@ function init() {
       return +d.properties[field];
     });
 
-  var topoURL = DATA_DIRECTORY + "us-states.topojson";
-  //var topoURL = DATA_DIRECTORY + "CAcounty.topojson";
   d3.json(topoURL, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
@@ -139,7 +142,10 @@ function init() {
         .append("path")
         .attr("class", "state")
         .attr("id", function(d) {
-          if (d.properties == "undefined") {return;}
+          if (d.properties == "undefined") {
+            console.log("d.prop undef!!!");
+            return;
+          }
           return d.properties.NAME;
         })
         .attr("fill", "#fff")
