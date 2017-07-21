@@ -30,7 +30,6 @@ function getCSVFields(callback) {
       return parseFields(results.data, callback);
     }
   });
-
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
 
@@ -145,6 +144,7 @@ function initTopo() {
     .attr("fill", "#fff")
     .attr("d", path);
 
+
   states.append("title");
 
   parseHash();
@@ -238,58 +238,61 @@ function update() {
 
 
 function parseHash(fieldsById) {
-  var parts = location.hash.substr(1).split("/"),
-    desiredFieldId = parts[0];
-  console.log("desiredFieldId: " + desiredFieldId);
+    var parts = location.hash.substr(1).split("/"),
+        desiredFieldId = parts[0];
+    console.log("desiredFieldId: " + desiredFieldId);
 
 
+    var field = fieldsById[desiredFieldId] || fields[1];
 
-  var field = fieldsById[desiredFieldId] || fields[0];
+    console.log("field: " + field);
+    //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
-  console.log("field: " + field);
-  //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
+    fieldSelect.property("selectedIndex", fields.indexOf(field));
 
-  fieldSelect.property("selectedIndex", fields.indexOf(field));
+    if (field.id === "none") {
 
-  if (field.id === "none") {
+        //yearSelect.attr("disabled", "disabled");
+        reset();
 
-    //yearSelect.attr("disabled", "disabled");
-    reset();
-
-  } else
+    } else
     /*
-            if (field.years) {
-                if (field.yecs.indexOf(year) === -1) {
-                    year = field.years[0];
-                }
-                yearSelect.selectAll("option")
-                    .attr("disabled", function(y) {
-                        return (field.years.indexOf(y) === -1) ? "disabled" : null;
-                    });
-            } else {
-                yearSelect.selectAll("option")
-                    .attr("disabled", null);
-            }
+     if (field.years) {
+     if (field.yecs.indexOf(year) === -1) {
+     year = field.years[0];
+     }
+     yearSelect.selectAll("option")
+     .attr("disabled", function(y) {
+     return (field.years.indexOf(y) === -1) ? "disabled" : null;
+     });
+     } else {
+     yearSelect.selectAll("option")
+     .attr("disabled", null);
+     }
 
-            yearSelect
-                .property("selectedIndex", years.indexOf(year))
-                .attr("disabled", null);
-    */
-    deferredUpdate();
-  location.replace("#" + field.id);
+     yearSelect
+     .property("selectedIndex", years.indexOf(year))
+     .attr("disabled", null);
+     */
+        deferredUpdate();
+    location.replace("#" + field.id);
 
-  hashish.attr("href", function(href) {
-    return href + location.hash;
-  });
+    hashish.attr("href", function (href) {
+        return href + location.hash;
+    });
 }
 
+
+
+
+
 //Inital map setup
-//var
-//  layer = map.append("g")
-//  .attr("id", "layer"),
-//  states = layer.append("g")
-//  .attr("id", "states")
-//  .selectAll("path");
+var
+  layer = map.append("g")
+  .attr("id", "layer"),
+  states = layer.append("g")
+  .attr("id", "states")
+  .selectAll("path");
 
 console.log("Initial map setup!");
-//updateZoom();
+updateZoom();

@@ -13,15 +13,11 @@ var body;
 var topology;
 var carto;
 var geometries;
-var latitude = 0;
-var longitude = 0;
-var whichMap = 1;// Different integers correspond to different maps.
-                // The default, 0, is USA.
-
-var proj,
-    topoURL,
-    rawData,
-    dataById = {};
+var latitude;
+var longitude;
+var whichMap = 1;// Different integers will correspond to different maps here.
+// The default integer, 0, tells the map to display the USA. 1 will display Syria. More on the way!
+// Syria just needs to actually start working first.
 
 /*
  * Main program instructions
@@ -36,24 +32,14 @@ $(document).ready(function() {
   }
   init();
 
-  //map
-  //  .call(updateZoom)
-  //  .call(zoom.event);
+  map
+    .call(updateZoom)
+    .call(zoom.event);
 });
 
 /*
  * End of main program instructions
  */
-
-/*
-I'm noticing that Chrome is complaining a lot about undefined functions in index.js. This leads me to believe that
-we don't have any way of including scripts within each other - unless I'm an idiot and something is being used that
-I don't see, we need to set jQuery or ajax or something to load scripts within other script files, if we want the files
-to exist separately. Since Tim's index.html just had the main logic that depends upon the script files, we need to either
-include functions.js and cartogram.js in index.js, or they won't work together (I think!)
-Or we could just put the main logic back in index.html, even though that's not as pretty or satisfying. -JSL
-
-*/
 
 //initialization of the entire map
 
@@ -92,28 +78,31 @@ function init() {
 
   csvFields = getCSVFields(initCartogram);
 
-
+  var proj,
+    topoURL,
+    rawData,
+    dataById = {};
 
 
   var width = 1215,
       height = 600;
 
-  if (whichMap == 0) {
+  if (whichMap === 0) {
     console.log("Using USA topojson");
     proj = d3.geo.albersUsa();
-    topoURL = DATA + "us-states.topojson";
+    topoURL = DATA_DIRECTORY + "us-states.topojson";
   }
 
-  else if (whichMap == 1) {
-    pScale = 3500,
+  else if (whichMap === 1) {
     latitude = 38.996815,
-    longitude = 34.802075,
+    longitude = 34.802075;
+    var pScale = 3500,
     center = [latitude, longitude];
     console.log("Using Syria topojson");
-    topoURL = DATA + "SyriaGovernorates.json";
+    topoURL = DATA_DIRECTORY + "SyriaGovernorates.json";
     proj = d3.geo.conicConformal()
       .center(center)
-      .clip(Angle(180))
+      .clipAngle(180)
       .scale(pScale)
       .translate(width / 2, height / 2)
       .precision(.1);

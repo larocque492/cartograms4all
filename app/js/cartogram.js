@@ -262,7 +262,7 @@
 
   function distance(a, b) {
     var dx = b[0] - a[0],
-      dy = b[1] - a[1];
+      dy = b[1] - a[1];k
     return Math.sqrt(dx * dx + dy * dy);
   }
 
