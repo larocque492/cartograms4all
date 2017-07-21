@@ -31,9 +31,9 @@ $(document).ready(function() {
   }
   init();
 
-  map
-    .call(updateZoom)
-    .call(zoom.event);
+  //map
+  //  .call(updateZoom)
+  //  .call(zoom.event);
 });
 
 /*
