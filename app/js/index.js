@@ -190,7 +190,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[0],
+    field = fields[9],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
