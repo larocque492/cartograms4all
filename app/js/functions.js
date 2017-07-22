@@ -11,7 +11,6 @@ var fields;
 var states;
 
 
-
 /**
  *
  * Syria information
@@ -22,7 +21,6 @@ var states;
  * colours 1
 **/
 
-//Return usable object from CSV file
 function getCSVFields(callback) {
   var dataset = Papa.parse(USER_CSV, {
     download: true,
@@ -32,6 +30,8 @@ function getCSVFields(callback) {
   });
   CSV_URL = URL.createObjectURL(USER_CSV); // create URL representing USER_CSV
 }
+
+
 
 function generateSessionID(length) {
   var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -128,28 +128,6 @@ function updateZoom() {
     "scale(" + [scale, scale] + ")");
 }
 
-//get  from the nitty gritty cartogram function in cartogram.js
-function initTopo() {
-  console.log("Starting a topo" + topology);
-  var features = carto.features(topology, geometries),
-    path = d3.geo.path()
-    .projection(proj); //d3.geo.path is d3's main drawing function
-  states = states.data(features)
-    .enter()
-    .append("path")
-    .attr("class", "state")
-    .attr("id", function(d) {
-      return d.properties.NAME;
-    })
-    .attr("fill", "#fff")
-    .attr("d", path);
-
-
-  states.append("title");
-
-  parseHash();
-}
-
 /*
  * Original graph that is loaded
  */
@@ -196,6 +174,7 @@ function update() {
 
   console.log(values);
 
+  console.log(" col is"+ col);
   var color = d3.scale.linear()
     .range(colors)
     .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
@@ -240,12 +219,14 @@ function update() {
 function parseHash(fieldsById) {
     var parts = location.hash.substr(1).split("/"),
         desiredFieldId = parts[0];
+    desiredYear = +parts[1];
+
     console.log("desiredFieldId: " + desiredFieldId);
+    console.log("desiredYear: " + desiredYear);
 
+    var field = fieldsById[desiredFieldId] || fields[0];
 
-    var field = fieldsById[desiredFieldId] || fields[1];
-
-    console.log("field: " + field);
+    console.log("(In fxn parseHash) field: " + field);
     //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
@@ -274,7 +255,8 @@ function parseHash(fieldsById) {
      .property("selectedIndex", years.indexOf(year))
      .attr("disabled", null);
      */
-        deferredUpdate();
+    console.log("Ending parsehash.");
+    deferredUpdate();
     location.replace("#" + field.id);
 
     hashish.attr("href", function (href) {
@@ -286,9 +268,15 @@ function parseHash(fieldsById) {
 
 
 
-//Inital map setup
-var
-  layer = map.append("g")
+/**Inital map setup
+var map = d3.select("#map"),
+    zoom = d3.behavior.zoom()
+        .translate([-38, 32])
+        .scale(.94)
+        .scaleExtent([0.5, 10.0])
+        .on("zoom", updateZoom),
+**/
+  var layer = map.append("g")
   .attr("id", "layer"),
   states = layer.append("g")
   .attr("id", "states")

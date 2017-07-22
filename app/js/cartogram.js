@@ -39,7 +39,8 @@
     function carto(topology, geometries) {
       // copy it first
       var topo = copy(topology);
-      // objects are projected into screen coordinates
+      console.log(topology, "hi")
+        // objects are projected into screen coordinates
       // project the arcs into screen space
       var tf = transformer(topo.transform),
         x, y, len1, i1, out1, len2 = topo.arcs.length,
@@ -262,7 +263,7 @@
 
   function distance(a, b) {
     var dx = b[0] - a[0],
-      dy = b[1] - a[1];k
+      dy = b[1] - a[1];
     return Math.sqrt(dx * dx + dy * dy);
   }
 

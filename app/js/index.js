@@ -13,8 +13,11 @@ var body;
 var topology;
 var carto;
 var geometries;
-var latitude;
-var longitude;
+var topoURL;
+var latitude = 39;
+var longitude = 34.8;
+var col = 1;
+var pScale = 4500;
 var whichMap = 1;// Different integers will correspond to different maps here.
 // The default integer, 0, tells the map to display the USA. 1 will display Syria. More on the way!
 // Syria just needs to actually start working first.
@@ -32,9 +35,9 @@ $(document).ready(function() {
   }
   init();
 
-  map
-    .call(updateZoom)
-    .call(zoom.event);
+  //map
+  //  .call(updateZoom)
+  //  .call(zoom.event);
 });
 
 /*
@@ -44,7 +47,13 @@ $(document).ready(function() {
 //initialization of the entire map
 
 function init() {
-  // don't initialize until user has uploaded a .csv file
+
+
+
+    var width = 1215,
+        height = 600;
+
+    // don't initialize until user has uploaded a .csv file
   if (document.getElementById('input_csv').files[0] == null) {
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
     return;
@@ -62,6 +71,7 @@ function init() {
 
   USER_CSV = document.getElementById('input_csv').files[0];
   console.log("Cartograms 4 All: Start init()");
+
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
     .translate([-38, 32])
@@ -78,34 +88,29 @@ function init() {
 
   csvFields = getCSVFields(initCartogram);
 
-  var proj,
-    topoURL,
-    rawData,
-    dataById = {};
-
-
-  var width = 1215,
-      height = 600;
 
   if (whichMap === 0) {
     console.log("Using USA topojson");
-    proj = d3.geo.albersUsa();
     topoURL = DATA_DIRECTORY + "us-states.topojson";
+    var proj = d3.geo.albersUsa(),
+    dataById = {};
   }
 
   else if (whichMap === 1) {
-    latitude = 38.996815,
-    longitude = 34.802075;
-    var pScale = 3500,
-    center = [latitude, longitude];
     console.log("Using Syria topojson");
+    latitude = 38.996815,
+    longitude = 34.802075,
+    pScale = 3500;
+    center = [latitude, longitude];
     topoURL = DATA_DIRECTORY + "SyriaGovernorates.json";
-    proj = d3.geo.conicConformal()
+    var proj = d3.geo.conicConformal()
       .center(center)
       .clipAngle(180)
       .scale(pScale)
       .translate(width / 2, height / 2)
-      .precision(.1);
+      .precision(.1),
+    rawData,
+    dataById = {};
   }
 
   carto = d3.cartogram()
@@ -137,33 +142,13 @@ function init() {
         .append("path")
         .attr("class", "state")
         .attr("id", function(d) {
-          if (d.properties == "undefined") {
-            console.log("d.prop undef!!!");
-            return;
-          }
           return d.properties.NAME;
         })
         .attr("fill", "#fff")
         .attr("d", path);
       states.append("title");
 
-      // Waits until fields has been defined
-      function waitForFields() {
-        if (typeof someVariable !== "undefined") {
-          parseHash(fieldsById);
-        } else {
-          setTimeout(waitForFields, 250);
-        }
-      }
 
-      // Waits until fields has been defined
-      function waitForTopology() {
-        if (typeof someVariable !== "undefined") {
-          initTopo();
-        } else {
-          setTimeout(topology, 250);
-        }
-      }
     });
   });
 
@@ -195,7 +180,7 @@ function initCartogram(csvFields) {
     })
     .map(fields),
     // TODO: Set default field to something that looks like data
-    field = fields[0],
+    field = fields[1],
     // TODO: Allow for customization of map color
     colors = colorbrewer.RdYlBu[3]
     .reverse()
