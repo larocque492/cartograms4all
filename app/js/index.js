@@ -13,7 +13,7 @@ var carto;
 var geometries;
 var proj;
 var col = 1;
-var whichMap = 1;
+var whichMap = 2;
 /* Different integers will correspond to different maps, which accept different .csv data.
 * The default integer, 0, tells the map to take in data for and display the USA,
 * and 1 will choose Syria.
@@ -61,9 +61,14 @@ function init() {
     URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
 
   } else if (whichMap === 1) {
-      console.log("Using syria projection.");
-      URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.json";
-      setProjection(39, 34.8, 4500);
+    console.log("Using syria topojson.");
+    URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
+    setProjection(39, 34.8, 4500);
+
+  } else if (whichMap === 2) {
+    console.log("Using UK topojson.");
+    URL_TOPO = DATA_DIRECTORY + "uk.topojson";
+    setProjection(-1.775320, 52.298781, 4500);
   }
 
   console.log("Cartograms 4 All: Start init()");
