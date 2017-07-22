@@ -4,8 +4,7 @@
   "description": "A tool to build cartograms",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node node_modules/gulp/bin/gulp.js build-scss"
+    "postinstall": "node node_modules/gulp/bin/gulp.js build-scss"
   },
   "repository": {
     "type": "git",
