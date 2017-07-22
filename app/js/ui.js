@@ -10,13 +10,7 @@ document.getElementById('upload_link_topo').onclick = function() {
 };
 */
 
-function clearContents(element) {
-  switch(element.value) {
-    case "Enter session ID":
-        element.value = '';
-        break;
-  }
-}
+
 
 // loads the session ID into sharing form
 function shareSessionID(element){
