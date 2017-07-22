@@ -17,6 +17,7 @@ var whichMap = 2;
 /* Different integers will correspond to different maps, which accept different .csv data.
 * The default integer, 0, tells the map to take in data for and display the USA,
 * and 1 will choose Syria.
+* 2 is UK, 3
 * More maps on the way! Also, the drop down menu should actually set this integer soon.
 * /
 
