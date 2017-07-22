@@ -22,20 +22,30 @@
             <nav class="nav-extended">
                 <div class="nav-wrapper">
                     <h1 class="brand-logo center">Cartograms 4 All</h1>
+                    <img src="logo.png" style="width:90px;height:90px;" align="right" hspace="20">
                 </div>
                 <div class="nav-content">
-                    <ul class="tabs tabs-transparent text-center">
-                        <form action="uploader/upload-manager.php" method="post" enctype="multipart/form-data">
-                            <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i></a>
-                                <input type="file" id="input_csv" name="input_csv" onchange="init()" />
-                        </form>
+                    <ul class="tabs tabs-fixed-width tabs-transparent text-center">
+
+                        <!--Upload CSV File Tab-->
+                        <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
+                            <input type="file" id="input_csv" onchange="init()" />
                         </li>
-                        <li class="tab disabled">
-                            <a href="#test3"><i class="material-icons">settings</i></a>
+                        <li class="tab">
+                            <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
                         </li>
+
+
+                        <!--Share tab-->
                         <li class="tab" id="share_cartogram">
-                            <a href="#test4"><i class="material-icons">share</i></a>
+                            <a href="#share_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Share"><i class="material-icons">share</i></a>
                         </li>
+
+                        <!--Session Info-->
+                        <li class="tab" id="session_info">
+                            <a href="#session_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save/Load"><i class="material-icons">cloud_queue</i></a>
+                        </li>
+
                     </ul>
                 </div>
             </nav>
@@ -54,63 +64,72 @@
                         </div>
                     </div>
                     <div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
+
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Customize Modal Structure -->
-        <div id="modal" class="modal modal-fixed-footer">
+        <!-- Share Modal -->
+        <div id="share_modal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <h4>Custom CSV</h4>
-                <p>Input data as a comma separated list.</p>
-
-                <div class="row">
-                    <div class="col s1">
-                        <div class="cust_data">
-
-                        </div>
-                    </div>
-                    <div class="col s1">
-                        <div class="cust_data">
-
-
-
-                        </div>
-                    </div>
+                <h5>Share</h5>
+                <div class="center-align">
+                    <a class="waves-effect waves-light btn-large" onclick="share_email()"><i class="material-icons left">email</i>e-Mail</a>
+                    <a class="waves-effect waves-light btn-large" onclick="share_twitter()"><i class="material-icons left">send</i>Twitter</a>
+                    <a class="waves-effect waves-light btn-large" id="download_svg"><i class="material-icons left">file_download</i>SVG</a>
+                    <a class="waves-effect waves-light btn-large" onclick="download_png()"><i class="material-icons left">file_download</i>PNG</a>
+                    <a class="materialize-textarea">
                 </div>
+                <!--
+              <textarea class="session-id-area" cols="20" id="copy_session_id" onclick="shareSessionID(this)" readonly></textarea>
+               -->
+                <div class="input-field col s12">
+                    <input disabled value="Session ID" id="disabled" type="text" class="validate">
+                    <label for="disabled"></label>
+                </div>
+                </a>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+
+        <!-- Backup Session Info modal -->
+        <div id="session_modal" class="modal">
+            <div class="modal-content">
+                <h5>Backup</h5>
+                <div class="center-align">
+                    <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save</a>
+                    <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load</a>
+                </div>
+                <!--
+           <a class="materialize-textarea">
+              <textarea class="session-id-area"cols="20" id="paste_session_id" onfocus="clearContents(this)" >Enter session ID</textarea>
+           </a>
+           -->
+                <div class="input-field col s12">
+                    <input id="paste_session_id" type="text" class="validate">
+                    <label for="paste_session_id">Enter session ID</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings_modal" class="modal">
+            <div class="modal-content">
+                <h5>Settings</h5>
 
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " onclick="run()">Submit</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
 
-        <!-- Share Modal Structure -->
-        <div id="share_modal" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <!--Prob need to change class -->
-                <span class="share_close">&times;</span>
-                <h5>Share</h5>
-                <a class="waves-effect waves-light btn" onclick="share_email()">e-Mail</a>
-                <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
-            </div>
-        </div>
-
-        <!-- Publish Modal Structure -->
-        <div id="publish_modal" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <!--Prob need to change class -->
-                <span class="publish_close">&times;</span>
-                <h5>Publish</h5>
-                <a class="waves-effect waves-light btn" onclick="download_svg()">SVG</a>
-                <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
-            </div>
-        </div>
-
+        <!-- Website Footer -->
         <footer class="page-footer">
             <div class="container">
                 <div class="row">
