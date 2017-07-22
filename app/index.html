@@ -12,7 +12,7 @@
   <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="node_modules/papaparse/papaparse.min.js"></script>
   <!--Sources for svg/png download -->  
-  <script src="//d3js.org/d3.v4.min.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
   <script src="https://rawgit.com/exupero/saveSvgAsPng/gh-pages/saveSvgAsPng.js"></script>
 
   <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -36,15 +36,6 @@
             <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
               <input type="file" id="input_csv" onchange="init()" />
             </li>
-            <!--  
-            <li class="tab"><a id="upload_link_topo"><i class="material-icons">file_upload</i></a>
-              <input type="file" id="input_csv_topo" onchange="init()" />
-            </li>
-            
-            <li class="tab" id="cust_file"><a id="cust_file">
-              <i class="material-icons">view_array</i></a>
-            </li>
-            -->
             <li class="tab">
               <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
             </li>
@@ -119,8 +110,8 @@
     <div class="modal-content">
       <h5>Backup</h5> 
         <div class="center-align">
-           <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save your session</a>
-           <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load your session</a>
+           <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save</a>
+           <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load</a>
         </div>
            <!--
            <a class="materialize-textarea"> 

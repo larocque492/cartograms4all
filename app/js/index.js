@@ -2,6 +2,7 @@
 var csvFields;
 var map;
 var zoom;
+var scale = .94;
 var layer;
 var percent;
 var fieldSelect;

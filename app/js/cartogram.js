@@ -39,19 +39,19 @@
     function carto(topology, geometries) {
       // copy it first
       var topo = copy(topology);
-      console.log(topology, "hi")
+      
       // objects are projected into screen coordinates
       // project the arcs into screen space
       var tf = transformer(topo.transform),
         x, y, len1, i1, out1, len2 = topo.arcs.length,
         i2 = 0,
         projectedArcs = new Array(len2);
-      console.log(len2)
+      
       while (i2 < len2) { //iterates through the length of the arcs array
         x = 0;
         y = 0;
         len1 = topo.arcs[i2].length;
-        console.log(len1)
+       
         i1 = 0;
         out1 = new Array(len1);
         while (i1 < len1) {
@@ -61,7 +61,7 @@
           i1++;
         }
         projectedArcs[i2++] = out1;
-        console.log("proj. arcs:", projectedArcs)
+       
       }
 
 
@@ -94,7 +94,7 @@
       var i = 0;
       while (i++ < iterations) {
         var areas = objects.map(path.area);
-        console.log(objects)
+        
         var totalArea = d3.sum(areas),
           sizeErrorsTot = 0,
           sizeErrorsNum = 0,
@@ -107,7 +107,7 @@
               sizeError = Math.max(area, desired) / Math.min(area, desired);
             sizeErrorsTot += sizeError;
             sizeErrorsNum++;
-            console.log(o.id, "@", j, "area:", area, "value:", v, "->", desired, radius, mass, sizeError);
+            
             return {
               id: o.id,
               area: area,
