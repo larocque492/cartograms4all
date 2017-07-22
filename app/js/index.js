@@ -1,9 +1,7 @@
 // Global variables
-
 var csvFields;
 var map;
 var zoom;
-var scale = .94;
 var layer;
 var percent;
 var fieldSelect;
@@ -13,14 +11,15 @@ var body;
 var topology;
 var carto;
 var geometries;
-var topoURL;
-var latitude = 39;
-var longitude = 34.8;
+var proj;
 var col = 1;
-var pScale = 4500;
-var whichMap = 0;// Different integers will correspond to different maps here.
-// The default integer, 0, tells the map to display the USA. 1 will display Syria. More on the way!
-// Syria just needs to actually start working first.
+var whichMap = 1;
+/* Different integers will correspond to different maps, which accept different .csv data.
+* The default integer, 0, tells the map to take in data for and display the USA,
+* and 1 will choose Syria.
+* More maps on the way! Also, the drop down menu should actually set this integer soon.
+* /
+
 
 /*
  * Main program instructions
@@ -28,55 +27,51 @@ var whichMap = 0;// Different integers will correspond to different maps here.
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
-  // if not already set, set new cookie.
+  //if not already set, set new cookie.
   var session_id = generateSessionID(16);
   if( readCookie('userSessionCookie') === null ){
     createCookie('userSessionCookie', session_id, 10, '/');
   }
   init();
-
-  //map
-  //  .call(updateZoom)
-  //  .call(zoom.event);
 });
 
 /*
  * End of main program instructions
  */
 
-//initialization of the entire map
+//map initialization
 
 function init() {
+  // don't initialize until user has uploaded a .csv file
 
-
-
-    var width = 1215,
-        height = 600;
-
-    // don't initialize until user has uploaded a .csv file
-  if (document.getElementById('input_csv').files[0] == null) {
+  if(document.getElementById('input_csv').files[0] == null){
     console.log("Cartograms 4 All: Waiting for user inputted CSV file");
-    return;
+    return;  
   }
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
-  SESSION_ID = readCookie('userSessionCookie');
-
-  //var send_text = "my_text_to_save";
-  //writeToServer(SESSION_ID, send_text);
-  //console.log(SESSION_ID);
-
-  //var return_string = readFromServer(SESSION_ID);
-  //console.log(return_string);
-  // CODE TO TEST FUNCTIONALITY OF writeToServer() and readFromServer()
 
   USER_CSV = document.getElementById('input_csv').files[0];
-  console.log("Cartograms 4 All: Start init()");
 
+  var rawData,
+  dataById = {},
+  URL_TOPO;
+
+  if (whichMap === 0) {
+    console.log("Using USA topojson");
+    proj = d3.geo.albersUsa();
+    URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
+
+  } else if (whichMap === 1) {
+      console.log("Using syria projection.");
+      URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.json";
+      setProjection(39, 34.8, 4500);
+  }
+
+  console.log("Cartograms 4 All: Start init()");
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
     .translate([-38, 32])
-    .scale(scale)
-    .scaleExtent([0.1, 20.0])
+    .scale(.94)
+    .scaleExtent([0.5, 10.0])
     .on("zoom", updateZoom);
   layer = map.append("g")
     .attr("id", "layer")
@@ -88,34 +83,6 @@ function init() {
 
   csvFields = getCSVFields(initCartogram);
 
-  var proj,
-      rawData,
-      dataById;
-  var width = 1215,
-      height = 600;
-
-  if (whichMap === 0) {
-    console.log("Using USA topojson");
-    topoURL = DATA_DIRECTORY + "us-states.topojson";
-    proj = d3.geo.albersUsa();
-  }
-
-  else if (whichMap === 1) {
-    console.log("Using Syria topojson");
-    latitude = 38.996815,
-    longitude = 34.802075,
-    pScale = 3500;
-    center = [latitude, longitude];
-    topoURL = DATA_DIRECTORY + "SyriaGovernorates.json";
-    proj = d3.geo.conicConformal()
-      .center(center)
-      .clipAngle(180)
-      .scale(pScale)
-      .translate(width / 2, height / 2)
-      .precision(.1);
-    dataById = {};
-  }
-
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
@@ -125,7 +92,8 @@ function init() {
       return +d.properties[field];
     });
 
-  d3.json(topoURL, function(topology) {
+
+  d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
     d3.csv(CSV_URL, function(rawData) {
@@ -151,11 +119,27 @@ function init() {
         .attr("d", path);
       states.append("title");
 
-
     });
   });
 
   console.log("Cartograms 4 All: Finished init()");
+}
+
+function setProjection(lat, long, pScale) {
+
+    width = 1215,
+        height = 600;
+
+    var center = [lat, long];
+    proj = d3.geo.conicConformal()
+        .center(center)
+        .clipAngle(180)
+        // Size of the map itself, you may want to play around with this in
+        // relation to your canvas size
+        .scale(pScale)
+        // Center the map in the middle of the canvas
+        .translate([width / 2, height / 2])
+        .precision(.1);
 }
 
 //initialization of the new cartogram,
@@ -172,7 +156,7 @@ function initCartogram(csvFields) {
     fields = csvFields,
     // TODO: Make this customizable
     // NOTE: Might just have this detect if there are digits at the end of the column or beginning,
-    // and if there are then use those as a year
+      // and if there are then use those as a year
     // TODO: Make a custom function getTimeInField() which will clear
     fieldsById = d3.nest()
     .key(function(d) {
@@ -211,26 +195,11 @@ function initCartogram(csvFields) {
       return d.name;
     });
 
-  /* TODO: Reincorporate year
-  var yearSelect = d3.select("#year")
-      .on("change", function(e) {
-          year = years[this.selectedIndex];
-          location.hash = "#" + [field.id, year].join("/");
-      });
-
-
-  yearSelect.selectAll("option")
-      .data(years)
-      .enter()
-      .append("option")
-      .attr("value", function(y) { return y; })
-      .text(function(y) { return y; })
-  */
-
   updateZoom();
 }
 
 window.onhashchange = function() {
+  console.log("calling parseHash(fieldsById)")
   parseHash(fieldsById);
 };
 
