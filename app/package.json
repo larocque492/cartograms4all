@@ -22,12 +22,13 @@
   "homepage": "https://github.com/CaseyHillers/cartograms4all#readme",
   "dependencies": {
     "colorbrewer": "^1.0.0",
-    "d3": "^4.10.0",
+    "d3": "3.5.17",
     "gulp": "^3.9.1",
     "gulp-sass": "^3.1.0",
     "gulp-watch": "^4.3.11",
+    "jquery": "^3.2.1",
     "materialize-css": "^0.99.0",
     "papaparse": "^4.3.3",
-    "topojson": "^3.0.0"
+    "save-svg-as-png": "^1.2.0"
   }
 }
