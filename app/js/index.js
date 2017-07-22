@@ -13,7 +13,7 @@ var carto;
 var geometries;
 var proj;
 var col = 1;
-var whichMap = 2;
+var whichMap = 0;
 /* Different integers will correspond to different maps, which accept different .csv data.
 * The default integer, 0, tells the map to take in data for and display the USA,
 * and 1 will choose Syria.
@@ -41,6 +41,11 @@ $(document).ready(function() {
  */
 
 //map initialization
+function chooseCountry(digit){
+  whichMap = digit;
+  reset();
+  init();
+}
 
 function init() {
   // don't initialize until user has uploaded a .csv file
