@@ -1,13 +1,3 @@
-// DATASHEET CONFIG
-var DEFAULT_DATA = "data/nst_2011.csv";
-var DEFAULT_TOPO = "data/us-states.topojson";
-var USER_DIRECTORY = "uploader/upload/";
-var USER_CSV; // holds object containing .csv file
-var CSV_URL; // DOMString containing URL representing USER_CSV
-
-var fields;
-var states;
-
 //Return usable object from CSV file
 function getCSVFields(callback, CSV) {
     var dataset = Papa.parse(CSV, {
@@ -16,73 +6,7 @@ function getCSVFields(callback, CSV) {
             return parseFields(results.data, callback);
         }
     });
-}
 
-function generateSessionID(length) {
-    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var result = '';
-
-    for (var i = length; i > 0; --i) {
-        result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
-}
-
-// writes string_to_save to app/php/settings/<session_id>.json
-function writeToServer(session_id, string_to_save) {
-    var data = new FormData();
-    data.append("data", string_to_save);
-    data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', 'php/importSettings.php', true);
-    XHR.send(data);
-}
-
-// returns contents from app/php/settings/<session_id>.json as a string
-function readFromServer(session_id) {
-    var return_string;
-    var data = new FormData();
-    data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    //XHR.responseType = 'text';
-    XHR.onload = function() {
-        if (XHR.readyState === XHR.DONE) {
-            return_string = XHR.responseText;
-        }
-    }
-    XHR.open('post', 'php/exportSettings.php', false);
-    XHR.send(data);
-    return return_string;
-}
-
-//Save CSV to uploader/upload path via an ajax call
-//The saved CSV can be use for other user as it is public
-function saveCSV(userCSV) {
-
-    var data = new FormData();
-    data.append("input_csv", userCSV);
-
-    $.ajax({
-        url: 'uploader/upload-manager.php',
-        type: 'POST',
-        data: data,
-        cache: false,
-        processData: false, // Don't process the files
-        contentType: false, // jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR) {
-            if (typeof data.error === 'undefined') {
-                // Success so call function to process the form
-                //submitForm(event, data);
-                console.log('Success' + textStatus);
-            } else {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('ERRORS: ' + textStatus);
-        }
-    });
 }
 
 //Send fields array back inside the called function
@@ -179,6 +103,7 @@ function update() {
         .range(colors)
         .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
+
     // normalize the scale to positive numbers
     var scale = d3.scale.linear()
         .domain([lo, hi])
@@ -191,7 +116,6 @@ function update() {
 
     // generate the new features, pre-projected
     var features = carto(topology, geometries).features;
-
 
     // update the data
     states.data(features)
@@ -221,7 +145,9 @@ function parseHash(fieldsById) {
         desiredFieldId = parts[0],
         desiredYear = +parts[1];
 
+
     var field = fieldsById[desiredFieldId] || fields[0];
+
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 
