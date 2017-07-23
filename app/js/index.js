@@ -15,14 +15,7 @@ var geometries;
 var userSessionCookie;
 var userData;
 var proj;
-var col = 1;
 var whichMap = "US";
-/* Different integers will correspond to different maps, which accept different .csv data.
-* The default integer, 0, tells the map to take in data for and display the USA,
-* and 1 will choose Syria.
-* 2 is UK, 3
-* More maps on the way! Also, the drop down menu should actually set this integer soon.
-* /
 
 
 /*
@@ -43,13 +36,7 @@ $(document).ready(function() {
       .call(zoom.event);
     */
 });
-  //if not already set, set new cookie.
-  var session_id = generateSessionID(16);
-  if( readCookie('userSessionCookie') === null ){
-    createCookie('userSessionCookie', session_id, 10, '/');
-  }
-  init();
-});
+
 
 /*
  * End of main program instructions
@@ -58,17 +45,32 @@ $(document).ready(function() {
 //map initialization
 function chooseCountry(country){
   whichMap = country;
-  reset();
+  //reset();
   init();
 }
 
 function init() {
     // Start with default data and topo for user
     // Switch to user data when given
+
+
     if (userSessionCookie == null) {
         userSessionCookie = readCookie('userSessionCookie');
     }
 
+
+    if (whichMap === "US") {
+        proj = d3.geo.albersUsa();
+        URL_TOPO = DEFAULT_TOPO;
+
+    } else if (whichMap === "Syria") {
+        URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
+        setProjection(39, 34.8, 4500);
+
+    } else if (whichMap === "UK") {
+        URL_TOPO = DATA_DIRECTORY + "uk.topojson";
+        setProjection(-1.775320, 52.298781, 4500);
+    }
 
 
     if (document.getElementById('input_csv').files[0] == null) {
@@ -88,20 +90,9 @@ function init() {
         userData = URL.createObjectURL(csv);
     }
 
-    URL_TOPO = DEFAULT_TOPO;
+    console.log("USER DATA: ", userData);
 
-    if (whichMap === "US") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = DEFAULT_TOPO;
 
-    } else if (whichMap === "Syria") {
-        URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
-        setProjection(39, 34.8, 4500);
-
-    } else if (whichMap === "UK") {
-        URL_TOPO = DATA_DIRECTORY + "uk.topojson";
-        setProjection(-1.775320, 52.298781, 4500);
-    }
 
     console.log("Cartograms 4 All: Start init()");
     map = d3.select("#map");
@@ -120,6 +111,8 @@ function init() {
 
     csvFields = getCSVFields(initCartogram, userData);
 
+  var dataById;
+
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
@@ -130,10 +123,12 @@ function init() {
     });
 
 
+  var rawData;
+
   d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
     geometries = topology.objects.states.geometries;
-    d3.csv(CSV_URL, function(rawData) {
+    d3.csv(userData, function(rawData) {
       dataById = d3.nest()
         .key(function(d) {
           return d.NAME;

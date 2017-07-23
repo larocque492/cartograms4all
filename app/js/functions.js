@@ -18,8 +18,6 @@ function getCSVFields(callback, CSV) {
     });
 }
 
-
-
 function generateSessionID(length) {
     var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var result = '';
