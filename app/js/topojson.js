@@ -31,7 +31,9 @@ topojson = (function() {
                 } else if (g = fragmentByEnd[end]) {
                     delete fragmentByStart[g.start];
                     delete fragmentByEnd[g.end];
-                    var fg = f.concat(g.map(function(i) { return ~i; }).reverse());
+                    var fg = f.concat(g.map(function(i) {
+                        return ~i;
+                    }).reverse());
                     fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.start] = fg;
                 } else {
                     fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
@@ -47,7 +49,9 @@ topojson = (function() {
                 } else if (g = fragmentByStart[start]) {
                     delete fragmentByStart[g.start];
                     delete fragmentByEnd[g.end];
-                    var gf = g.map(function(i) { return ~i; }).reverse().concat(f);
+                    var gf = g.map(function(i) {
+                        return ~i;
+                    }).reverse().concat(f);
                     fragmentByStart[gf.start = g.end] = fragmentByEnd[gf.end = f.end] = gf;
                 } else {
                     fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
@@ -63,7 +67,9 @@ topojson = (function() {
                 } else if (g = fragmentByStart[end]) {
                     delete fragmentByStart[g.start];
                     delete fragmentByEnd[g.end];
-                    var gf = g.map(function(i) { return ~i; }).reverse().concat(f);
+                    var gf = g.map(function(i) {
+                        return ~i;
+                    }).reverse().concat(f);
                     fragmentByStart[gf.start = g.end] = fragmentByEnd[gf.end = f.end] = gf;
                 } else {
                     fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
@@ -79,7 +85,9 @@ topojson = (function() {
                 } else if (g = fragmentByStart[start]) {
                     delete fragmentByStart[g.start];
                     delete fragmentByEnd[g.end];
-                    var fg = f.concat(g.map(function(i) { return ~i; }).reverse());
+                    var fg = f.concat(g.map(function(i) {
+                        return ~i;
+                    }).reverse());
                     fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.start] = fg;
                 } else {
                     fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
@@ -91,8 +99,12 @@ topojson = (function() {
         });
 
         function ends(i) {
-            var arc = topology.arcs[i], p0 = arc[0], p1 = [0, 0];
-            arc.forEach(function(dp) { p1[0] += dp[0], p1[1] += dp[1]; });
+            var arc = topology.arcs[i],
+                p0 = arc[0],
+                p1 = [0, 0];
+            arc.forEach(function(dp) {
+                p1[0] += dp[0], p1[1] += dp[1];
+            });
             return [p0, p1];
         }
 
@@ -130,20 +142,28 @@ topojson = (function() {
                 LineString: line,
                 MultiLineString: polygon,
                 Polygon: polygon,
-                MultiPolygon: function(arcs) { arcs.forEach(polygon); }
+                MultiPolygon: function(arcs) {
+                    arcs.forEach(polygon);
+                }
             };
 
-            o.type === "GeometryCollection"
-                ? o.geometries.forEach(geometry)
-                : geometry(o);
+            o.type === "GeometryCollection" ?
+                o.geometries.forEach(geometry) :
+                geometry(o);
 
-            if (arguments.length < 3) for (var i in geomsByArc) arcs.push([i]);
-            else for (var i in geomsByArc) if (filter((geom = geomsByArc[i])[0], geom[geom.length - 1])) arcs.push([i]);
+            if (arguments.length < 3)
+                for (var i in geomsByArc) arcs.push([i]);
+            else
+                for (var i in geomsByArc)
+                    if (filter((geom = geomsByArc[i])[0], geom[geom.length - 1])) arcs.push([i]);
         } else {
             for (var i = 0, n = topology.arcs.length; i < n; ++i) arcs.push([i]);
         }
 
-        return object(topology, {type: "MultiLineString", arcs: merge(topology, arcs)});
+        return object(topology, {
+            type: "MultiLineString",
+            arcs: merge(topology, arcs)
+        });
     }
 
     function object(topology, o) {
@@ -183,16 +203,20 @@ topojson = (function() {
             LineString: line,
             MultiLineString: polygon,
             Polygon: polygon,
-            MultiPolygon: function(arcs) { return arcs.map(polygon); }
+            MultiPolygon: function(arcs) {
+                return arcs.map(polygon);
+            }
         };
 
-        return o.type === "GeometryCollection"
-            ? (o = Object.create(o), o.geometries = o.geometries.map(geometry), o)
-            : geometry(o);
+        return o.type === "GeometryCollection" ?
+            (o = Object.create(o), o.geometries = o.geometries.map(geometry), o) :
+            geometry(o);
     }
 
     function reverse(array, n) {
-        var t, j = array.length, i = j - n; while (i < --j) t = array[i], array[i++] = array[j], array[j] = t;
+        var t, j = array.length,
+            i = j - n;
+        while (i < --j) t = array[i], array[i++] = array[j], array[j] = t;
     }
 
     return {
