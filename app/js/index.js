@@ -17,7 +17,6 @@ var userData;
 var proj;
 var whichMap = "US";
 
-
 /*
  * Main program instructions
  */
@@ -37,28 +36,20 @@ $(document).ready(function() {
     */
 });
 
-
-/*
- * End of main program instructions
- */
-
 //map initialization
-function chooseCountry(country){
-  whichMap = country;
-  //reset();
-  clearMenu(); //menu fields need to be cleared before initialization
-  init();
+function chooseCountry(country) {
+    whichMap = country;
+    //reset();
+    clearMenu(); //menu fields need to be cleared before initialization
+    init();
 }
 
 function init() {
     // Start with default data and topo for user
     // Switch to user data when given
-
-
     if (userSessionCookie == null) {
         userSessionCookie = readCookie('userSessionCookie');
     }
-
 
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
@@ -76,7 +67,6 @@ function init() {
         setProjection(-1.775320, 52.298781, 4500);
     }
 
-
     if (document.getElementById('input_csv').files[0] != null) {
         //File object is immutable, so it does not rename to make it unique per user in js
         var csv = document.getElementById('input_csv').files[0];
@@ -92,9 +82,6 @@ function init() {
         userData = URL.createObjectURL(csv);
     }
 
-
-
-
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
@@ -109,38 +96,37 @@ function init() {
         .selectAll("path")
         .call(zoom);
 
-  csvFields = getCSVFields(initCartogram, userData);
+    csvFields = getCSVFields(initCartogram, userData);
 
-  var dataById;
+    var dataById;
 
-  carto = d3.cartogram()
-    .projection(proj)
-    .properties(function(d) {
-      if (dataById != "undefined") {
-          return dataById[d.id];
-      }
-    })
-    .value(function(d) {
-      if (d != "undefined") {
-          return +d.properties[field];
-      }
-    });
-
-
-  d3.json(URL_TOPO, function(topology) {
-    this.topology = topology;
-    geometries = topology.objects.states.geometries;
-    d3.csv(userData, function(rawData) {
-      dataById = d3.nest()
-        .key(function(d) {
-          return d.NAME;
+    carto = d3.cartogram()
+        .projection(proj)
+        .properties(function(d) {
+            if (dataById != "undefined") {
+                return dataById[d.id];
+            }
         })
-        .rollup(function(d) {
-          return d[0];
-        })
-        .map(rawData);
-      var features = carto.features(topology, geometries),
-        path = d3.geo.path().projection(proj);
+        .value(function(d) {
+            if (d != "undefined") {
+                return +d.properties[field];
+            }
+        });
+
+    d3.json(URL_TOPO, function(topology) {
+        this.topology = topology;
+        geometries = topology.objects.states.geometries;
+        d3.csv(userData, function(rawData) {
+            dataById = d3.nest()
+                .key(function(d) {
+                    return d.NAME;
+                })
+                .rollup(function(d) {
+                    return d[0];
+                })
+                .map(rawData);
+            var features = carto.features(topology, geometries),
+                path = d3.geo.path().projection(proj);
 
             states = states.data(features)
                 .enter()
@@ -153,14 +139,11 @@ function init() {
                 .attr("d", path);
             states.append("title");
 
+        });
     });
-  });
-
 }
 
-
 function setProjection(lat, long, pScale) {
-
     width = 1215,
         height = 600;
 
@@ -229,7 +212,7 @@ function initCartogram(csvFields) {
             return d.name;
         });
 
-  updateZoom();
+    updateZoom();
 }
 
 window.onhashchange = function() {

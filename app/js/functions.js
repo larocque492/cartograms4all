@@ -72,17 +72,13 @@ function saveCSV(userCSV) {
         contentType: false, // jQuery will tell the server its a query string request
         success: function(data, textStatus, jqXHR) {
             if (typeof data.error === 'undefined') {
-                // Success so call function to process the form
+                // TODO: Process form
                 //submitForm(event, data);
-                console.log('Success' + textStatus);
             } else {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
+                // TODO: Handle errors here
             }
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('ERRORS: ' + textStatus);
-        }
+        error: function(jqXHR, textStatus, errorThrown) {}
     });
 }
 
@@ -156,13 +152,13 @@ function reset() {
         });
 }
 
-function clearMenu(){
+function clearMenu() {
     var select = document.getElementById("field");
     select.options.length = 0;
 }
 
 function update() {
-  var start = Date.now();
+    var start = Date.now();
 
     var key = field.key;
     var fmt = (typeof field.format === "function") ?
@@ -180,9 +176,9 @@ function update() {
         lo = values[0],
         hi = values[values.length - 1];
 
-  var color = d3.scale.linear()
-    .range(colors)
-    .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
+    var color = d3.scale.linear()
+        .range(colors)
+        .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
     // normalize the scale to positive numbers
     var scale = d3.scale.linear()
@@ -213,7 +209,7 @@ function update() {
         })
         .attr("d", carto.path);
 
-  var delta = (Date.now() - start) / 1000;
+    var delta = (Date.now() - start) / 1000;
 }
 
 
@@ -231,7 +227,7 @@ function parseHash(fieldsById) {
         reset();
 
     } else
-    deferredUpdate();
+        deferredUpdate();
     location.replace("#" + field.id);
 
     hashish.attr("href", function(href) {
@@ -253,4 +249,4 @@ var map = d3.select("#map"),
     .selectAll("path")
     .call(zoom);
 
-    updateZoom();
+updateZoom();
