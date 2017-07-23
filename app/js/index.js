@@ -35,6 +35,7 @@ $(document).ready(function() {
 });
 
 function init() {
+    reset();
     // Start with default data and topo for user
     // Switch to user data when given
     if (userSessionCookie == null) {
