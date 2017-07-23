@@ -2,175 +2,186 @@
 <html>
 
 <head>
-  <title>Cartograms 4 All</title>
-  <meta charset="utf-8">
-  <meta property="og:image" content="placeholder.png">
-  <!--Let browser know website is optimized for mobile-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartograms 4 All</title>
+    <meta charset="utf-8">
+    <meta property="og:image" content="placeholder.png">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="node_modules/papaparse/papaparse.min.js"></script>
-  <!--Sources for svg/png download -->  
-  <script src="https://rawgit.com/exupero/saveSvgAsPng/gh-pages/saveSvgAsPng.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/d3/d3.min.js"></script>
+    <script src="node_modules/papaparse/papaparse.min.js"></script>
 
-
-  <link href="css/style.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-  <div id="container">
-    <div>
-      <nav class="nav-extended">
-        <div class="nav-wrapper">
-          <h1 class="brand-logo center">Cartograms 4 All</h1>
+    <div id="container">
+        <div>
+            <nav class="nav-extended">
+                <div class="nav-wrapper">
+                    <h1 class="brand-logo center">Cartograms 4 All</h1>
+                    <img src="logo.png" style="width:90px;height:90px;" align="right" hspace="20">
+                </div>
+                <div class="nav-content">
+                    <ul class="tabs tabs-fixed-width tabs-transparent text-center">
+
+                        <!--Upload CSV File Tab-->
+                        <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
+                            <input type="file" id="input_csv" onchange="init()" />
+                        </li>
+                        <li class="tab">
+                            <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
+                        </li>
+
+
+                        <!--Share tab-->
+                        <li class="tab" id="share_cartogram">
+                            <a href="#share_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Share"><i class="material-icons">share</i></a>
+                        </li>
+
+                        <!--Session Info-->
+                        <li class="tab" id="session_info">
+                            <a href="#session_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save/Load"><i class="material-icons">cloud_queue</i></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
         </div>
-        <div class="nav-content">
-          <ul class="tabs tabs-transparent text-center">
-            <form action="uploader/upload-manager.php" method="post" enctype="multipart/form-data">
-            <li class="tab"><a id="upload_link"><i class="material-icons">file_upload</i></a>
-              <input type="file" id="input_csv" name="input_csv" onchange="init()" />
-            </form>
-            </li>
-            <li class="tab" id="cust_file"><a id="cust_file">
-              <i class="material-icons">view_array</i></a>
-            </li>
-            <li class="tab disabled">
-              <a href="#test3"><i class="material-icons">settings</i></a>
-            </li>
-            <li class="tab" id="share_cartogram">
-              <a href="#test4"><i class="material-icons">share</i></a>
-            </li>
-            <li class="tab" id="download_cartogram">
-              <a href="#test5"><i class="material-icons">file_download</i></a>
-            </li>  
-          </ul>
-        </div>
-      </nav>
-    </div>
-
-    <p style="margin-bottom: 20px; width: 300px">
-    </p>
-
-
-    <div class="row">
-      <div class="col s12 m12 push-l2 l8">
-        <div class="card card-map">
-
-          <p style="margin-top: 20px; width: 300px">
-          </p>
-
-          <!-- Dropdown Trigger & Structure -->
-          <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Choose a Country!</a>
-
-          <div class="col l6 s12">
-            <ul id='dropdown1' class='dropdown-content'>
-              <li><a href="#" onclick="chooseCountry('US')">USA </a></li>
-              <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
-              <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
-            </ul>
-          </div>
-          <div class="card-content">
-            <div class="field-select col s4">
-              <select class="dropdown-button btn" id="field"></select>
-              <label>Data</label>
-            </div>
-            <div id="map-container">
-              <svg id="map"></svg>
-            </div>
-          </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
-            <a href="#">This is a link</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Customize Modal Structure -->
-    <div id="modal" class="modal modal-fixed-footer">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h4>Custom CSV</h4>
-        <p>Input data as a comma separated list.</p>
 
         <div class="row">
-          <div class="col s1">
-            <div class="cust_data">
-             
+            <div class="col s12 m12 push-l2 l8">
+                <div class="card card-map">
+                    <p style="margin-top: 20px; width: 300px">
+                    </p>
+
+                    <!-- Dropdown Trigger & Structure -->
+                    <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Choose a Country!</a>
+
+                    <div class="col l6 s12">
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="#" onclick="chooseCountry('US')">USA </a></li>
+                            <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
+                            <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="field-select col s4">
+                            <select class="dropdown-button btn" id="field"></select>
+                            <label>Data</label>
+                        </div>
+                        <div id="map-container">
+                            <svg id="map"></svg>
+                        </div>
+                    </div>
+                    <div class="card-action">
+
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col s1">
-            <div class="cust_data">
-              
-              
-             
-            </div>
-          </div>
         </div>
 
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat " onclick="run()">Submit</a>
-      </div>
-    </div>
-      
-    <!-- Share Modal Structure -->
-    <div id="share_modal" class= "modal modal-fixed-footer">
-       <div class="modal-content"> <!--Prob need to change class --> 
-          <span class="share_close">&times;</span>
-          <h5>Share</h5> 
-           <a class="waves-effect waves-light btn" onclick="share_email()">e-Mail</a>
-           <a class="waves-effect waves-light btn" onclick="share_twitter()">Twitter</a>
-       </div>  
-    </div>
-      
-    <!-- Publish Modal Structure -->
-    <div id="publish_modal" class= "modal modal-fixed-footer">
-       <div class="modal-content"> <!--Prob need to change class -->
-          <span class="publish_close">&times;</span>
-          <h5>Publish</h5>
-           <a class="waves-effect waves-light btn" onclick="download_svg()">SVG</a>
-           <a class="waves-effect waves-light btn" onclick="download_png()">PNG</a>
-       </div>  
-    </div>
+        <!-- Share Modal -->
+        <div id="share_modal" class="modal">
+            <div class="modal-content">
+                <h5>Share</h5>
+                <div class="center-align">
+                    <a class="waves-effect waves-light btn-large" onclick="share_email()"><i class="material-icons left">email</i>e-Mail</a>
+                    <a class="waves-effect waves-light btn-large" onclick="share_twitter()"><i class="material-icons left">send</i>Twitter</a>
+                    <a class="waves-effect waves-light btn-large" id="download_svg"><i class="material-icons left">file_download</i>SVG</a>
+                    <a class="waves-effect waves-light btn-large" onclick="download_png()"><i class="material-icons left">file_download</i>PNG</a>
+                    <a class="materialize-textarea">
+                </div>
+                <!--
+              <textarea class="session-id-area" cols="20" id="copy_session_id" onclick="shareSessionID(this)" readonly></textarea>
+               -->
+                <div class="input-field col s12">
+                    <input disabled value="Session ID" id="disabled" type="text" class="validate">
+                    <label for="disabled"></label>
+                </div>
+                </a>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
 
-    <footer class="page-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12">
-            <h5 class="white-text">Cartograms 4 All</h5>
-            <p class="grey-text text-lighten-4">A group project for Professor Jullig's UCSC CMPS 115 Summer 2017</p>
-          </div>
-          <div class="col l4 offset-l2 s12">
-            <h5 class="white-text">Team</h5>
-            <ul>
-              <li><a class="grey-text text-lighten-3" href="#!">Casey Hillers</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Luke Tanner</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Jiayao Lin (Kevin)</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Jeffrey Larocque</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Michael Crane</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Ahmed Almutawa</a></li>
-            </ul>
-          </div>
+        <!-- Backup Session Info modal -->
+        <div id="session_modal" class="modal">
+            <div class="modal-content">
+                <h5>Backup</h5>
+                <div class="center-align">
+                    <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save</a>
+                    <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load</a>
+                </div>
+                <!--
+           <a class="materialize-textarea">
+              <textarea class="session-id-area"cols="20" id="paste_session_id" onfocus="clearContents(this)" >Enter session ID</textarea>
+           </a>
+           -->
+                <div class="input-field col s12">
+                    <input id="paste_session_id" type="text" class="validate">
+                    <label for="paste_session_id">Enter session ID</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
         </div>
-      </div>
-      <div class="footer-copyright">
-        <div class="container center text-lighten-3">
-          Based off of code provided by <a href="https://github.com/trburkhart/Cartowebsite">Tim Burkhart</a>
+
+        <!-- Settings Modal -->
+        <div id="settings_modal" class="modal">
+            <div class="modal-content">
+                <h5>Settings</h5>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
         </div>
-      </div>
-    </footer>
-  </div>
+
+        <!-- Website Footer -->
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Cartograms 4 All</h5>
+                        <p class="grey-text text-lighten-4">A group project for Professor Jullig's UCSC CMPS 115 Summer 2017</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Team</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!">Casey Hillers</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Luke Tanner</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Jiayao Lin (Kevin)</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Jeffrey Larocque</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Michael Crane</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Ahmed Almutawa</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container center text-lighten-3">
+                    Based off of code provided by <a href="https://github.com/trburkhart/Cartowebsite">Tim Burkhart</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 </body>
+
+<script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src="node_modules/save-svg-as-png/saveSvgAsPng.js"></script>
+<script src="node_modules/colorbrewer/colorbrewer.js"></script>
+
 <script src="js/cookie.js"></script>
-<script src="lib/colorbrewer.js"></script>
 <script src="js/functions.js"></script>
-<script src="lib/topojson.js"></script>
 <script src="js/cartogram.js"></script>
 <script src="js/index.js"></script>
-<script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src="js/topojson.js"></script>
 <script src="js/ui.js"></script>
 
 </html>
