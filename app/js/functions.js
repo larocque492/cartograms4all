@@ -63,7 +63,7 @@ function saveCSV(userCSV) {
     data.append("input_csv", userCSV);
 
     $.ajax({
-        url: '../../server/uploader/upload-manager.php',
+        url: '../../server/uploader/uploadManager.php',
         type: 'POST',
         data: data,
         cache: false,
