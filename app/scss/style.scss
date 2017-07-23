@@ -1,9 +1,7 @@
 @import "node_modules/materialize-css/sass/components/color";
 
 $primary-color: color("blue", "darken-1");
-$secondary-color: color("yellow", "darken-2");
-
-
+$secondary-color: darken(color("yellow", "darken-2"), 5%);
 
 @import "node_modules/materialize-css/sass/materialize";
 
@@ -47,22 +45,3 @@ path.state:hover {
 #upload_csv {
   margin-left: 15%;
   text-decoration: none; }
-/*
-#upload_topo {
-  margin-right: 5%;
-  text-decoration: none; }
-
-
-.upload-tabs {
-  text-decoration: none;
-  width: 5%;}
-
-.session-id-area {
-  position: relative;
-  margin-top: 15px;
-}
-*/
-
-
-
-
