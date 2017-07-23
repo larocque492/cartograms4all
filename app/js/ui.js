@@ -1,27 +1,9 @@
-//------------Input Button Stuff----------------------//
+//------------ui.js----------------------//
 
 document.getElementById('upload_link').onclick = function() {
   document.getElementById('input_csv').click();
+  userUploadFlag = true;
 };
-
-/*
-document.getElementById('upload_link_topo').onclick = function() {
-  document.getElementById('input_topo').click();
-};
-*/
-
-
-
-// loads the session ID into sharing form
-function shareSessionID(element){
-  console.log(userSessionCookie);
-  if(userSessionCookie===null){
-    element.value = "ERROR: SESSION COOKIE NOT SET";
-  }else{
-    element.value = userSessionCookie;
-  }
-}
-
 
 /*
  * Code to run when document is ready
@@ -48,25 +30,22 @@ $(document).ready(function() {
   $(".dropdown-button").dropdown();
 });
 
-
-
-
+//
 function download_png(){
    var svg = d3.select('svg');
    saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
 }
 
-
-
+// 
 $('#download_svg').click(function(){
-        var a      = document.createElement('a');
+    var a      = document.createElement('a');
 		a.href     = 'data:image/svg+xml;utf8,' + unescape($('#map')[0].outerHTML);
 		a.download = 'svg_info.svg';
 		a.target   = '_blank';
 		document.body.appendChild(a); a.click(); document.body.removeChild(a);
 	});
 
-
+// Opens a the system's email app so you can post images or your session ID for sharing
 function share_email(){
     svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
     //   console.log('uri', uri);     
@@ -77,14 +56,8 @@ function share_email(){
     });
 }
 
+// Opens a twitter link where you can post images or your session ID for sharing
 function share_twitter(){
     window.open(href="https://twitter.com/intent/tweet?text=Check out my cartogram!", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-}
-
-function saveSession(){
-}
-
-function loadSession(){
-}
-  
+} 
       
