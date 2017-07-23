@@ -156,6 +156,11 @@ function reset() {
         });
 }
 
+function clearMenu(){
+    var select = document.getElementById("field");
+    select.options.length = 0;
+}
+
 function update() {
   var start = Date.now();
 
@@ -223,29 +228,9 @@ function parseHash(fieldsById) {
 
     if (field.id === "none") {
 
-        //yearSelect.attr("disabled", "disabled");
         reset();
 
     } else
-        /*
-                if (field.years) {
-                    if (field.yecs.indexOf(year) === -1) {
-                        year = field.years[0];
-                    }
-                    yearSelect.selectAll("option")
-                        .attr("disabled", function(y) {
-                            return (field.years.indexOf(y) === -1) ? "disabled" : null;
-                        });
-                } else {
-                    yearSelect.selectAll("option")
-                        .attr("disabled", null);
-                }
-    } else
-
-                yearSelect
-                    .property("selectedIndex", years.indexOf(year))
-                    .attr("disabled", null);
-        */
     deferredUpdate();
     location.replace("#" + field.id);
 

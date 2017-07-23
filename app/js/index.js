@@ -46,6 +46,7 @@ $(document).ready(function() {
 function chooseCountry(country){
   whichMap = country;
   //reset();
+  clearMenu(); //menu fields need to be cleared before initialization
   init();
 }
 
@@ -62,20 +63,21 @@ function init() {
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
+        userData = DEFAULT_DATA;
 
     } else if (whichMap === "Syria") {
         URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
+        userData = DATA_DIRECTORY + "syria.csv";
         setProjection(39, 34.8, 4500);
 
     } else if (whichMap === "UK") {
         URL_TOPO = DATA_DIRECTORY + "uk.topojson";
+        userData = DATA_DIRECTORY + "uk.csv";
         setProjection(-1.775320, 52.298781, 4500);
     }
 
 
-    if (document.getElementById('input_csv').files[0] == null) {
-        userData = DEFAULT_DATA;
-    } else {
+    if (document.getElementById('input_csv').files[0] != null) {
         //File object is immutable, so it does not rename to make it unique per user in js
         var csv = document.getElementById('input_csv').files[0];
         //Save user input if it is given and override the default
@@ -90,11 +92,9 @@ function init() {
         userData = URL.createObjectURL(csv);
     }
 
-    console.log("USER DATA: ", userData);
 
 
 
-    console.log("Cartograms 4 All: Start init()");
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
@@ -109,21 +109,23 @@ function init() {
         .selectAll("path")
         .call(zoom);
 
-    csvFields = getCSVFields(initCartogram, userData);
+  csvFields = getCSVFields(initCartogram, userData);
 
   var dataById;
 
   carto = d3.cartogram()
     .projection(proj)
     .properties(function(d) {
-      return dataById[d.id];
+      if (dataById != "undefined") {
+          return dataById[d.id];
+      }
     })
     .value(function(d) {
-      return +d.properties[field];
+      if (d != "undefined") {
+          return +d.properties[field];
+      }
     });
 
-
-  var rawData;
 
   d3.json(URL_TOPO, function(topology) {
     this.topology = topology;
@@ -154,8 +156,8 @@ function init() {
     });
   });
 
-    console.log("Cartograms 4 All: Finished init()");
 }
+
 
 function setProjection(lat, long, pScale) {
 
