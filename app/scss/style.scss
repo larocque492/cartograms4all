@@ -1,15 +1,12 @@
 @import "node_modules/materialize-css/sass/components/color";
-
 $primary-color: color("blue", "darken-1");
 $secondary-color: darken(color("yellow", "darken-2"), 5%);
-
 @import "node_modules/materialize-css/sass/materialize";
-
 /*
  * Map SVG Container
  */
-.field-select {
-}
+.field-select {}
+
 #map-container {
     height: 500px;
     text-align: center;
@@ -27,35 +24,22 @@ $secondary-color: darken(color("yellow", "darken-2"), 5%);
 
 path.state {
     stroke: #666;
-    stroke-width: .5;
+    stroke-width: 0.5;
 }
 
 path.state:hover {
     stroke: #000;
 }
 
-#upload_link{
-    text-decoration:none;
+#upload_link {
+    text-decoration: none;
 }
 
-#upload{
-    display:none
+#upload {
+    display: none;
 }
 
 #upload_csv {
-  margin-left: 15%;
-  text-decoration: none; }
-/*
-#upload_topo {
-  margin-right: 5%;
-  text-decoration: none; }
-*/
-
-.upload-tabs {
-  text-decoration: none;
-  width: 5%;}
-
-.session-id-area {
-  position: relative;
-  margin-top: 15px;
+    margin-left: 15%;
+    text-decoration: none;
 }
