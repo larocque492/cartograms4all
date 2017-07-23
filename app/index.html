@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Cartograms 4 All</title>
@@ -22,14 +22,14 @@
             <nav class="nav-extended">
                 <div class="nav-wrapper">
                     <h1 class="brand-logo center">Cartograms 4 All</h1>
-                    <img src="logo.png" style="width:90px;height:90px;" align="right" hspace="20">
+                    <img src="logo.png" style="width:90px;height:90px;" align="right" alt="University of California, Santa Cruz Logo" hspace="20">
                 </div>
                 <div class="nav-content">
                     <ul class="tabs tabs-fixed-width tabs-transparent text-center">
 
                         <!--Upload CSV File Tab-->
                         <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
-                            <input type="file" id="input_csv" onchange="init()" />
+                            <input type="file" id="input_csv" onchange="init()" label="CSV Upload" />
                         </li>
                         <li class="tab">
                             <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
@@ -57,7 +57,6 @@
                     <div class="card-content">
                         <div class="field-select col s4">
                             <select class="browser-default" id="field"></select>
-                            <label>Data</label>
                         </div>
                         <div id="map-container">
                             <svg id="map"></svg>

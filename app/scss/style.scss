@@ -1,9 +1,7 @@
 @import "node_modules/materialize-css/sass/components/color";
 
 $primary-color: color("blue", "darken-1");
-$secondary-color: color("yellow", "darken-2");
-
-
+$secondary-color: darken(color("yellow", "darken-2"), 5%);
 
 @import "node_modules/materialize-css/sass/materialize";
 
@@ -61,7 +59,3 @@ path.state:hover {
   position: relative;
   margin-top: 15px;
 }
-
-
-
-
