@@ -2,6 +2,7 @@
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
 var USER_DIRECTORY = "uploader/upload/";
+var DATA_DIRECTORY = "data/";
 var USER_CSV; // holds object containing .csv file
 var CSV_URL; // DOMString containing URL representing USER_CSV
 
