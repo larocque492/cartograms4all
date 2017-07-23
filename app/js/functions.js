@@ -1,7 +1,7 @@
 // DATASHEET CONFIG
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var USER_DIRECTORY = "uploader/upload/";
+var USER_DIRECTORY = "../../server/uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var CSV_URL; // DOMString containing URL representing USER_CSV
 
@@ -63,7 +63,7 @@ function saveCSV(userCSV) {
     data.append("input_csv", userCSV);
 
     $.ajax({
-        url: 'uploader/upload-manager.php',
+        url: '../../server/uploader/upload-manager.php',
         type: 'POST',
         data: data,
         cache: false,
