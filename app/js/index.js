@@ -2,7 +2,8 @@
 var csvFields;
 var map;
 var zoom;
-var scale = .94;
+var scale = 1;
+var scaleBounds = [1, 20];
 var layer;
 var percent;
 var fieldSelect;
@@ -26,12 +27,22 @@ $(document).ready(function() {
     if (readCookie('userSessionCookie') === null) {
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+
+
+    //Inital map setup
+    var map = d3.select("#map"),
+        zoom = d3.behavior.zoom()
+        .translate([-38, 32])
+        .scale(scale)
+        .scaleExtent(scaleBounds)
+        .on("zoom", updateZoom),
+        layer = map.append("g")
+        .attr("id", "layer"),
+        states = layer.append("g")
+        .attr("id", "states")
+        .selectAll("path");
+
     init();
-    //set default data file and topoJSON
-    /*map
-      .call(updateZoom)
-      .call(zoom.event);
-    */
 });
 
 function init() {
@@ -63,7 +74,7 @@ function init() {
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
         .scale(scale)
-        .scaleExtent([0.1, 20.0])
+        .scaleExtent(scaleBounds)
         .on("zoom", updateZoom);
     layer = map.append("g")
         .attr("id", "layer")

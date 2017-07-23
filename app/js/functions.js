@@ -256,18 +256,3 @@ function parseHash(fieldsById) {
         return href + location.hash;
     });
 }
-
-//Inital map setup
-var map = d3.select("#map"),
-    zoom = d3.behavior.zoom()
-    .translate([-38, 32])
-    .scale(0.94)
-    .scaleExtent([0.1, 20.0])
-    .on("zoom", updateZoom),
-    layer = map.append("g")
-    .attr("id", "layer"),
-    states = layer.append("g")
-    .attr("id", "states")
-    .selectAll("path");
-
-updateZoom();
