@@ -11,16 +11,6 @@ var fields;
 var states;
 
 
-/**
- *
- * Syria information
- *
- * 38.996815 latitude
- * 34.802075
- * scale 4500
- * colours 1
-**/
-
 function getCSVFields(callback) {
   var dataset = Papa.parse(USER_CSV, {
     download: true,
@@ -88,7 +78,7 @@ function saveCSV(userCSV) {
       if (typeof data.error === 'undefined') {
         // Success so call function to process the form
         //submitForm(event, data);
-	console.log('Success' + textStatus);
+	    console.log('Success' + textStatus);
       } else {
         // Handle errors here
         console.log('ERRORS: ' + data.error);
@@ -120,7 +110,6 @@ function parseFields(data, callback) {
   callback(fields);
 }
 
-//no idea what this does yet, to be honest. I'm assuming something on the browser side
 function updateZoom() {
   var scale = zoom.scale();
   layer.attr("transform",
@@ -154,7 +143,6 @@ function reset() {
 
 function update() {
   var start = Date.now();
-  //body.classed("updating", true);
 
   var key = field.key;
   var fmt = (typeof field.format === "function") ?
@@ -172,9 +160,6 @@ function update() {
     lo = values[0],
     hi = values[values.length - 1];
 
-  console.log(values);
-
-  console.log(" col is"+ col);
   var color = d3.scale.linear()
     .range(colors)
     .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
@@ -209,10 +194,6 @@ function update() {
     .attr("d", carto.path);
 
   var delta = (Date.now() - start) / 1000;
-  //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-  console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
-  //$('select').material_select();
-  //body.classed("updating", false);
 }
 
 
@@ -220,42 +201,15 @@ function parseHash(fieldsById) {
     var parts = location.hash.substr(1).split("/"),
         desiredFieldId = parts[0];
     desiredYear = +parts[1];
-
-    console.log("desiredFieldId: " + desiredFieldId);
-    console.log("desiredYear: " + desiredYear);
-
     var field = fieldsById[desiredFieldId] || fields[0];
-
-    console.log("(In fxn parseHash) field: " + field);
-    //year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
-
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 
     if (field.id === "none") {
 
-        //yearSelect.attr("disabled", "disabled");
         reset();
 
     } else
-    /*
-     if (field.years) {
-     if (field.yecs.indexOf(year) === -1) {
-     year = field.years[0];
-     }
-     yearSelect.selectAll("option")
-     .attr("disabled", function(y) {
-     return (field.years.indexOf(y) === -1) ? "disabled" : null;
-     });
-     } else {
-     yearSelect.selectAll("option")
-     .attr("disabled", null);
-     }
 
-     yearSelect
-     .property("selectedIndex", years.indexOf(year))
-     .attr("disabled", null);
-     */
-    console.log("Ending parsehash.");
     deferredUpdate();
     location.replace("#" + field.id);
 
@@ -264,15 +218,11 @@ function parseHash(fieldsById) {
     });
 }
 
-
-
-
-
 /**Inital map setup **/
 var map = d3.select("#map"),
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
-        .scale(.94)
+        .scale(scale)
         .scaleExtent([0.5, 10.0])
         .on("zoom", updateZoom),
 
@@ -283,5 +233,4 @@ layer = map.append("g")
   .selectAll("path")
   .call(zoom);
 
-console.log("Initial map setup!");
 updateZoom();

@@ -2,6 +2,7 @@
 var csvFields;
 var map;
 var zoom;
+var scale = .94;
 var layer;
 var percent;
 var fieldSelect;
@@ -13,7 +14,7 @@ var carto;
 var geometries;
 var proj;
 var col = 1;
-var whichMap = 0;
+var whichMap = "US";
 /* Different integers will correspond to different maps, which accept different .csv data.
 * The default integer, 0, tells the map to take in data for and display the USA,
 * and 1 will choose Syria.
@@ -41,8 +42,8 @@ $(document).ready(function() {
  */
 
 //map initialization
-function chooseCountry(digit){
-  whichMap = digit;
+function chooseCountry(country){
+  whichMap = country;
   reset();
   init();
 }
@@ -61,18 +62,15 @@ function init() {
   dataById = {},
   URL_TOPO;
 
-  if (whichMap === 0) {
-    console.log("Using USA topojson");
+  if (whichMap === "US") {
     proj = d3.geo.albersUsa();
     URL_TOPO = DATA_DIRECTORY + "us-states.topojson";
 
-  } else if (whichMap === 1) {
-    console.log("Using syria topojson.");
+  } else if (whichMap === "Syria") {
     URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
     setProjection(39, 34.8, 4500);
 
-  } else if (whichMap === 2) {
-    console.log("Using UK topojson.");
+  } else if (whichMap === "UK") {
     URL_TOPO = DATA_DIRECTORY + "uk.topojson";
     setProjection(-1.775320, 52.298781, 4500);
   }
@@ -81,7 +79,7 @@ function init() {
   map = d3.select("#map");
   zoom = d3.behavior.zoom()
     .translate([-38, 32])
-    .scale(.94)
+    .scale(scale)
     .scaleExtent([0.5, 10.0])
     .on("zoom", updateZoom);
   layer = map.append("g")
