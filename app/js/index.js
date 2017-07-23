@@ -2,6 +2,8 @@
 var csvFields;
 var map;
 var zoom;
+var scale = 1;
+var scaleBounds = [1, 20];
 var layer;
 var percent;
 var fieldSelect;
@@ -45,6 +47,19 @@ $(document).ready(function() {
     if (readCookie('userSessionCookie') === null) {
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+    //Inital map setup
+    var map = d3.select("#map"),
+        zoom = d3.behavior.zoom()
+        .translate([-38, 32])
+        .scale(scale)
+        .scaleExtent(scaleBounds)
+        .on("zoom", updateZoom),
+        layer = map.append("g")
+        .attr("id", "layer"),
+        states = layer.append("g")
+        .attr("id", "states")
+        .selectAll("path");
+  
     userSessionID = readCookie('userSessionCookie');
     shareSessionID(document.getElementById("disabled"));
     init();
@@ -85,8 +100,8 @@ function init() {
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
-        .scale(.94)
-        .scaleExtent([0.5, 10.0])
+        .scale(scale)
+        .scaleExtent(scaleBounds)
         .on("zoom", updateZoom);
     layer = map.append("g")
         .attr("id", "layer")
