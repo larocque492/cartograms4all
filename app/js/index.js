@@ -157,7 +157,7 @@ function init() {
         });
 
 
-    d3.json(DEFAULT_TOPO, function(topology) {
+    d3.json(TOPO_URL, function(topology) {
         this.topology = topology;
         geometries = topology.objects.states.geometries;
         d3.csv(userData, function(rawData) {
