@@ -25,7 +25,8 @@ var states;
 // DATASHEET CONFIG
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var DATA_DIRECTORY = "data/"
+var DATA_DIRECTORY = "../examples/";
+var TOPO_DIRECTORY = "data/";
 var USER_DIRECTORY = "uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
@@ -91,13 +92,13 @@ function init() {
         userData = DEFAULT_DATA;
         nameOfLoadFile = userData;
     } else if (whichMap === "Syria") {
-        URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
-        userData = "/examples/syria.csv";
+        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+        userData = DATA_DIRECTORY + "syria.csv";
         nameOfLoadFile = userData;
         setProjection(39, 34.8, 4500);
     } else if (whichMap === "UK") {
-        URL_TOPO = DATA_DIRECTORY + "uk.topojson";
-        userData = "/examples/uk.csv";
+        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+        userData = DATA_DIRECTORY + "uk.csv";
         nameOfLoadFile = userData;
         setProjection(-1.775320, 52.298781, 4500);
     }
