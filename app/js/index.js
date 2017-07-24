@@ -13,6 +13,8 @@ var body;
 var topology;
 var carto;
 var geometries;
+var proj;
+var whichMap = "US";
 var userSessionCookie; // name of current user's cookie that stores session ID
 var userSessionID; // user's session ID as read from cookie
 var nameOfLoadFile; // name of remote CSV being used (usually another user's session ID)
@@ -23,6 +25,8 @@ var states;
 // DATASHEET CONFIG
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
+var DATA_DIRECTORY = "../examples/";
+var TOPO_DIRECTORY = "data/";
 var USER_DIRECTORY = "uploader/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
@@ -65,6 +69,14 @@ $(document).ready(function() {
     init();
 });
 
+//map initialization
+function chooseCountry(country) {
+    whichMap = country;
+    //reset();
+    clearMenu(); //menu fields need to be cleared before initialization
+    init();
+}
+
 //initialization of the entire map
 function init() {
 
@@ -72,6 +84,23 @@ function init() {
 
     if (userSessionID == null) {
         userSessionID = readCookie('userSessionCookie');
+    }
+
+    if (whichMap === "US") {
+        proj = d3.geo.albersUsa();
+        URL_TOPO = DEFAULT_TOPO;
+        userData = DEFAULT_DATA;
+        nameOfLoadFile = userData;
+    } else if (whichMap === "Syria") {
+        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+        userData = DATA_DIRECTORY + "syria.csv";
+        nameOfLoadFile = userData;
+        setProjection(39, 34.8, 4500);
+    } else if (whichMap === "UK") {
+        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+        userData = DATA_DIRECTORY + "uk.csv";
+        nameOfLoadFile = userData;
+        setProjection(-1.775320, 52.298781, 4500);
     }
 
     // if using CSV uploaded by user
@@ -82,8 +111,9 @@ function init() {
     if (!userUploadFlag && serverDownloadFlag) {
         userData = "uploader/" + nameOfLoadFile;
     }
-    // if using neither, set to defaults
-    if (!userUploadFlag && !serverDownloadFlag) {
+    // if using neither, set to defaults only if our map is US
+    // default data is only for U.S not other countries' topojson
+    if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
         userData = DEFAULT_DATA;
     }
 
@@ -96,7 +126,6 @@ function init() {
         }
     }
 
-    console.log("Cartograms 4 All: Start init()");
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
@@ -113,21 +142,23 @@ function init() {
 
     csvFields = getCSVFields(initCartogram, userData);
 
-    var proj = d3.geo.albersUsa(),
-        rawData,
-        dataById = {};
+    var dataById;
 
     carto = d3.cartogram()
         .projection(proj)
         .properties(function(d) {
-            return dataById[d.id];
+            if (dataById != "undefined") {
+                return dataById[d.id];
+            }
         })
         .value(function(d) {
-            return +d.properties[field];
+            if (d != "undefined") {
+                return +d.properties[field];
+            }
         });
 
 
-    d3.json(DEFAULT_TOPO, function(topology) {
+    d3.json(URL_TOPO, function(topology) {
         this.topology = topology;
         geometries = topology.objects.states.geometries;
         d3.csv(userData, function(rawData) {
@@ -152,28 +183,24 @@ function init() {
                 .attr("fill", "#fff")
                 .attr("d", path);
             states.append("title");
-
-            // Waits until fields has been defined
-            function waitForFields() {
-                if (typeof someVariable !== "undefined") {
-                    parseHash(fieldsById);
-                } else {
-                    setTimeout(waitForFields, 250);
-                }
-            }
-
-            // Waits until fields has been defined
-            function waitForTopology() {
-                if (typeof someVariable !== "undefined") {
-                    initTopo();
-                } else {
-                    setTimeout(topology, 250);
-                }
-            }
         });
     });
+}
 
-    console.log("Cartograms 4 All: Finished init()");
+function setProjection(lat, long, pScale) {
+    width = 1215,
+        height = 600;
+
+    var center = [lat, long];
+    proj = d3.geo.conicConformal()
+        .center(center)
+        .clipAngle(180)
+        // Size of the map itself, you may want to play around with this in
+        // relation to your canvas size
+        .scale(pScale)
+        // Center the map in the middle of the canvas
+        .translate([width / 2, height / 2])
+        .precision(.1);
 }
 
 //initialization of the new cartogram,
@@ -228,22 +255,6 @@ function initCartogram(csvFields) {
         .text(function(d) {
             return d.name;
         });
-
-    /* TODO: Reincorporate year
-    var yearSelect = d3.select("#year")
-        .on("change", function(e) {
-            year = years[this.selectedIndex];
-            location.hash = "#" + [field.id, year].join("/");
-        });
-
-
-    yearSelect.selectAll("option")
-        .data(years)
-        .enter()
-        .append("option")
-        .attr("value", function(y) { return y; })
-        .text(function(y) { return y; })
-    */
 
     updateZoom();
 }

@@ -35,7 +35,6 @@
                             <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
                         </li>
 
-
                         <!--Share tab-->
                         <li class="tab" id="share_cartogram">
                             <a href="#share_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Share"><i class="material-icons">share</i></a>
@@ -56,7 +55,17 @@
                 <div class="card card-map">
                     <div class="card-content">
                         <div class="field-select col s4">
-                            <select class="browser-default" id="field"></select>
+                            <select class="dropdown-button btn" id="field"></select>
+                        </div>
+                        <!-- Dropdown Trigger & Structure -->
+                        <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Region</a>
+
+                        <div class="col s6">
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="#" onclick="chooseCountry('US')">USA</a></li>
+                                <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
+                                <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
+                            </ul>
                         </div>
                         <div id="map-container">
                             <svg id="map"></svg>

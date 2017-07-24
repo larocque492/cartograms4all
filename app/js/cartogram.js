@@ -2,7 +2,6 @@
  * Created by timotongo on 6/8/17.
  */
 (function(exports) {
-
   /*
    * d3.cartogram is a d3-friendly implementation of An Algorithm to Construct
    * Continuous Area Cartograms:
@@ -29,7 +28,6 @@
    *      .attr("d", cartogram.path);
    * });
    */
-
   d3.cartogram = function() {
 
     /*According to the console logs, carto *should* be fully functional right now.

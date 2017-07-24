@@ -28,13 +28,11 @@ $(document).ready(function() {
     $(".dropdown-button").dropdown();
 });
 
-//
 function download_png() {
     var svg = d3.select('svg');
     saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
 }
 
-//
 $('#download_svg').click(function() {
     var a = document.createElement('a');
     a.href = 'data:image/svg+xml;utf8,' + unescape($('#map')[0].outerHTML);
@@ -48,7 +46,6 @@ $('#download_svg').click(function() {
 // Opens a the system's email app so you can post images or your session ID for sharing
 function share_email() {
     svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
-        //   var pic = d3.select('svg');
         var pic = d3.select('svg');
         window.open('mailto:abc@abc.com?subject=Check out my cartogram!&body=' + pic);
         // window.location.href = "mailto:mail@example.org?subject=Mail request&body="+body;

@@ -6,7 +6,6 @@ function getCSVFields(callback, CSV) {
             return parseFields(results.data, callback);
         }
     });
-
 }
 
 //Send fields array back inside the called function
@@ -79,9 +78,13 @@ function reset() {
         });
 }
 
+function clearMenu() {
+    var select = document.getElementById("field");
+    select.options.length = 0;
+}
+
 function update() {
     var start = Date.now();
-    //body.classed("updating", true);
 
     var key = field.key;
     var fmt = (typeof field.format === "function") ?
@@ -133,10 +136,6 @@ function update() {
         .attr("d", carto.path);
 
     var delta = (Date.now() - start) / 1000;
-    //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-    console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
-    //$('select').material_select();
-    //body.classed("updating", false);
 }
 
 
@@ -153,28 +152,9 @@ function parseHash(fieldsById) {
 
     if (field.id === "none") {
 
-        //yearSelect.attr("disabled", "disabled");
         reset();
 
     } else
-        /*
-                if (field.years) {
-                    if (field.yecs.indexOf(year) === -1) {
-                        year = field.years[0];
-                    }
-                    yearSelect.selectAll("option")
-                        .attr("disabled", function(y) {
-                            return (field.years.indexOf(y) === -1) ? "disabled" : null;
-                        });
-                } else {
-                    yearSelect.selectAll("option")
-                        .attr("disabled", null);
-                }
-
-                yearSelect
-                    .property("selectedIndex", years.indexOf(year))
-                    .attr("disabled", null);
-        */
         deferredUpdate();
     location.replace("#" + field.id);
 
