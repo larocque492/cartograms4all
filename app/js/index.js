@@ -112,7 +112,7 @@ function init() {
         userData = "uploader/" + nameOfLoadFile;
     }
     // if using neither, set to defaults
-    if (!userUploadFlag && !serverDownloadFlag) {
+    if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
         userData = DEFAULT_DATA;
     }
 
