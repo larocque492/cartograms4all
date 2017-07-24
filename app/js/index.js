@@ -111,7 +111,8 @@ function init() {
     if (!userUploadFlag && serverDownloadFlag) {
         userData = "uploader/" + nameOfLoadFile;
     }
-    // if using neither, set to defaults
+    // if using neither, set to defaults only if our map is US
+    // default data is only for U.S not other countries' topojson
     if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
         userData = DEFAULT_DATA;
     }
