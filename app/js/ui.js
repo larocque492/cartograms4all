@@ -1,17 +1,7 @@
-//------------Input Button Stuff----------------------//
 document.getElementById('upload_link').onclick = function() {
     document.getElementById('input_csv').click();
+    userUploadFlag = true;
 };
-
-// loads the session ID into sharing form
-function shareSessionID(element) {
-    console.log(userSessionCookie);
-    if (userSessionCookie === null) {
-        element.value = "ERROR: SESSION COOKIE NOT SET";
-    } else {
-        element.value = userSessionCookie;
-    }
-}
 
 /*
  * Code to run when document is ready
@@ -53,16 +43,16 @@ $('#download_svg').click(function() {
     document.body.removeChild(a);
 });
 
+// Opens a the system's email app so you can post images or your session ID for sharing
 function share_email() {
     svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
-        //   console.log('uri', uri);
-        //   var pic = d3.select('svg');
         var pic = d3.select('svg');
         window.open('mailto:abc@abc.com?subject=Check out my cartogram!&body=' + pic);
         // window.location.href = "mailto:mail@example.org?subject=Mail request&body="+body;
     });
 }
 
+// Opens a twitter link where you can post images or your session ID for sharing
 function share_twitter() {
     window.open(href = "https://twitter.com/intent/tweet?text=Check out my cartogram!", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }

@@ -2,7 +2,8 @@
 var csvFields;
 var map;
 var zoom;
-var scale = .94;
+var scale = 1;
+var scaleBounds = [1, 20];
 var layer;
 var percent;
 var fieldSelect;
@@ -12,10 +13,30 @@ var body;
 var topology;
 var carto;
 var geometries;
-var userSessionCookie;
-var userData;
 var proj;
 var whichMap = "US";
+var userSessionCookie; // name of current user's cookie that stores session ID
+var userSessionID; // user's session ID as read from cookie
+var nameOfLoadFile; // name of remote CSV being used (usually another user's session ID)
+var userData; // path to remote CSV being used
+var fields;
+var states;
+
+// DATASHEET CONFIG
+var DATA_DIRECTORY = "data/";
+var DEFAULT_DATA = "data/nst_2011.csv";
+var DEFAULT_TOPO = "data/us-states.topojson";
+var USER_DIRECTORY = "uploader/upload/";
+var USER_CSV; // holds object containing .csv file
+var USER_TOPO;
+var CSV_URL; // DOMString containing URL representing USER_CSV
+var CSV; // locally stored csv file object
+
+// Flags
+var userUploadFlag = false; // true if using user-uploaded CSV
+var serverDownloadFlag = false; //true if using CSV from server
+var saveFlag = false; // true if saving your current session
+var haveSavedFlag = false; // true if you have saved a csv on the server
 
 /*
  * Main program instructions
@@ -23,17 +44,15 @@ var whichMap = "US";
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
+    nameOfLoadFile = "data/nst_2011.csv";
     // if not already set, set new cookie.
     var session_id = generateSessionID(16);
     if (readCookie('userSessionCookie') === null) {
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+    userSessionID = readCookie('userSessionCookie');
+    shareSessionID(document.getElementById("disabled"));
     init();
-    //set default data file and topoJSON
-    /*map
-      .call(updateZoom)
-      .call(zoom.event);
-    */
 });
 
 //map initialization
@@ -45,48 +64,56 @@ function chooseCountry(country) {
 }
 
 function init() {
-    // Start with default data and topo for user
-    // Switch to user data when given
-    if (userSessionCookie == null) {
-        userSessionCookie = readCookie('userSessionCookie');
+    CSV = document.getElementById('input_csv').files[0];
+
+    if (userSessionID == null) {
+        userSessionID = readCookie('userSessionCookie');
     }
 
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
         userData = DEFAULT_DATA;
-
+        nameOfLoadFile = userData;
     } else if (whichMap === "Syria") {
         URL_TOPO = DATA_DIRECTORY + "SyriaGovernorates.topojson";
-        userData = DATA_DIRECTORY + "syria.csv";
+        userData = "/examples/syria.csv";
+        nameOfLoadFile = userData;
         setProjection(39, 34.8, 4500);
-
     } else if (whichMap === "UK") {
         URL_TOPO = DATA_DIRECTORY + "uk.topojson";
-        userData = DATA_DIRECTORY + "uk.csv";
+        userData = "/examples/uk.csv";
+        nameOfLoadFile = userData;
         setProjection(-1.775320, 52.298781, 4500);
     }
 
-    if (document.getElementById('input_csv').files[0] != null) {
-        //File object is immutable, so it does not rename to make it unique per user in js
-        var csv = document.getElementById('input_csv').files[0];
-        //Save user input if it is given and override the default
-        if (csv != null) {
-            saveCSV(csv);
-            //userData = USER_DIRECTORY + csv.name;
+    // if using CSV uploaded by user
+    if (userUploadFlag && !serverDownloadFlag) {
+        userData = URL.createObjectURL(CSV);
+    }
+    // if using CSV downloaded from server
+    if (!userUploadFlag && serverDownloadFlag) {
+        userData = "uploader/" + nameOfLoadFile;
+    }
+    // if using neither, set to defaults
+    if (!userUploadFlag && !serverDownloadFlag) {
+        userData = DEFAULT_DATA;
+    }
+
+    // if you are saving on this init, save currently loaded CSV to the server
+    if (saveFlag) {
+        if (userUploadFlag && !serverDownloadFlag) {
+            saveByFile(CSV); // if using CSV uploaded by user
         } else {
-            //Avoid null user file
-            userData = DEFAULT_DATA;
+            saveByName(nameOfLoadFile); // if using file stored on server
         }
-        //Add local file usage to avoid async js calls that breaks map
-        userData = URL.createObjectURL(csv);
     }
 
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
         .scale(scale)
-        .scaleExtent([0.1, 20.0])
+        .scaleExtent(scaleBounds)
         .on("zoom", updateZoom);
     layer = map.append("g")
         .attr("id", "layer")
@@ -138,7 +165,6 @@ function init() {
                 .attr("fill", "#fff")
                 .attr("d", path);
             states.append("title");
-
         });
     });
 }

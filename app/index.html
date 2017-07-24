@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Cartograms 4 All</title>
@@ -22,19 +22,18 @@
             <nav class="nav-extended">
                 <div class="nav-wrapper">
                     <h1 class="brand-logo center">Cartograms 4 All</h1>
-                    <img src="logo.png" style="width:90px;height:90px;" align="right" hspace="20">
+                    <img src="logo.png" style="width:90px;height:90px;" align="right" alt="University of California, Santa Cruz Logo" hspace="20">
                 </div>
                 <div class="nav-content">
                     <ul class="tabs tabs-fixed-width tabs-transparent text-center">
 
                         <!--Upload CSV File Tab-->
                         <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
-                            <input type="file" id="input_csv" onchange="init()" />
+                            <input type="file" id="input_csv" onchange="init()" label="CSV Upload" />
                         </li>
                         <li class="tab">
                             <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
                         </li>
-
 
                         <!--Share tab-->
                         <li class="tab" id="share_cartogram">
@@ -54,31 +53,23 @@
         <div class="row">
             <div class="col s12 m12 push-l2 l8">
                 <div class="card card-map">
-                    <p style="margin-top: 20px; width: 300px">
-                    </p>
-
-                    <!-- Dropdown Trigger & Structure -->
-                    <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Choose a Country!</a>
-
-                    <div class="col l6 s12">
-                        <ul id='dropdown1' class='dropdown-content'>
-                            <li><a href="#" onclick="chooseCountry('US')">USA </a></li>
-                            <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
-                            <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
-                        </ul>
-                    </div>
-
                     <div class="card-content">
                         <div class="field-select col s4">
                             <select class="dropdown-button btn" id="field"></select>
-                            <label>Data</label>
+                        </div>
+                        <!-- Dropdown Trigger & Structure -->
+                        <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Region</a>
+
+                        <div class="col s6">
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="#" onclick="chooseCountry('US')">USA</a></li>
+                                <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
+                                <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
+                            </ul>
                         </div>
                         <div id="map-container">
                             <svg id="map"></svg>
                         </div>
-                    </div>
-                    <div class="card-action">
-
                     </div>
                 </div>
             </div>
@@ -115,7 +106,7 @@
                 <h5>Backup</h5>
                 <div class="center-align">
                     <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save</a>
-                    <a class="waves-effect waves-light btn-large" onclick="loadSession()">Load</a>
+                    <a class="waves-effect waves-light btn-large" onclick="loadMySession()">Load</a>
                 </div>
                 <!--
            <a class="materialize-textarea">
@@ -144,33 +135,36 @@
         </div>
 
         <!-- Website Footer -->
-        <footer class="page-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Cartograms 4 All</h5>
-                        <p class="grey-text text-lighten-4">A group project for Professor Jullig's UCSC CMPS 115 Summer 2017</p>
-                    </div>
-                    <div class="col l4 offset-l2 s12">
-                        <h5 class="white-text">Team</h5>
-                        <ul>
-                            <li><a class="grey-text text-lighten-3" href="#!">Casey Hillers</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Luke Tanner</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Jiayao Lin (Kevin)</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Jeffrey Larocque</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Michael Crane</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Ahmed Almutawa</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <div class="container center text-lighten-3">
-                    Based off of code provided by <a href="https://github.com/trburkhart/Cartowebsite">Tim Burkhart</a>
-                </div>
-            </div>
-        </footer>
-    </div>
+     <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">About</h5>
+            <p class="grey-text text-lighten-4">
+              Cartograms 4 All allows users to create powerful visualizations from their data. The visualizations it creates helps readers understand the data better.
+            </p>
+            <p class="grey-text text-lighten-4">Cartograms 4 All is a group project done for UCSC's CMPS 115 Summer 2017 course with Professor Jullig. View the source on <a href="https://github.com/CaseyHillers/cartograms4all/" style="color: yellow;">Github</a>.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Team</h5>
+            <ul>
+              <li class="grey-text text-lighten-3">Luke Tanner (Product Owner)</li>
+              <li class="grey-text text-lighten-3">Casey Hillers (Scrum Master - Sprint 1)</li>
+              <li class="grey-text text-lighten-3">Michael Crane (Scrum Master - Sprint 1)</li>
+              <li class="grey-text text-lighten-3">Jeffrey Larocque (Scrum Master - Sprint 2)</li>
+              <li class="grey-text text-lighten-3">Ahmed Almutawa (Scrum Master - Sprint 2)</li>
+              <li class="grey-text text-lighten-3">Jiayao (Kevin) Lin (Scrum Master - Sprint 3)</li>
+           </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container center text-lighten-3">
+          Based off of code provided by <a href="https://github.com/trburkhart/Cartowebsite" style="color: yellow;">Tim Burkhart</a>
+        </div>
+      </div>
+    </footer>
+  </div>
 </body>
 
 <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
@@ -181,6 +175,7 @@
 <script src="js/functions.js"></script>
 <script src="js/cartogram.js"></script>
 <script src="js/index.js"></script>
+<script src="js/session.js"></script>
 <script src="js/topojson.js"></script>
 <script src="js/ui.js"></script>
 
