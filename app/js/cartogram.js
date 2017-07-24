@@ -29,6 +29,11 @@
    * });
    */
   d3.cartogram = function() {
+
+    /*According to the console logs, carto *should* be fully functional right now.
+    What it does is chew on every arc available in the map (every single arc, rather than just states) - JSL
+     */
+
     function carto(topology, geometries) {
       // copy it first
       var topo = copy(topology);

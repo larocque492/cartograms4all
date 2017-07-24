@@ -106,6 +106,7 @@ function update() {
         .range(colors)
         .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
+
     // normalize the scale to positive numbers
     var scale = d3.scale.linear()
         .domain([lo, hi])
@@ -143,7 +144,9 @@ function parseHash(fieldsById) {
         desiredFieldId = parts[0],
         desiredYear = +parts[1];
 
+
     var field = fieldsById[desiredFieldId] || fields[0];
+
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 

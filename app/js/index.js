@@ -23,7 +23,6 @@ var fields;
 var states;
 
 // DATASHEET CONFIG
-var DATA_DIRECTORY = "data/";
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
 var USER_DIRECTORY = "uploader/upload/";
@@ -50,6 +49,19 @@ $(document).ready(function() {
     if (readCookie('userSessionCookie') === null) {
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+    //Inital map setup
+    var map = d3.select("#map"),
+        zoom = d3.behavior.zoom()
+        .translate([-38, 32])
+        .scale(scale)
+        .scaleExtent(scaleBounds)
+        .on("zoom", updateZoom),
+        layer = map.append("g")
+        .attr("id", "layer"),
+        states = layer.append("g")
+        .attr("id", "states")
+        .selectAll("path");
+  
     userSessionID = readCookie('userSessionCookie');
     shareSessionID(document.getElementById("disabled"));
     init();
@@ -63,7 +75,9 @@ function chooseCountry(country) {
     init();
 }
 
+//initialization of the entire map
 function init() {
+
     CSV = document.getElementById('input_csv').files[0];
 
     if (userSessionID == null) {
@@ -140,7 +154,8 @@ function init() {
             }
         });
 
-    d3.json(URL_TOPO, function(topology) {
+
+    d3.json(DEFAULT_TOPO, function(topology) {
         this.topology = topology;
         geometries = topology.objects.states.geometries;
         d3.csv(userData, function(rawData) {

@@ -1,3 +1,5 @@
+//------------cookie.js----------------------//
+
 //Functions that manipulate cookie and information pertain to individual user
 
 //Create cookie will be use to store user setting and data file information
