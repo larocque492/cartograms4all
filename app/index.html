@@ -28,13 +28,14 @@
                     <ul class="tabs tabs-fixed-width tabs-transparent text-center">
 
                         <!--Upload CSV File Tab-->
-                        <li class="upload-tabs" id="upload_csv"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
+                        <li class="tab"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
                             <input type="file" id="input_csv" onchange="init()" label="CSV Upload" />
                         </li>
+                        <!--
                         <li class="tab">
                             <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
                         </li>
-
+                        -->
                         <!--Share tab-->
                         <li class="tab" id="share_cartogram">
                             <a href="#share_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Share"><i class="material-icons">share</i></a>
@@ -105,7 +106,9 @@
             <div class="modal-content">
                 <h5>Backup</h5>
                 <div class="center-align">
-                    <a class="waves-effect waves-light btn-large" onclick="saveSession()">Save</a>
+                    <a class="waves-effect waves-light btn-large" onclick="saveSession();Materialize.toast('Your Session ID is in the Share tab!', 4000)">Save</a>
+                    
+  
                     <a class="waves-effect waves-light btn-large" onclick="loadMySession()">Load</a>
                 </div>
                 <!--
