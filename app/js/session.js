@@ -122,7 +122,7 @@ function saveByFile(userCSV) {
     data.append("session_id", userSessionID);
 
     $.ajax({
-        url: USER_DIRECTORY + 'UploadManager.php',
+        url: USER_DIRECTORY + 'uploadManager.php',
         type: 'POST',
         data: data,
         cache: false,
