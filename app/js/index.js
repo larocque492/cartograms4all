@@ -2,7 +2,8 @@
 var csvFields;
 var map;
 var zoom;
-var scale = .94;
+var scale = 1;
+var scaleBounds = [1, 20];
 var layer;
 var percent;
 var fieldSelect;
@@ -12,8 +13,33 @@ var body;
 var topology;
 var carto;
 var geometries;
-var userSessionCookie;
-var userData;
+var proj;
+var whichMap = "US";
+var userSessionCookie; // name of current user's cookie that stores session ID
+var userSessionID; // user's session ID as read from cookie
+var nameOfLoadFile; // name of remote CSV being used (usually another user's session ID)
+var userData; // path to remote CSV being used
+var fields;
+var states;
+
+// DATASHEET CONFIG
+var TOPO_DIRECTORY = "data/";
+var DEFAULT_DATA = "data/nst_2011.csv";
+var DEFAULT_TOPO = "data/us-states.topojson";
+var DATA_DIRECTORY = "../examples/";
+var PHP_DIRECTORY = "../server/php/";
+var UPLOAD_DIRECTORY = "../server/uploader/"; 
+var USER_DIRECTORY = UPLOAD_DIRECTORY + "/upload/";
+var USER_CSV; // holds object containing .csv file
+var USER_TOPO;
+var CSV_URL; // DOMString containing URL representing USER_CSV
+var CSV; // locally stored csv file object
+
+// Flags
+var userUploadFlag = false; // true if using user-uploaded CSV
+var serverDownloadFlag = false; //true if using CSV from server
+var saveFlag = false; // true if saving your current session
+var haveSavedFlag = false; // true if you have saved a csv on the server
 
 /*
  * Main program instructions
@@ -21,49 +47,92 @@ var userData;
 console.log("Running Cartograms 4 All Web App");
 
 $(document).ready(function() {
+    nameOfLoadFile = "data/nst_2011.csv";
     // if not already set, set new cookie.
     var session_id = generateSessionID(16);
     if (readCookie('userSessionCookie') === null) {
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+    //Inital map setup
+    var map = d3.select("#map"),
+        zoom = d3.behavior.zoom()
+        .translate([-38, 32])
+        .scale(scale)
+        .scaleExtent(scaleBounds)
+        .on("zoom", updateZoom),
+        layer = map.append("g")
+        .attr("id", "layer"),
+        states = layer.append("g")
+        .attr("id", "states")
+        .selectAll("path");
+  
+    userSessionID = readCookie('userSessionCookie');
+    shareSessionID(document.getElementById("disabled"));
     init();
-    //set default data file and topoJSON
-    /*map
-      .call(updateZoom)
-      .call(zoom.event);
-    */
 });
 
+//map initialization
+function chooseCountry(country) {
+    whichMap = country;
+    //reset();
+    clearMenu(); //menu fields need to be cleared before initialization
+    init();
+}
+
+//initialization of the entire map
 function init() {
-    // Start with default data and topo for user
-    // Switch to user data when given
-    if (userSessionCookie == null) {
-        userSessionCookie = readCookie('userSessionCookie');
+
+    CSV = document.getElementById('input_csv').files[0];
+
+    if (userSessionID == null) {
+        userSessionID = readCookie('userSessionCookie');
     }
 
-    if (document.getElementById('input_csv').files[0] == null) {
+    if (whichMap === "US") {
+        proj = d3.geo.albersUsa();
+        URL_TOPO = DEFAULT_TOPO;
         userData = DEFAULT_DATA;
-    } else {
-        //File object is immutable, so it does not rename to make it unique per user in js
-        var csv = document.getElementById('input_csv').files[0];
-        //Save user input if it is given and override the default
-        if (csv != null) {
-            saveCSV(csv);
-            //userData = USER_DIRECTORY + csv.name;
-        } else {
-            //Avoid null user file
-            userData = DEFAULT_DATA;
-        }
-        //Add local file usage to avoid async js calls that breaks map
-        userData = URL.createObjectURL(csv);
+        nameOfLoadFile = userData;
+    } else if (whichMap === "Syria") {
+        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+        userData = DATA_DIRECTORY + "syria.csv";
+        nameOfLoadFile = userData;
+        setProjection(39, 34.8, 4500);
+    } else if (whichMap === "UK") {
+        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+        userData = DATA_DIRECTORY + "uk.csv";
+        nameOfLoadFile = userData;
+        setProjection(-1.775320, 52.298781, 4500);
     }
 
-    console.log("Cartograms 4 All: Start init()");
+    // if using CSV uploaded by user
+    if (userUploadFlag && !serverDownloadFlag) {
+        userData = URL.createObjectURL(CSV);
+    }
+    // if using CSV downloaded from server
+    if (!userUploadFlag && serverDownloadFlag) {
+        userData = "uploader/" + nameOfLoadFile;
+    }
+    // if using neither, set to defaults only if our map is US
+    // default data is only for U.S not other countries' topojson
+    if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
+        userData = DEFAULT_DATA;
+    }
+
+    // if you are saving on this init, save currently loaded CSV to the server
+    if (saveFlag) {
+        if (userUploadFlag && !serverDownloadFlag) {
+            saveByFile(CSV); // if using CSV uploaded by user
+        } else {
+            saveByName(nameOfLoadFile); // if using file stored on server
+        }
+    }
+
     map = d3.select("#map");
     zoom = d3.behavior.zoom()
         .translate([-38, 32])
         .scale(scale)
-        .scaleExtent([0.1, 20.0])
+        .scaleExtent(scaleBounds)
         .on("zoom", updateZoom);
     layer = map.append("g")
         .attr("id", "layer")
@@ -75,20 +144,23 @@ function init() {
 
     csvFields = getCSVFields(initCartogram, userData);
 
-    var proj = d3.geo.albersUsa(),
-        rawData,
-        dataById = {};
+    var dataById;
 
     carto = d3.cartogram()
         .projection(proj)
         .properties(function(d) {
-            return dataById[d.id];
+            if (dataById != "undefined") {
+                return dataById[d.id];
+            }
         })
         .value(function(d) {
-            return +d.properties[field];
+            if (d != "undefined") {
+                return +d.properties[field];
+            }
         });
 
-    d3.json(DEFAULT_TOPO, function(topology) {
+
+    d3.json(URL_TOPO, function(topology) {
         this.topology = topology;
         geometries = topology.objects.states.geometries;
         d3.csv(userData, function(rawData) {
@@ -113,28 +185,24 @@ function init() {
                 .attr("fill", "#fff")
                 .attr("d", path);
             states.append("title");
-
-            // Waits until fields has been defined
-            function waitForFields() {
-                if (typeof someVariable !== "undefined") {
-                    parseHash(fieldsById);
-                } else {
-                    setTimeout(waitForFields, 250);
-                }
-            }
-
-            // Waits until fields has been defined
-            function waitForTopology() {
-                if (typeof someVariable !== "undefined") {
-                    initTopo();
-                } else {
-                    setTimeout(topology, 250);
-                }
-            }
         });
     });
+}
 
-    console.log("Cartograms 4 All: Finished init()");
+function setProjection(lat, long, pScale) {
+    width = 1215,
+        height = 600;
+
+    var center = [lat, long];
+    proj = d3.geo.conicConformal()
+        .center(center)
+        .clipAngle(180)
+        // Size of the map itself, you may want to play around with this in
+        // relation to your canvas size
+        .scale(pScale)
+        // Center the map in the middle of the canvas
+        .translate([width / 2, height / 2])
+        .precision(.1);
 }
 
 //initialization of the new cartogram,
@@ -189,22 +257,6 @@ function initCartogram(csvFields) {
         .text(function(d) {
             return d.name;
         });
-
-    /* TODO: Reincorporate year
-    var yearSelect = d3.select("#year")
-        .on("change", function(e) {
-            year = years[this.selectedIndex];
-            location.hash = "#" + [field.id, year].join("/");
-        });
-
-
-    yearSelect.selectAll("option")
-        .data(years)
-        .enter()
-        .append("option")
-        .attr("value", function(y) { return y; })
-        .text(function(y) { return y; })
-    */
 
     updateZoom();
 }

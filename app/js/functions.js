@@ -1,13 +1,3 @@
-// DATASHEET CONFIG
-var DEFAULT_DATA = "data/nst_2011.csv";
-var DEFAULT_TOPO = "data/us-states.topojson";
-var USER_DIRECTORY = "/server/uploader/upload/";
-var USER_CSV; // holds object containing .csv file
-var CSV_URL; // DOMString containing URL representing USER_CSV
-
-var fields;
-var states;
-
 //Return usable object from CSV file
 function getCSVFields(callback, CSV) {
     var dataset = Papa.parse(CSV, {
@@ -16,74 +6,6 @@ function getCSVFields(callback, CSV) {
             return parseFields(results.data, callback);
         }
     });
-}
-
-function generateSessionID(length) {
-    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var result = '';
-
-    for (var i = length; i > 0; --i) {
-        result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
-}
-
-// writes string_to_save to app/php/settings/<session_id>.json
-function writeToServer(session_id, string_to_save) {
-    var data = new FormData();
-    data.append("data", string_to_save);
-    data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', 'php/importSettings.php', true);
-    XHR.send(data);
-}
-
-// returns contents from app/php/settings/<session_id>.json as a string
-function readFromServer(session_id) {
-    var return_string;
-    var data = new FormData();
-    data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    //XHR.responseType = 'text';
-    XHR.onload = function() {
-        if (XHR.readyState === XHR.DONE) {
-            return_string = XHR.responseText;
-        }
-    }
-    XHR.open('post', 'php/exportSettings.php', false);
-    XHR.send(data);
-    return return_string;
-}
-
-//Save CSV to uploader/upload path via an ajax call
-//The saved CSV can be use for other user as it is public
-function saveCSV(userCSV) {
-
-    var data = new FormData();
-    data.append("input_csv", userCSV);
-
-    $.ajax({
-        url: '/server/uploader/uploadManager.php',
-        type: 'POST',
-        data: data,
-        cache: false,
-        processData: false, // Don't process the files
-        contentType: false, // jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR) {
-            if (typeof data.error === 'undefined') {
-                // Success so call function to process the form
-                //submitForm(event, data);
-                console.log('Success' + textStatus);
-            } else {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('ERRORS: ' + textStatus);
-        }
-    });
-}
 
 //Send fields array back inside the called function
 function parseFields(data, callback) {
@@ -155,9 +77,13 @@ function reset() {
         });
 }
 
+function clearMenu() {
+    var select = document.getElementById("field");
+    select.options.length = 0;
+}
+
 function update() {
     var start = Date.now();
-    //body.classed("updating", true);
 
     var key = field.key;
     var fmt = (typeof field.format === "function") ?
@@ -179,6 +105,7 @@ function update() {
         .range(colors)
         .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
+
     // normalize the scale to positive numbers
     var scale = d3.scale.linear()
         .domain([lo, hi])
@@ -191,7 +118,6 @@ function update() {
 
     // generate the new features, pre-projected
     var features = carto(topology, geometries).features;
-
 
     // update the data
     states.data(features)
@@ -209,10 +135,6 @@ function update() {
         .attr("d", carto.path);
 
     var delta = (Date.now() - start) / 1000;
-    //stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-    console.log("Cartogram calculated in " + delta.toFixed(1) + " seconds");
-    //$('select').material_select();
-    //body.classed("updating", false);
 }
 
 
@@ -221,34 +143,17 @@ function parseHash(fieldsById) {
         desiredFieldId = parts[0],
         desiredYear = +parts[1];
 
+
     var field = fieldsById[desiredFieldId] || fields[0];
+
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 
     if (field.id === "none") {
 
-        //yearSelect.attr("disabled", "disabled");
         reset();
 
     } else
-        /*
-                if (field.years) {
-                    if (field.yecs.indexOf(year) === -1) {
-                        year = field.years[0];
-                    }
-                    yearSelect.selectAll("option")
-                        .attr("disabled", function(y) {
-                            return (field.years.indexOf(y) === -1) ? "disabled" : null;
-                        });
-                } else {
-                    yearSelect.selectAll("option")
-                        .attr("disabled", null);
-                }
-
-                yearSelect
-                    .property("selectedIndex", years.indexOf(year))
-                    .attr("disabled", null);
-        */
         deferredUpdate();
     location.replace("#" + field.id);
 
@@ -256,18 +161,3 @@ function parseHash(fieldsById) {
         return href + location.hash;
     });
 }
-
-//Inital map setup
-var map = d3.select("#map"),
-    zoom = d3.behavior.zoom()
-    .translate([-38, 32])
-    .scale(0.94)
-    .scaleExtent([0.1, 20.0])
-    .on("zoom", updateZoom),
-    layer = map.append("g")
-    .attr("id", "layer"),
-    states = layer.append("g")
-    .attr("id", "states")
-    .selectAll("path");
-
-updateZoom();
