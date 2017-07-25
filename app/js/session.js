@@ -144,6 +144,7 @@ function saveByFile(userCSV) {
 //Save CSV to uploader/upload path via an ajax call
 //The saved CSV can be use for other user as it is public
 function saveByName() {
+    var XHR;
     var data = new FormData();
     data.append("userID", userSessionID);
     data.append("otherFileName", nameOfLoadFile);
