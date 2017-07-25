@@ -122,7 +122,7 @@ function saveByFile(userCSV) {
     data.append("session_id", userSessionID);
 
     $.ajax({
-        url: USER_DIRECTORY + 'uploadManager.php',
+        url: UPLOAD_DIRECTORY + 'uploadManager.php',
         type: 'POST',
         data: data,
         cache: false,
@@ -153,7 +153,7 @@ function saveByName() {
     } else {
       XHR = new activeXObject("Microsoft.XMLHTTP");
     }
-    XHR.open('post', UPLOADER_DIRECTORY + 'saveByName.php', true);
+    XHR.open('post', PHP_DIRECTORY + 'saveByName.php', true);
     XHR.send(data);
     haveSavedFlag = true;
 }
