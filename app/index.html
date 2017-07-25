@@ -81,10 +81,10 @@
             <div class="modal-content">
                 <h5>Share</h5>
                 <div class="center-align">
-                    <a class="waves-effect waves-light btn-large" onclick="share_email()"><i class="material-icons left">email</i>e-Mail</a>
-                    <a class="waves-effect waves-light btn-large" onclick="share_twitter()"><i class="material-icons left">send</i>Twitter</a>
+                    <a class="waves-effect waves-light btn-large" onclick="shareEmail()"><i class="material-icons left">email</i>e-Mail</a>
+                    <a class="waves-effect waves-light btn-large" onclick="shareTwitter()"><i class="material-icons left">send</i>Twitter</a>
                     <a class="waves-effect waves-light btn-large" id="download_svg"><i class="material-icons left">file_download</i>SVG</a>
-                    <a class="waves-effect waves-light btn-large" onclick="download_png()"><i class="material-icons left">file_download</i>PNG</a>
+                    <a class="waves-effect waves-light btn-large" onclick="downloadCartogramPNG()"><i class="material-icons left">file_download</i>PNG</a>
                     <a class="materialize-textarea">
                 </div>
                 <!--
@@ -107,8 +107,6 @@
                 <h5>Backup</h5>
                 <div class="center-align">
                     <a class="waves-effect waves-light btn-large" onclick="saveSession();Materialize.toast('Your Session ID is in the Share tab!', 4000)">Save</a>
-                    
-  
                     <a class="waves-effect waves-light btn-large" onclick="loadMySession()">Load</a>
                 </div>
                 <!--
