@@ -6,7 +6,7 @@ function getCSVFields(callback, CSV) {
             return parseFields(results.data, callback);
         }
     });
-
+}
 //Send fields array back inside the called function
 function parseFields(data, callback) {
     fields = [];
