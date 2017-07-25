@@ -73,12 +73,15 @@ $(document).ready(function() {
 function chooseCountry(country) {
     whichMap = country;
     //reset();
-    clearMenu(); //menu fields need to be cleared before initialization
     init();
+    proj = d3.geo.albersUsa();
+
+
 }
 
 //initialization of the entire map
 function init() {
+    clearMenu(); //menu fields need to be cleared before initialization
 
     CSV = document.getElementById('input_csv').files[0];
 
@@ -91,16 +94,21 @@ function init() {
         URL_TOPO = DEFAULT_TOPO;
         userData = DEFAULT_DATA;
         nameOfLoadFile = userData;
+    } else if (whichMap === "California") {
+        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+        nameOfLoadFile = userData;
+        setProjection(-119.74, 36.77, 4500, 100);
     } else if (whichMap === "Syria") {
         URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
         userData = DATA_DIRECTORY + "syria.csv";
         nameOfLoadFile = userData;
-        setProjection(39, 34.8, 4500);
+        setProjection(39, 34.8, 4500, 0);
     } else if (whichMap === "UK") {
         URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
         userData = DATA_DIRECTORY + "uk.csv";
         nameOfLoadFile = userData;
-        setProjection(-1.775320, 52.298781, 4500);
+        setProjection(-1.775320, 52.298781, 4500, 0);
     }
 
     // if using CSV uploaded by user
@@ -187,7 +195,7 @@ function init() {
     });
 }
 
-function setProjection(lat, long, pScale) {
+function setProjection(lat, long, pScale, rotation) {
     width = 1215,
         height = 600;
 
@@ -198,6 +206,7 @@ function setProjection(lat, long, pScale) {
         // Size of the map itself, you may want to play around with this in
         // relation to your canvas size
         .scale(pScale)
+        .rotate(rotation)
         // Center the map in the middle of the canvas
         .translate([width / 2, height / 2])
         .precision(.1);
