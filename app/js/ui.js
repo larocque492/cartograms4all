@@ -1,34 +1,41 @@
+//Get csv from user upload
 document.getElementById('upload_link').onclick = function() {
     document.getElementById('input_csv').click();
     userUploadFlag = true;
 };
 
-/*
- * Code to run when document is ready
- */
+//Modal settings, as referenced in Materialize CSS
 $(document).ready(function() {
     // the "href" attribute of the modal trigger must specify the modal ID that wantsupload_link_topo to be triggered
     $('.modal').modal();
 
     $('.modal').modal({
-        dismissible: true, // Modal can be dismissed by clicking outside of the modal
-        opacity: .5, // Opacity of modal background
-        inDuration: 300, // Transition in duration
-        outDuration: 200, // Transition out duration
-        startingTop: '4%', // Starting top style attribute
-        endingTop: '10%', // Ending top style attribute
-        ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+        // Modal can be dismissed by clicking outside of the modal
+        dismissible: true,  
+        // Opacity of modal background
+        opacity: .5,        
+        // Transition in duration
+        inDuration: 300,    
+        // Transition out duration
+        outDuration: 200,   
+        // Starting top style attribute
+        startingTop: '4%',  
+        // Ending top style attribute
+        endingTop: '10%',   
+        // Callback for Modal open. Modal and trigger parameters available.
+        ready: function(modal, trigger) { 
             //alert("Ready test 1 2");
         },
+        // Callback for Modal close
         complete: function() {
             //alert('Closed test test');
-        } // Callback for Modal close
+        } 
     });
 
     $(".dropdown-button").dropdown();
 });
 
-function download_png() {
+function downloadCartogramPNG() {
     var svg = d3.select('svg');
     saveSvgAsPng(d3.select('svg').node(), 'cartogram.png');
 }
@@ -44,15 +51,11 @@ $('#download_svg').click(function() {
 });
 
 // Opens a the system's email app so you can post images or your session ID for sharing
-function share_email() {
-    svgAsDataUri(d3.select('svg').node(), {}, function(uri) {
-        var pic = d3.select('svg');
-        window.open('mailto:abc@abc.com?subject=Check out my cartogram!&body=' + pic);
-        // window.location.href = "mailto:mail@example.org?subject=Mail request&body="+body;
-    });
+function shareEmail() {
+        window.open('mailto:abc@abc.com?subject=Check out my cartogram!&body=Load my session at https://cartogram4all.herokuapp.com/app/index.html. My Session ID is ' + userSessionCookie);
 }
 
 // Opens a twitter link where you can post images or your session ID for sharing
-function share_twitter() {
-    window.open(href = "https://twitter.com/intent/tweet?text=Check out my cartogram!", '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+function shareTwitter() {
+    window.open(href = "https://twitter.com/intent/tweet?text=Check out my cartogram! Load my session at https://cartogram4all.herokuapp.com/app/index.html. My Session ID is " + userSessionCookie, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 }
