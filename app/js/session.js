@@ -76,7 +76,7 @@ function readFromServer(session_id) {
             return_string = XHR.responseText;
         }
     }
-    XHR.open('post', PHP_DIRECTORY + "exportSettings.php', false);
+    XHR.open('post', PHP_DIRECTORY + 'exportSettings.php', false);
     XHR.send(data);
     return return_string;
 }
@@ -138,7 +138,7 @@ function saveByName() {
     data.append("userID", userSessionID);
     data.append("otherFileName", nameOfLoadFile);
     var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', 'uploader/saveByName.php', true);
+    XHR.open('post', UPLOADER_DIRECTORY + "/saveByName.php', true);
     XHR.send(data);
     haveSavedFlag = true;
 }
