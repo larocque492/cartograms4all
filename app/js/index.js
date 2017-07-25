@@ -86,6 +86,7 @@ function init() {
         userSessionID = readCookie('userSessionCookie');
     }
 
+/*
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
@@ -102,6 +103,7 @@ function init() {
         nameOfLoadFile = userData;
         setProjection(-1.775320, 52.298781, 4500);
     }
+*/
 
     // if using CSV uploaded by user
     if (userUploadFlag && !serverDownloadFlag) {
@@ -120,9 +122,9 @@ function init() {
     // if you are saving on this init, save currently loaded CSV to the server
     if (saveFlag) {
         if (userUploadFlag && !serverDownloadFlag) {
-            saveByFile(userData); // if using CSV uploaded by user
+            saveByFile(CSV); // if using CSV uploaded by user
         } else {
-            saveByName(); // if using file stored on server
+            saveByName(nameOfLoadFile); // if using file stored on server
         }
     }
 

@@ -15,7 +15,7 @@ function loadMySession() {
     userUploadFlag = false;
     nameOfLoadFile = "upload/" + userSessionID + ".csv";
     init();
-    serverDownloadFlag = false;
+    //serverDownloadFlag = false;
 }
 
 // Pre: user-input session id == 16 chars and is valid (i.e. has an associated .csv file on our server)
@@ -28,7 +28,7 @@ function loadOtherSession() {
         serverDownloadFlag = true;
         userUploadFlag = false;
         init();
-        serverDownloadFlag = false;
+        //serverDownloadFlag = false;
     }
 }
 
@@ -128,7 +128,6 @@ function saveByFile(userCSV) {
     data.append("input_csv", userCSV);
     data.append("name", userCSV.name);
     data.append("session_id", userSessionID);
-    console.log(userSessionID);
 
     $.ajax({
         url: 'uploader/UploadManager.php',
