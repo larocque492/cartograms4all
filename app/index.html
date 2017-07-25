@@ -25,24 +25,18 @@
                     <img src="logo.png" style="width:90px;height:90px;" align="right" alt="University of California, Santa Cruz Logo" hspace="20">
                 </div>
                 <div class="nav-content">
-                    <ul class="tabs tabs-fixed-width tabs-transparent text-center">
+                    <ul class="tabs tabs-transparent text-center row">
 
                         <!--Upload CSV File Tab-->
-                        <li class="tab"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
+                        <li class="tab col s4"><a id="upload_link" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Upload CSV"><i class="material-icons" >file_upload</i></a>
                             <input type="file" id="input_csv" onchange="init()" label="CSV Upload" />
                         </li>
-                        <!--
-                        <li class="tab">
-                            <a href="#settings_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">settings</i></a>
-                        </li>
-                        -->
                         <!--Share tab-->
-                        <li class="tab" id="share_cartogram">
+                        <li class="tab col s4" id="share_cartogram">
                             <a href="#share_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Share"><i class="material-icons">share</i></a>
                         </li>
-
                         <!--Session Info-->
-                        <li class="tab" id="session_info">
+                        <li class="tab col s4" id="session_info">
                             <a href="#session_modal" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save/Load"><i class="material-icons">cloud_queue</i></a>
                         </li>
 
@@ -59,11 +53,12 @@
                             <select class="dropdown-button btn" id="field"></select>
                         </div>
                         <!-- Dropdown Trigger & Structure -->
-                        <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Region</a>
+                        <a class='dropdown-button btn' href='#' data-activates='dropdown1'>Add new map</a>
 
                         <div class="col s6">
                             <ul id='dropdown1' class='dropdown-content'>
                                 <li><a href="#" onclick="chooseCountry('US')">USA</a></li>
+                                <li><a href="#" onclick="chooseCountry('California')">California</a></li>
                                 <li><a href="#" onclick="chooseCountry('Syria')">Syria</a></li>
                                 <li><a href="#" onclick="chooseCountry('UK')">UK</a></li>
                             </ul>
@@ -71,6 +66,7 @@
                         <div id="map-container">
                             <svg id="map"></svg>
                         </div>
+                        <i id="maps-clear" class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="Clear Canvas">layers_clear</i>
                     </div>
                 </div>
             </div>
