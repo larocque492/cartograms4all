@@ -91,6 +91,13 @@ function init() {
         URL_TOPO = DEFAULT_TOPO;
         userData = DEFAULT_DATA;
         nameOfLoadFile = userData;
+    }
+    else if (whichMap === "California") {
+        proj = d3.geo.albersUsa();
+        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+        nameOfLoadFile = userData;
+
     } else if (whichMap === "Syria") {
         URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
         userData = DATA_DIRECTORY + "syria.csv";
