@@ -72,20 +72,17 @@ $(document).ready(function() {
 //map initialization
 function chooseCountry(country) {
     whichMap = country;
-    //reset();
-    clearMenu(); //menu fields need to be cleared before initialization
     init();
 }
 
 //initialization of the entire map
 function init() {
 
+    clearMenu();
     CSV = document.getElementById('input_csv').files[0];
-
     if (userSessionID == null) {
         userSessionID = readCookie('userSessionCookie');
     }
-
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
