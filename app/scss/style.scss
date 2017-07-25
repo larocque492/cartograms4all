@@ -43,3 +43,11 @@ path.state:hover {
     margin-left: 15%;
     text-decoration: none;
 }
+
+#maps-clear {
+    cursor: pointer;
+}
+
+#maps-clear:hover, #maps-clear:active, #maps-clear:focus {
+    color: $secondary-color;
+}
