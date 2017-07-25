@@ -126,9 +126,9 @@ function exportUserSettings() {
 function saveByFile(userCSV) {
     var data = new FormData();
     data.append("input_csv", userCSV);
-    data.append("name", userCSV.name)
-    console.log("userCSV.name: "+userCSV.name);
+    data.append("name", userCSV.name);
     data.append("session_id", userSessionID);
+    console.log(userSessionID);
 
     $.ajax({
         url: 'uploader/UploadManager.php',

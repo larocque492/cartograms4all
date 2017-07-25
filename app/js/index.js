@@ -120,7 +120,7 @@ function init() {
     // if you are saving on this init, save currently loaded CSV to the server
     if (saveFlag) {
         if (userUploadFlag && !serverDownloadFlag) {
-            saveByFile(CSV); // if using CSV uploaded by user
+            saveByFile(userData); // if using CSV uploaded by user
         } else {
             saveByName(); // if using file stored on server
         }
