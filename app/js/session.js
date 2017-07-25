@@ -60,7 +60,7 @@ function writeToServer(session_id, string_to_save) {
     data.append("data", string_to_save);
     data.append("name", session_id);
     var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', PHP_DIRECTORY + "importSettings.php', true);
+    XHR.open('post', PHP_DIRECTORY + 'importSettings.php', true);
     XHR.send(data);
 }
 
