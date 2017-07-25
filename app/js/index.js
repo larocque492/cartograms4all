@@ -72,9 +72,7 @@ $(document).ready(function() {
 //map initialization
 function chooseCountry(country) {
     whichMap = country;
-    //reset();
     init();
-    proj = d3.geo.albersUsa();
 
 
 }
@@ -95,20 +93,20 @@ function init() {
         userData = DEFAULT_DATA;
         nameOfLoadFile = userData;
     } else if (whichMap === "California") {
+        proj = d3.geo.albersUsa();
         URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
         userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
         nameOfLoadFile = userData;
-        setProjection(-119.74, 36.77, 4500, 100);
     } else if (whichMap === "Syria") {
         URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
         userData = DATA_DIRECTORY + "syria.csv";
         nameOfLoadFile = userData;
-        setProjection(39, 34.8, 4500, 0);
+        setProjection(39, 34.8, 4500);
     } else if (whichMap === "UK") {
         URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
         userData = DATA_DIRECTORY + "uk.csv";
         nameOfLoadFile = userData;
-        setProjection(-1.775320, 52.298781, 4500, 0);
+        setProjection(-1.775320, 52.298781, 4500);
     }
 
     // if using CSV uploaded by user
@@ -195,7 +193,7 @@ function init() {
     });
 }
 
-function setProjection(lat, long, pScale, rotation) {
+function setProjection(lat, long, pScale) {
     width = 1215,
         height = 600;
 
@@ -206,7 +204,6 @@ function setProjection(lat, long, pScale, rotation) {
         // Size of the map itself, you may want to play around with this in
         // relation to your canvas size
         .scale(pScale)
-        .rotate(rotation)
         // Center the map in the middle of the canvas
         .translate([width / 2, height / 2])
         .precision(.1);
