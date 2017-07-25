@@ -26,9 +26,9 @@ var states;
 var TOPO_DIRECTORY = "data/";
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var DATA_DIRECTORY = "../examples/";
-var PHP_DIRECTORY = "../server/php/";
-var UPLOAD_DIRECTORY = "../server/uploader/"; 
+var DATA_DIRECTORY = "/examples/";
+var PHP_DIRECTORY = "/server/php/";
+var UPLOAD_DIRECTORY = "/server/uploader/"; 
 var USER_DIRECTORY = UPLOAD_DIRECTORY + "/upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
