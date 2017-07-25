@@ -85,8 +85,7 @@ function init() {
     if (userSessionID == null) {
         userSessionID = readCookie('userSessionCookie');
     }
-URL_TOPO = DEFAULT_TOPO;
-/*
+
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
@@ -103,7 +102,6 @@ URL_TOPO = DEFAULT_TOPO;
         nameOfLoadFile = userData;
         setProjection(-1.775320, 52.298781, 4500);
     }
-*/
 
     // if using CSV uploaded by user
     if (userUploadFlag && !serverDownloadFlag) {
