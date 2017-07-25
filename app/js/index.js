@@ -85,7 +85,7 @@ function init() {
     if (userSessionID == null) {
         userSessionID = readCookie('userSessionCookie');
     }
-
+URL_TOPO = DEFAULT_TOPO;
 /*
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
