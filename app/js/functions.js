@@ -26,7 +26,6 @@ function parseFields(data, callback) {
     callback(fields);
 }
 
-//no idea what this does yet, to be honest. I'm assuming something on the browser side
 function updateZoom() {
     var scale = zoom.scale();
     layer.attr("transform",
