@@ -1,4 +1,6 @@
-//Get csv from user upload
+// Pre: 
+// Post: 
+// Brings up upload function 
 document.getElementById('upload_link').onclick = function() {
     document.getElementById('input_csv').click();
     userUploadFlag = true;
