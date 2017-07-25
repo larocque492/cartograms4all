@@ -89,17 +89,17 @@ function init() {
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
-        //userData = DEFAULT_DATA;
-        //nameOfLoadFile = userData;
+        userData = DEFAULT_DATA;
+        nameOfLoadFile = userData;
     } else if (whichMap === "Syria") {
         URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
-        //userData = DATA_DIRECTORY + "syria.csv";
-        //nameOfLoadFile = userData;
+        userData = DATA_DIRECTORY + "syria.csv";
+        nameOfLoadFile = userData;
         setProjection(39, 34.8, 4500);
     } else if (whichMap === "UK") {
         URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
-        //userData = DATA_DIRECTORY + "uk.csv";
-        //nameOfLoadFile = userData;
+        userData = DATA_DIRECTORY + "uk.csv";
+        nameOfLoadFile = userData;
         setProjection(-1.775320, 52.298781, 4500);
     }
 
@@ -122,7 +122,7 @@ function init() {
         if (userUploadFlag && !serverDownloadFlag) {
             saveByFile(CSV); // if using CSV uploaded by user
         } else {
-            saveByName(nameOfLoadFile); // if using file stored on server
+            saveByName(); // if using file stored on server
         }
     }
 

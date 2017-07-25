@@ -7,18 +7,15 @@ function saveSession() {
     saveFlag = false;
 }
 
-// Pre: <userSessionID>.csv exists on the server
+// Pre: <userSessionID>.csv exists on the server (you have saved a file at some point)
 // Post: serverDownloadFlag == true, userUploadFlag == false && && userData = nameOfLoadFile
 // sets flags and file name when loading current user's CSV from server
 function loadMySession() {
-    if (haveSavedFlag) {
-        serverDownloadFlag = true;
-        userUploadFlag = false;
-        nameOfLoadFile = "upload/" + userSessionID + ".csv";
-        init();
-    } else {
-        alert("Error: no session info saved. Please save your session info.");
-    }
+    serverDownloadFlag = true;
+    userUploadFlag = false;
+    nameOfLoadFile = "upload/" + userSessionID + ".csv";
+    init();
+    serverDownloadFlag = false;
 }
 
 // Pre: user-input session id == 16 chars and is valid (i.e. has an associated .csv file on our server)
@@ -31,6 +28,7 @@ function loadOtherSession() {
         serverDownloadFlag = true;
         userUploadFlag = false;
         init();
+        serverDownloadFlag = false;
     }
 }
 
@@ -148,7 +146,6 @@ function saveByFile(userCSV) {
         },
         error: function(jqXHR, textStatus, errorThrown) {}
     });
-    haveSavedFlag = true;
 }
 
 // Pre: userSessionID is valid && nameOfLoadFile is a valid path to a .csv on the server
@@ -162,5 +159,4 @@ function saveByName() {
     var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
     XHR.open('post', 'uploader/saveByName.php', true);
     XHR.send(data);
-    haveSavedFlag = true;
 }
