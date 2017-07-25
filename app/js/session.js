@@ -56,20 +56,30 @@ function generateSessionID(length) {
 
 // writes string_to_save to app/php/settings/<session_id>.json
 function writeToServer(session_id, string_to_save) {
+    var XHR; 
     var data = new FormData();
     data.append("data", string_to_save);
     data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
     XHR.open('post', PHP_DIRECTORY + 'importSettings.php', true);
     XHR.send(data);
 }
 
 // returns contents from app/php/settings/<session_id>.json as a string
 function readFromServer(session_id) {
+    var XHR;
     var return_string;
     var data = new FormData();
     data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
     //XHR.responseType = 'text';
     XHR.onload = function() {
         if (XHR.readyState === XHR.DONE) {
@@ -137,8 +147,12 @@ function saveByName() {
     var data = new FormData();
     data.append("userID", userSessionID);
     data.append("otherFileName", nameOfLoadFile);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', UPLOADER_DIRECTORY + "/saveByName.php', true);
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
+    XHR.open('post', UPLOADER_DIRECTORY + 'saveByName.php', true);
     XHR.send(data);
     haveSavedFlag = true;
 }
