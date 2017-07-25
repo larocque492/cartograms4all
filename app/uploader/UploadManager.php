@@ -36,8 +36,8 @@ function writeToFile($stringToWrite){
 
 function readFromFile(){
   if(!empty($_POST['name'])){
-    $csvName = "upload/";
-    $csvName .= $_POST['name'];
+    //$csvName = "upload/";
+    $csvName = $_POST['name'];
     $session_file_string = file_get_contents($csvName);
     return ($session_file_string);
   }
