@@ -74,25 +74,29 @@ $(document).ready(function() {
 //map initialization
 function chooseCountry(country) {
     whichMap = country;
-    //reset();
-    clearMenu(); //menu fields need to be cleared before initialization
     init();
 }
 
 //initialization of the entire map
 function init() {
 
+    clearMenu();
     CSV = document.getElementById('input_csv').files[0];
-
     if (userSessionID == null) {
         userSessionID = readCookie('userSessionCookie');
     }
-
     if (whichMap === "US") {
         proj = d3.geo.albersUsa();
         URL_TOPO = DEFAULT_TOPO;
         userData = DEFAULT_DATA;
         nameOfLoadFile = userData;
+    }
+    else if (whichMap === "California") {
+        proj = d3.geo.albersUsa();
+        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+        nameOfLoadFile = userData;
+
     } else if (whichMap === "Syria") {
         URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
         userData = DATA_DIRECTORY + "syria.csv";

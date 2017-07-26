@@ -11,25 +11,23 @@ $(document).ready(function() {
 
     $('.modal').modal({
         // Modal can be dismissed by clicking outside of the modal
-        dismissible: true,  
+        dismissible: true,
         // Opacity of modal background
-        opacity: .5,        
+        opacity: .5,
         // Transition in duration
-        inDuration: 300,    
+        inDuration: 300,
         // Transition out duration
-        outDuration: 200,   
+        outDuration: 200,
         // Starting top style attribute
-        startingTop: '4%',  
+        startingTop: '4%',
         // Ending top style attribute
-        endingTop: '10%',   
+        endingTop: '10%',
         // Callback for Modal open. Modal and trigger parameters available.
-        ready: function(modal, trigger) { 
-            //alert("Ready test 1 2");
+        ready: function(modal, trigger) {
         },
         // Callback for Modal close
         complete: function() {
-            //alert('Closed test test');
-        } 
+        }
     });
 
     $(".dropdown-button").dropdown();
@@ -43,11 +41,15 @@ function downloadCartogramPNG() {
 $('#download_svg').click(function() {
     var a = document.createElement('a');
     a.href = 'data:image/svg+xml;utf8,' + unescape($('#map')[0].outerHTML);
-    a.download = 'svg_info.svg';
+    a.download = 'myCartogram.svg';
     a.target = '_blank';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+});
+
+$('#maps-clear').click(function() {
+  $("#map g").remove();
 });
 
 // Opens a the system's email app so you can post images or your session ID for sharing
