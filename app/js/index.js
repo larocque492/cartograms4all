@@ -68,7 +68,7 @@ $(document).ready(function() {
 
     if (userSessionID === null) {
         userSessionID = generateSessionID(16);
-        createCookie('userSessionCookie', session_id, 10, '/');
+        createCookie('userSessionCookie', userSessionID, 10, '/');
     }
 
     shareSessionID(document.getElementById("disabled"));
