@@ -110,28 +110,28 @@ function init() {
             nameOfLoadFile = userData;
             setProjection(-1.775320, 52.298781, 4500);
         }
+    }
 
-        // if using CSV uploaded by user
+    // if using CSV uploaded by user
+    if (userUploadFlag && !serverDownloadFlag) {
+        userData = URL.createObjectURL(CSV);
+    }
+    // if using CSV downloaded from server
+    if (!userUploadFlag && serverDownloadFlag) {
+        userData = USER_DIRECTORY + nameOfLoadFile;
+    }
+    // if using neither, set to defaults only if our map is US
+    // default data is only for U.S not other countries' topojson
+    if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
+        userData = DEFAULT_DATA;
+    }
+
+    // if you are saving on this init, save currently loaded CSV to the server
+    if (saveFlag) {
         if (userUploadFlag && !serverDownloadFlag) {
-            userData = URL.createObjectURL(CSV);
-        }
-        // if using CSV downloaded from server
-        if (!userUploadFlag && serverDownloadFlag) {
-            userData = USER_DIRECTORY + nameOfLoadFile;
-        }
-        // if using neither, set to defaults only if our map is US
-        // default data is only for U.S not other countries' topojson
-        if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
-            userData = DEFAULT_DATA;
-        }
-
-        // if you are saving on this init, save currently loaded CSV to the server
-        if (saveFlag) {
-            if (userUploadFlag && !serverDownloadFlag) {
-                saveByFile(CSV); // if using CSV uploaded by user
-            } else {
-                saveByName(nameOfLoadFile); // if using file stored on server
-            }
+            saveByFile(CSV); // if using CSV uploaded by user
+        } else {
+            saveByName(nameOfLoadFile); // if using file stored on server
         }
     }
 
