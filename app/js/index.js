@@ -115,7 +115,7 @@ function init() {
     }
     // if using CSV downloaded from server
     if (!userUploadFlag && serverDownloadFlag) {
-        userData = "uploader/" + nameOfLoadFile;
+        userData = USER_DIRECTORY + nameOfLoadFile;
     }
     // if using neither, set to defaults only if our map is US
     // default data is only for U.S not other countries' topojson
