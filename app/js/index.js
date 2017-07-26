@@ -23,11 +23,13 @@ var fields;
 var states;
 
 // DATASHEET CONFIG
+var TOPO_DIRECTORY = "data/";
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var DATA_DIRECTORY = "../examples/";
-var TOPO_DIRECTORY = "data/";
-var USER_DIRECTORY = "uploader/upload/";
+var DATA_DIRECTORY = "/examples/";
+var PHP_DIRECTORY = "/server/php/";
+var UPLOAD_DIRECTORY = "/server/uploader/"; 
+var USER_DIRECTORY = UPLOAD_DIRECTORY + "upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
