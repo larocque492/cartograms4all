@@ -36,6 +36,7 @@ var CSV_URL; // DOMString containing URL representing USER_CSV
 var CSV; // locally stored csv file object
 
 // Flags
+var loadingFlag = false;
 var userUploadFlag = false; // true if using user-uploaded CSV
 var serverDownloadFlag = false; //true if using CSV from server
 var saveFlag = false; // true if saving your current session
@@ -79,58 +80,58 @@ function chooseCountry(country) {
 
 //initialization of the entire map
 function init() {
-    console.log("nameOfLoadFile: "+nameOfLoadFile);
-    console.log("userData: "+userData);
-
     clearMenu();
-    CSV = document.getElementById('input_csv').files[0];
-    if (userSessionID == null) {
-        userSessionID = readCookie('userSessionCookie');
-    }
-    if (whichMap === "US" && !userUploadFlag) {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = DEFAULT_TOPO;
-        userData = DEFAULT_DATA;
-        nameOfLoadFile = userData;
-    }
-    else if (whichMap === "California") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
-        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
-        nameOfLoadFile = userData;
+    if(loadingFlag){
 
-    } else if (whichMap === "Syria") {
-        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
-        userData = DATA_DIRECTORY + "syria.csv";
-        nameOfLoadFile = userData;
-        setProjection(39, 34.8, 4500);
-    } else if (whichMap === "UK") {
-        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
-        userData = DATA_DIRECTORY + "uk.csv";
-        nameOfLoadFile = userData;
-        setProjection(-1.775320, 52.298781, 4500);
-    }
+        CSV = document.getElementById('input_csv').files[0];
+        if (userSessionID == null) {
+            userSessionID = readCookie('userSessionCookie');
+        }
+        if (whichMap === "US" && !userUploadFlag) {
+            proj = d3.geo.albersUsa();
+            URL_TOPO = DEFAULT_TOPO;
+            userData = DEFAULT_DATA;
+            nameOfLoadFile = userData;
+        }
+        else if (whichMap === "California") {
+            proj = d3.geo.albersUsa();
+            URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+            userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+            nameOfLoadFile = userData;
 
-    // if using CSV uploaded by user
-    if (userUploadFlag && !serverDownloadFlag) {
-        userData = URL.createObjectURL(CSV);
-    }
-    // if using CSV downloaded from server
-    if (!userUploadFlag && serverDownloadFlag) {
-        userData = USER_DIRECTORY + nameOfLoadFile;
-    }
-    // if using neither, set to defaults only if our map is US
-    // default data is only for U.S not other countries' topojson
-    if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
-        userData = DEFAULT_DATA;
-    }
+        } else if (whichMap === "Syria") {
+            URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+            userData = DATA_DIRECTORY + "syria.csv";
+            nameOfLoadFile = userData;
+            setProjection(39, 34.8, 4500);
+        } else if (whichMap === "UK") {
+            URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+            userData = DATA_DIRECTORY + "uk.csv";
+            nameOfLoadFile = userData;
+            setProjection(-1.775320, 52.298781, 4500);
+        }
 
-    // if you are saving on this init, save currently loaded CSV to the server
-    if (saveFlag) {
+        // if using CSV uploaded by user
         if (userUploadFlag && !serverDownloadFlag) {
-            saveByFile(CSV); // if using CSV uploaded by user
-        } else {
-            saveByName(nameOfLoadFile); // if using file stored on server
+            userData = URL.createObjectURL(CSV);
+        }
+        // if using CSV downloaded from server
+        if (!userUploadFlag && serverDownloadFlag) {
+            userData = USER_DIRECTORY + nameOfLoadFile;
+        }
+        // if using neither, set to defaults only if our map is US
+        // default data is only for U.S not other countries' topojson
+        if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
+            userData = DEFAULT_DATA;
+        }
+
+        // if you are saving on this init, save currently loaded CSV to the server
+        if (saveFlag) {
+            if (userUploadFlag && !serverDownloadFlag) {
+                saveByFile(CSV); // if using CSV uploaded by user
+            } else {
+                saveByName(nameOfLoadFile); // if using file stored on server
+            }
         }
     }
 

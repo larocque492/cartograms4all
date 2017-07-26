@@ -7,9 +7,10 @@ function saveSession() {
 
 // sets flags and file name when loading current user's CSV from server
 function loadMySession() {
+    loadingFlag = true;
     serverDownloadFlag = true;
     userUploadFlag = false;
-    nameOfLoadFile = UPLOAD_DIRECTORY + userSessionID + ".csv";
+    nameOfLoadFile = USER_DIRECTORY + userSessionID + ".csv";
     init();
 }
 
