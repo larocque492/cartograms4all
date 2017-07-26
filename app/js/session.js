@@ -16,13 +16,9 @@ function loadMySession() {
 
 // sets flags and file name when loading other user's CSV from server
 function loadOtherSession() {
-    if (nameOfLoadFile.length != 27) {
-        alert("Error: invalid session ID. Please enter a valid session ID.");
-    } else {
-        serverDownloadFlag = true;
-        userUploadFlag = false;
-        init();
-    }
+    serverDownloadFlag = true;
+    userUploadFlag = false;
+    init();
 }
 
 // loads the session ID into sharing form
