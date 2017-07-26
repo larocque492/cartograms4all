@@ -101,7 +101,7 @@ used in the .csv, so, if you wish to upload your own data, simply create a .csv 
 for each of these regions, and upload as many columns of data as you wish. If data does not exist for a certain region,
 feel free to input 0, though be aware it may affect the visualization.
 
-The most important thing: please make the header column in the format "NAME,data1,data2,..."
+The most important thing: please make a header row in the format "NAME,data1,data2,..."
 
 # A few more details on implementation:
 The geospatial map lines are drawn from TopoJSON, an extension of GeoJSON with improved efficiency. TopoJSON's
