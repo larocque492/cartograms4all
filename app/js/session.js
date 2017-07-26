@@ -7,22 +7,16 @@ function saveSession() {
 
 // sets flags and file name when loading current user's CSV from server
 function loadMySession() {
-    if (haveSavedFlag) {
-        serverDownloadFlag = true;
-        userUploadFlag = false;
-        nameOfLoadFile = UPLOAD_DIRECTORY + userSessionID + ".csv";
-        init();
-    } else {
-        alert("Error: no session info saved. Please save your session info.");
-    }
+    serverDownloadFlag = true;
+    userUploadFlag = false;
+    nameOfLoadFile = UPLOAD_DIRECTORY + userSessionID + ".csv";
+    init();
 }
 
 // sets flags and file name when loading other user's CSV from server
 function loadOtherSession() {
     if (nameOfLoadFile.length != 27) {
         alert("Error: invalid session ID. Please enter a valid session ID.");
-    } else if (nameOfLoadFile.substring(7, 23) == userSessionID && !haveSavedFlag) {
-        alert("Error: you entered your own session ID but have no info saved. Please save your session info.");
     } else {
         serverDownloadFlag = true;
         userUploadFlag = false;
