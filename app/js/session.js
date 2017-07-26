@@ -30,7 +30,7 @@ function shareSessionID(element) {
 document.getElementById('paste_session_id').onkeydown = function(event) {
     var e = event || windows.event;
     if (e.keyCode == 13) {
-        nameOfLoadFile = UPLOAD_DIRECTORY + document.getElementById('paste_session_id').value + ".csv"; // gets the session_id from the form for accessing other user's CSV's
+        nameOfLoadFile = USER_DIRECTORY + document.getElementById('paste_session_id').value + ".csv"; // gets the session_id from the form for accessing other user's CSV's
         loadOtherSession(); // set flags and file name
     }
 }
