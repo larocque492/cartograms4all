@@ -16,6 +16,7 @@ function loadMySession() {
 
 // sets flags and file name when loading other user's CSV from server
 function loadOtherSession() {
+    loadingFlag = true;
     serverDownloadFlag = true;
     userUploadFlag = false;
     init();
