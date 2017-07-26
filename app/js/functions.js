@@ -1,4 +1,7 @@
-//Return usable object from CSV file
+/*
+ * Returns array of CSV headers
+ * Used for data column selection
+ */
 function getCSVFields(callback, CSV) {
     var dataset = Papa.parse(CSV, {
         download: true,
@@ -8,7 +11,9 @@ function getCSVFields(callback, CSV) {
     });
 }
 
-//Send fields array back inside the called function
+/*
+ * Parse fields from papa parsed object
+ */
 function parseFields(data, callback) {
     fields = [];
     fields.push({
@@ -33,11 +38,13 @@ function updateZoom() {
         "scale(" + [scale, scale] + ")");
 }
 
-//get  from the nitty gritty cartogram function in cartogram.js
+/*
+ * Loads topojson in and sets regions
+ */
 function initTopo() {
     var features = carto.features(topology, geometries),
         path = d3.geo.path()
-        .projection(proj); //d3.geo.path is d3's main drawing function
+        .projection(proj);
     states = states.data(features)
         .enter()
         .append("path")
@@ -57,7 +64,6 @@ function initTopo() {
  * Original graph that is loaded
  */
 function reset() {
-    stat.text("");
     body.classed("updating", false);
 
     var features = carto.features(topology, geometries),
@@ -77,14 +83,20 @@ function reset() {
         });
 }
 
+/*
+ * Empty the CSV column input menu
+ */
 function clearMenu() {
     var select = document.getElementById("field");
     select.options.length = 0;
 }
 
+/*
+ * Anything that needs to be periodically updated getCSVFields
+ * run in here
+ */
 function update() {
-    var start = Date.now();
-
+    // Current column being rendered
     var key = field.key;
     var fmt = (typeof field.format === "function") ?
         field.format :
@@ -101,31 +113,32 @@ function update() {
         lo = values[0],
         hi = values[values.length - 1];
 
+    // Sets color based off selecte data
     var color = d3.scale.linear()
         .range(colors)
         .domain(lo < 0 ? [lo, 0, hi] : [lo, d3.mean(values), hi]);
 
-
-    // normalize the scale to positive numbers
+    // Normalize the scale to positive numbers
     var scale = d3.scale.linear()
         .domain([lo, hi])
         .range([1, 1000]);
 
-    // tell the cartogram to use the scaled values
+    // Cartogram to use the scaled values
     carto.value(function(d) {
         return scale(value(d));
     });
 
-    // generate the new features, pre-projected
+    // Generate the new features, pre-projected
     var features = carto(topology, geometries).features;
 
-    // update the data
+    // Update the data on the D3 visualization
     states.data(features)
         .select("title")
         .text(function(d) {
             return [d.properties.NAME, fmt(value(d))].join(": ");
         });
 
+    // Animation to make it not jump
     states.transition()
         .duration(750)
         .ease("linear")
@@ -133,28 +146,25 @@ function update() {
             return color(value(d));
         })
         .attr("d", carto.path);
-
-    var delta = (Date.now() - start) / 1000;
 }
 
-
+/*
+ * Gets application data from url hash
+ */
 function parseHash(fieldsById) {
     var parts = location.hash.substr(1).split("/"),
         desiredFieldId = parts[0],
         desiredYear = +parts[1];
 
-
     var field = fieldsById[desiredFieldId] || fields[0];
-
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 
     if (field.id === "none") {
-
         reset();
-
-    } else
+    } else {
         deferredUpdate();
+    }
     location.replace("#" + field.id);
 
     hashish.attr("href", function(href) {
