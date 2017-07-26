@@ -81,12 +81,10 @@ function chooseCountry(country) {
 //initialization of the entire map
 function init() {
     clearMenu();
-    if(!loadingFlag){
+    CSV = document.getElementById('input_csv').files[0];
 
-        CSV = document.getElementById('input_csv').files[0];
-        if (userSessionID == null) {
-            userSessionID = readCookie('userSessionCookie');
-        }
+    if(!loadingFlag && !serverDownloadFlag){
+
         if (whichMap === "US" && !userUploadFlag) {
             proj = d3.geo.albersUsa();
             URL_TOPO = DEFAULT_TOPO;
