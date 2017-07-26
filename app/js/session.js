@@ -11,25 +11,21 @@ function saveSession() {
 // Post: serverDownloadFlag == true, userUploadFlag == false && && userData = nameOfLoadFile
 // sets flags and file name when loading current user's CSV from server
 function loadMySession() {
+   loadingFlag = true;
     serverDownloadFlag = true;
     userUploadFlag = false;
-    nameOfLoadFile = "upload/" + userSessionID + ".csv";
+    nameOfLoadFile = USER_DIRECTORY + userSessionID + ".csv";
     init();
-    //serverDownloadFlag = false;
 }
 
 // Pre: user-input session id == 16 chars and is valid (i.e. has an associated .csv file on our server)
 // Post: serverDownloadFlag = true && serUploadFlag == false && userData = nameOfLoadFile
 // sets flags and file name when loading other user's CSV from server
 function loadOtherSession() {
-    if (nameOfLoadFile.length != 27) {
-        alert("Error: invalid session ID. Please enter a valid session ID.");
-    } else {
-        serverDownloadFlag = true;
-        userUploadFlag = false;
-        init();
-        //serverDownloadFlag = false;
-    }
+   loadingFlag = true;
+    serverDownloadFlag = true;
+    userUploadFlag = false;
+    init();
 }
 
 // Pre: userSessionID == readCookie('userSessionCookie')
@@ -45,7 +41,7 @@ function shareSessionID(element) {
 document.getElementById('paste_session_id').onkeydown = function(event) {
     var e = event || windows.event;
     if (e.keyCode == 13) {
-        nameOfLoadFile = "upload/" + document.getElementById('paste_session_id').value + ".csv"; // gets the session_id from the form for accessing other user's CSV's
+        nameOfLoadFile = USER_DIRECTORY + document.getElementById('paste_session_id').value + ".csv"; // gets the session_id from the form for accessing other user's CSV's
         loadOtherSession(); // set flags and file name
     }
 }
@@ -67,11 +63,16 @@ function generateSessionID(length) {
 // Post: string_to_save is stored as the contents of <session_id>.json on the server
 // writes string_to_save to app/php/settings/<session_id>.json
 function writeToServer(session_id, string_to_save) {
+    var XHR; 
     var data = new FormData();
     data.append("data", string_to_save);
     data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', 'php/importSettings.php', true);
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
+    XHR.open('post', PHP_DIRECTORY + 'importSettings.php', true);
     XHR.send(data);
 }
 
@@ -79,17 +80,22 @@ function writeToServer(session_id, string_to_save) {
 // Post: returns a string representation of the contents of <session_id>.json
 // returns contents from app/php/settings/<session_id>.json as a string
 function readFromServer(session_id) {
+    var XHR;
     var return_string;
     var data = new FormData();
     data.append("name", session_id);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
     //XHR.responseType = 'text';
     XHR.onload = function() {
         if (XHR.readyState === XHR.DONE) {
             return_string = XHR.responseText;
         }
     }
-    XHR.open('post', 'php/exportSettings.php', false);
+    XHR.open('post', PHP_DIRECTORY + 'exportSettings.php', false);
     XHR.send(data);
     return return_string;
 }
@@ -130,7 +136,7 @@ function saveByFile(userCSV) {
     data.append("session_id", userSessionID);
 
     $.ajax({
-        url: 'uploader/UploadManager.php',
+        url: UPLOAD_DIRECTORY + 'uploadManager.php',
         type: 'POST',
         data: data,
         cache: false,
@@ -153,10 +159,15 @@ function saveByFile(userCSV) {
 // Save CSV to uploader/upload path given the name of the file via an ajax call
 // The saved CSV can be use for other user as it is public
 function saveByName() {
+    var XHR;
     var data = new FormData();
     data.append("userID", userSessionID);
     data.append("otherFileName", nameOfLoadFile);
-    var XHR = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-    XHR.open('post', 'uploader/saveByName.php', true);
+    if (window.XMLHttpRequest) {
+      XHR = new XMLHttpRequest();
+    } else {
+      XHR = new activeXObject("Microsoft.XMLHTTP");
+    }
+    XHR.open('post', PHP_DIRECTORY + 'saveByName.php', true);
     XHR.send(data);
 }

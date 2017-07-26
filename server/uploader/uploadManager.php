@@ -10,6 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
        // if($filesize > $maxsize) die("Error: File size is larger than the allowed limit.");
     
        // Check whether file exists before uploading it
+<<<<<<< HEAD:app/uploader/UploadManager.php
         
         //  if(file_exists("upload/" . $_FILES["input_csv"]["name"])){
         //  echo $_FILES["input_csv"]["name"] . " is already exists.";
@@ -25,6 +26,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           }
         //}
       }else{
+=======
+            if (move_uploaded_file($_FILES["input_csv"]["tmp_name"], "upload/" . $_FILES["input_csv"]["name"])){
+              $csvString = readFromFile();
+              writeToFile($csvString); //associating .csv with session_id
+              echo "Your file was uploaded successfully.";
+            } else {
+                  echo "upload fail";
+                  print_r($_FILES);
+	    } 
+     } else{
+>>>>>>> 7c7c385eef2972ba50302df8b916225288198193:server/uploader/uploadManager.php
         die("Error: " . $_FILES["input_csv"]["error"]);
     }
 }

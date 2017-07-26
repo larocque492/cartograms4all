@@ -23,17 +23,20 @@ var fields;
 var states;
 
 // DATASHEET CONFIG
+var TOPO_DIRECTORY = "data/";
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
-var DATA_DIRECTORY = "../examples/";
-var TOPO_DIRECTORY = "data/";
-var USER_DIRECTORY = "uploader/upload/";
+var DATA_DIRECTORY = "/examples/";
+var PHP_DIRECTORY = "/server/php/";
+var UPLOAD_DIRECTORY = "/server/uploader/"; 
+var USER_DIRECTORY = UPLOAD_DIRECTORY + "upload/";
 var USER_CSV; // holds object containing .csv file
 var USER_TOPO;
 var CSV_URL; // DOMString containing URL representing USER_CSV
 var CSV; // locally stored csv file object
 
 // Flags
+var loadingFlag = false;
 var userUploadFlag = false; // true if using user-uploaded CSV
 var serverDownloadFlag = false; //true if using CSV from server
 var saveFlag = false; // true if saving your current session
@@ -77,34 +80,34 @@ function chooseCountry(country) {
 
 //initialization of the entire map
 function init() {
-
     clearMenu();
     CSV = document.getElementById('input_csv').files[0];
-    if (userSessionID == null) {
-        userSessionID = readCookie('userSessionCookie');
-    }
-    if (whichMap === "US") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = DEFAULT_TOPO;
-        userData = DEFAULT_DATA;
-        nameOfLoadFile = userData;
-    }
-    else if (whichMap === "California") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
-        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
-        nameOfLoadFile = userData;
 
-    } else if (whichMap === "Syria") {
-        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
-        userData = DATA_DIRECTORY + "syria.csv";
-        nameOfLoadFile = userData;
-        setProjection(39, 34.8, 4500);
-    } else if (whichMap === "UK") {
-        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
-        userData = DATA_DIRECTORY + "uk.csv";
-        nameOfLoadFile = userData;
-        setProjection(-1.775320, 52.298781, 4500);
+    if(!loadingFlag && !serverDownloadFlag){
+
+        if (whichMap === "US" && !userUploadFlag) {
+            proj = d3.geo.albersUsa();
+            URL_TOPO = DEFAULT_TOPO;
+            userData = DEFAULT_DATA;
+            nameOfLoadFile = userData;
+        }
+        else if (whichMap === "California") {
+            proj = d3.geo.albersUsa();
+            URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+            userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+            nameOfLoadFile = userData;
+
+        } else if (whichMap === "Syria") {
+            URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+            userData = DATA_DIRECTORY + "syria.csv";
+            nameOfLoadFile = userData;
+            setProjection(39, 34.8, 4500);
+        } else if (whichMap === "UK") {
+            URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+            userData = DATA_DIRECTORY + "uk.csv";
+            nameOfLoadFile = userData;
+            setProjection(-1.775320, 52.298781, 4500);
+        }
     }
 
     // if using CSV uploaded by user
@@ -113,7 +116,7 @@ function init() {
     }
     // if using CSV downloaded from server
     if (!userUploadFlag && serverDownloadFlag) {
-        userData = "uploader/" + nameOfLoadFile;
+        userData = nameOfLoadFile;
     }
     // if using neither, set to defaults only if our map is US
     // default data is only for U.S not other countries' topojson
