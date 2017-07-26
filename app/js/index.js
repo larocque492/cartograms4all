@@ -1,4 +1,6 @@
-// Global variables
+/*
+ * Global variables
+ */
 var csvFields;
 var map;
 var zoom;
@@ -8,127 +10,142 @@ var layer;
 var percent;
 var fieldSelect;
 var fieldsById;
-var stat;
 var body;
 var topology;
 var carto;
 var geometries;
 var proj;
 var whichMap = "US";
-var userSessionCookie; // name of current user's cookie that stores session ID
-var userSessionID; // user's session ID as read from cookie
-var nameOfLoadFile; // name of remote CSV being used (usually another user's session ID)
-var userData; // path to remote CSV being used
+var userSessionCookie;
+var userSessionID;
+
+// name of remote CSV being used (based off user's session)
+var nameOfLoadFile;
+// path to remote CSV being used
+var userData;
 var fields;
 var states;
 
-// DATASHEET CONFIG
+/*
+ * Datasheet Config Variables
+ */
 var TOPO_DIRECTORY = "data/";
 var DEFAULT_DATA = "data/nst_2011.csv";
 var DEFAULT_TOPO = "data/us-states.topojson";
 var DATA_DIRECTORY = "/examples/";
 var PHP_DIRECTORY = "/server/php/";
-var UPLOAD_DIRECTORY = "/server/uploader/"; 
+var UPLOAD_DIRECTORY = "/server/uploader/";
 var USER_DIRECTORY = UPLOAD_DIRECTORY + "upload/";
-var USER_CSV; // holds object containing .csv file
-var USER_TOPO;
-var CSV_URL; // DOMString containing URL representing USER_CSV
-var CSV; // locally stored csv file object
 
-// Flags
-var userUploadFlag = false; // true if using user-uploaded CSV
-var serverDownloadFlag = false; //true if using CSV from server
-var saveFlag = false; // true if saving your current session
-var haveSavedFlag = false; // true if you have saved a csv on the server
+// holds object containing .csv file
+var USER_CSV;
+// TopoJSON being used
+var USER_TOPO;
+var CSV_URL;
+// raw CSV
+var CSV;
+
+/*
+ * Flag Variables
+ */
+var userUploadFlag = false;
+var serverDownloadFlag = false;
+
+// true if saving your current session
+var saveFlag = false;
+// true if you have saved a csv on the server
+var haveSavedFlag = false;
 
 /*
  * Main program instructions
  */
 console.log("Running Cartograms 4 All Web App");
-
 $(document).ready(function() {
     nameOfLoadFile = "data/nst_2011.csv";
-    // if not already set, set new cookie.
-    var session_id = generateSessionID(16);
-    if (readCookie('userSessionCookie') === null) {
+
+    // Session management
+    userSessionID = readCookie('userSessionCookie');
+
+    if (userSessionID === null) {
+        userSessionID = generateSessionID(16);
         createCookie('userSessionCookie', session_id, 10, '/');
     }
+
+    shareSessionID(document.getElementById("disabled"));
+
     //Inital map setup
-    var map = d3.select("#map"),
-        zoom = d3.behavior.zoom()
+    var map = d3.select("#map");
+    var zoom = d3.behavior.zoom()
         .translate([-38, 32])
         .scale(scale)
         .scaleExtent(scaleBounds)
-        .on("zoom", updateZoom),
-        layer = map.append("g")
-        .attr("id", "layer"),
-        states = layer.append("g")
+        .on("zoom", updateZoom);
+    var layer = map.append("g")
+        .attr("id", "layer");
+    var states = layer.append("g")
         .attr("id", "states")
         .selectAll("path");
-  
-    userSessionID = readCookie('userSessionCookie');
-    shareSessionID(document.getElementById("disabled"));
+
     init();
 });
 
-//map initialization
-function chooseCountry(country) {
-    whichMap = country;
-    init();
-}
-
-//initialization of the entire map
+/*
+ * Initialize cartogram application
+ */
 function init() {
-
     clearMenu();
+
     CSV = document.getElementById('input_csv').files[0];
-    if (userSessionID == null) {
-        userSessionID = readCookie('userSessionCookie');
-    }
-    if (whichMap === "US") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = DEFAULT_TOPO;
-        userData = DEFAULT_DATA;
-        nameOfLoadFile = userData;
-    }
-    else if (whichMap === "California") {
-        proj = d3.geo.albersUsa();
-        URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
-        userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
-        nameOfLoadFile = userData;
 
-    } else if (whichMap === "Syria") {
-        URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
-        userData = DATA_DIRECTORY + "syria.csv";
-        nameOfLoadFile = userData;
-        setProjection(39, 34.8, 4500);
-    } else if (whichMap === "UK") {
-        URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
-        userData = DATA_DIRECTORY + "uk.csv";
-        nameOfLoadFile = userData;
-        setProjection(-1.775320, 52.298781, 4500);
+    switch (whichMap) {
+        case "US":
+            proj = d3.geo.albersUsa();
+            URL_TOPO = DEFAULT_TOPO;
+            nameOfLoadFile = userData;
+            break;
+        case "California":
+            proj = d3.geo.albersUsa();
+            URL_TOPO = TOPO_DIRECTORY + "CAcountiesfinal.topojson";
+            userData = DATA_DIRECTORY + "CAcountyages55-59.csv";
+            nameOfLoadFile = userData;
+            break;
+        case "Syria":
+            URL_TOPO = TOPO_DIRECTORY + "SyriaGovernorates.topojson";
+            userData = DATA_DIRECTORY + "syria.csv";
+            nameOfLoadFile = userData;
+            setProjection(39, 34.8, 4500);
+            break;
+        case "UK":
+            URL_TOPO = TOPO_DIRECTORY + "uk.topojson";
+            userData = DATA_DIRECTORY + "uk.csv";
+            nameOfLoadFile = userData;
+            setProjection(-1.775320, 52.298781, 4500);
+            break;
+        default:
+            alert("Invalid map selected");
     }
 
-    // if using CSV uploaded by user
+    // CSV uploaded by user
     if (userUploadFlag && !serverDownloadFlag) {
         userData = URL.createObjectURL(CSV);
     }
-    // if using CSV downloaded from server
+    // CSV is on server
     if (!userUploadFlag && serverDownloadFlag) {
         userData = "uploader/" + nameOfLoadFile;
     }
-    // if using neither, set to defaults only if our map is US
-    // default data is only for U.S not other countries' topojson
+    // No CSV loaded, using default
     if (!userUploadFlag && !serverDownloadFlag && whichMap == "US") {
         userData = DEFAULT_DATA;
     }
 
-    // if you are saving on this init, save currently loaded CSV to the server
+    // Upload user data to server
     if (saveFlag) {
         if (userUploadFlag && !serverDownloadFlag) {
-            saveByFile(CSV); // if using CSV uploaded by user
+            // if using CSV uploaded by user
+            saveByFile(CSV);
         } else {
-            saveByName(nameOfLoadFile); // if using file stored on server
+            // if using file stored on server
+            saveByName(nameOfLoadFile);
         }
     }
 
@@ -148,8 +165,10 @@ function init() {
 
     csvFields = getCSVFields(initCartogram, userData);
 
+    /*
+     * CSV data loaded into D3
+     */
     var dataById;
-
     carto = d3.cartogram()
         .projection(proj)
         .properties(function(d) {
@@ -163,7 +182,9 @@ function init() {
             }
         });
 
-
+    /*
+     * Cartogram created from topojson and csv utilizing D3 for visualization
+     */
     d3.json(URL_TOPO, function(topology) {
         this.topology = topology;
         geometries = topology.objects.states.geometries;
@@ -179,6 +200,8 @@ function init() {
             var features = carto.features(topology, geometries),
                 path = d3.geo.path().projection(proj);
 
+            // Region format (just named states because originally cartogram only
+            // did states of the USA)
             states = states.data(features)
                 .enter()
                 .append("path")
@@ -193,9 +216,20 @@ function init() {
     });
 }
 
+/*
+ * Set TopoJSON region
+ */
+function chooseCountry(country) {
+    whichMap = country;
+    init();
+}
+
+/*
+ * Used to define non-USA projections for D3
+ */
 function setProjection(lat, long, pScale) {
-    width = 1215,
-        height = 600;
+    width = 1215;
+    height = 600;
 
     var center = [lat, long];
     proj = d3.geo.conicConformal()
@@ -209,10 +243,13 @@ function setProjection(lat, long, pScale) {
         .precision(.1);
 }
 
-//initialization of the new cartogram,
-//based on the csv fields passed in.
+/*
+ * Creates new cartogram
+ * Processes data to morph D3 visualization
+ */
 function initCartogram(csvFields) {
     fields = csvFields;
+
     // Data info for the cartogram
     percent = (function() {
             var fmt = d3.format(".2f");
@@ -221,10 +258,6 @@ function initCartogram(csvFields) {
             };
         })(),
         fields = csvFields,
-        // TODO: Make this customizable
-        // NOTE: Might just have this detect if there are digits at the end of the column or beginning,
-        // and if there are then use those as a year
-        // TODO: Make a custom function getTimeInField() which will clear
         fieldsById = d3.nest()
         .key(function(d) {
             return d.id;
@@ -233,9 +266,7 @@ function initCartogram(csvFields) {
             return d[0];
         })
         .map(fields),
-        // TODO: Set default field to something that looks like data
         field = fields[0],
-        // TODO: Allow for customization of map color
         colors = colorbrewer.RdYlBu[3]
         .reverse()
         .map(function(rgb) {
@@ -243,14 +274,19 @@ function initCartogram(csvFields) {
         });
 
     body = d3.select("body");
-    stat = d3.select("#status");
 
+    /*
+     * Sets cartogram to use user inputted column
+     */
     fieldSelect = d3.select("#field")
         .on("change", function(e) {
             field = fields[this.selectedIndex];
             location.hash = "#" + field.id;
         });
 
+    /*
+     * Sets input fields to have current CSV's columns
+     */
     fieldSelect.selectAll("option")
         .data(fields)
         .enter()
@@ -265,22 +301,30 @@ function initCartogram(csvFields) {
     updateZoom();
 }
 
+/*
+ * Checks URL for current col selected
+ */
 window.onhashchange = function() {
     parseHash(fieldsById);
 };
 
+/*
+ * Update when available
+ */
 var deferredUpdate = (function() {
     var timeout;
     return function() {
         var args = arguments;
         clearTimeout(timeout);
-        stat.text("calculating...");
         return timeout = setTimeout(function() {
             update.apply(null, arguments);
         }, 10);
     };
 })();
 
+/*
+ * URL hash for the currently used column
+ */
 var hashish = d3.selectAll("a.hashish")
     .datum(function() {
         return this.href;

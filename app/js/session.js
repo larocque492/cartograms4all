@@ -1,11 +1,19 @@
-// sets flags when writing the user's current CSV to the server
+var keyCodeEnter = 13;
+
+/*
+ * Updates state of application to push
+ * user data to server
+ */
 function saveSession() {
     saveFlag = true;
     init();
     saveFlag = false;
 }
 
-// sets flags and file name when loading current user's CSV from server
+/*
+ * Updates state of application to
+ * load session info from server
+ */
 function loadMySession() {
     if (haveSavedFlag) {
         serverDownloadFlag = true;
@@ -13,11 +21,13 @@ function loadMySession() {
         nameOfLoadFile = UPLOAD_DIRECTORY + userSessionID + ".csv";
         init();
     } else {
-        alert("Error: no session info saved. Please save your session info.");
+        alert("Error: Please input session");
     }
 }
 
-// sets flags and file name when loading other user's CSV from server
+/*
+ * Loads a complete session from the server
+ */
 function loadOtherSession() {
     if (nameOfLoadFile.length != 27) {
         alert("Error: invalid session ID. Please enter a valid session ID.");
@@ -30,20 +40,29 @@ function loadOtherSession() {
     }
 }
 
-// loads the session ID into sharing form
+/*
+ * Update session id location with current session id
+ */
 function shareSessionID(element) {
-    if (userSessionID != null) element.value = userSessionID;
-}
-
-// gets a session ID from user and uses it to load the corresponding user's CSV
-document.getElementById('paste_session_id').onkeydown = function(event) {
-    var e = event || windows.event;
-    if (e.keyCode == 13) {
-        nameOfLoadFile = UPLOAD_DIRECTORY + document.getElementById('paste_session_id').value + ".csv"; // gets the session_id from the form for accessing other user's CSV's
-        loadOtherSession(); // set flags and file name
+    if (userSessionID != null) {
+        element.value = userSessionID;
     }
 }
 
+/*
+ * Grabs user inputted session ID
+ */
+document.getElementById('paste_session_id').onkeydown = function(event) {
+    var e = event || windows.event;
+    if (e.keyCode == keyCodeEnter) {
+        nameOfLoadFile = UPLOAD_DIRECTORY + document.getElementById('paste_session_id').value + ".csv";
+        loadOtherSession();
+    }
+}
+
+/*
+ * Creates a new session ID
+ */
 function generateSessionID(length) {
     var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var result = '';
@@ -54,67 +73,77 @@ function generateSessionID(length) {
     return result;
 }
 
-// writes string_to_save to app/php/settings/<session_id>.json
-function writeToServer(session_id, string_to_save) {
-    var XHR; 
+/*
+ * Writes user's application state to the server
+ * (i.e. CSV file being used, custom parameters, etc)
+ */
+function writeToServer(session, saveData) {
+    var XHR;
+
     var data = new FormData();
-    data.append("data", string_to_save);
-    data.append("name", session_id);
+    data.append("data", saveData);
+    data.append("name", session);
+
     if (window.XMLHttpRequest) {
-      XHR = new XMLHttpRequest();
+        XHR = new XMLHttpRequest();
     } else {
-      XHR = new activeXObject("Microsoft.XMLHTTP");
+        XHR = new activeXObject("Microsoft.XMLHTTP");
     }
+
     XHR.open('post', PHP_DIRECTORY + 'importSettings.php', true);
     XHR.send(data);
 }
 
-// returns contents from app/php/settings/<session_id>.json as a string
-function readFromServer(session_id) {
+/*
+ * Get session info from server
+ */
+function readFromServer(session) {
     var XHR;
-    var return_string;
+    var returnString;
+
     var data = new FormData();
-    data.append("name", session_id);
+    data.append("name", session);
+
     if (window.XMLHttpRequest) {
-      XHR = new XMLHttpRequest();
+        XHR = new XMLHttpRequest();
     } else {
-      XHR = new activeXObject("Microsoft.XMLHTTP");
+        XHR = new activeXObject("Microsoft.XMLHTTP");
     }
-    //XHR.responseType = 'text';
     XHR.onload = function() {
         if (XHR.readyState === XHR.DONE) {
-            return_string = XHR.responseText;
+            returnString = XHR.responseText;
         }
     }
     XHR.open('post', PHP_DIRECTORY + 'exportSettings.php', false);
     XHR.send(data);
-    return return_string;
+    return returnString;
 }
 
-//Import cookie information through an API that reads the content of sessionId.json
-//After importing, it will try to pull out the critical information like file/settings
-//It then sets it for the user
-function importUserSettings(sessionId) {
-    //call API
-    var jsonString = readFromServer(sessionId); // jsonString is read in from the correct file in php/settings folder
-    //Set value of userObj (global)
+/*
+ * Apply session settings from the server so that application
+ * state has those settings being used
+ */
+function importUserSettings(session) {
+    var jsonString = readFromServer(session);
     userObj = JSON.parse(jsonString);
     userData = userObj['fileName'];
-    init(); //refresh the view
+    init();
 }
 
-//Export cookie information and call API to write file as sessionId.json
+/*
+ * Export application state into session settings
+ */
 function exportUserSettings() {
     createCookie("fileName", userData, 30, "/");
-    var userCookieJson = exportCookie(); // a string representation of the JSON
-    var session_id = readCookie('userSessionCookie'); // session_id is read from the cookie
+    var userCookieJson = exportCookie();
+    var session = readCookie('userSessionCookie');
 
-    //CALL API to write the cookie information into settings/<session_id>.json
-    writeToServer(session_id, userCookieJson);
+    writeToServer(session, userCookieJson);
 }
 
-//Save CSV to uploader/upload path via an ajax call
-//The saved CSV can be use for other user as it is public
+/*
+ * Upload CSV to server
+ */
 function saveByFile(userCSV) {
     var data = new FormData();
     data.append("input_csv", userCSV);
@@ -126,33 +155,29 @@ function saveByFile(userCSV) {
         type: 'POST',
         data: data,
         cache: false,
-        processData: false, // Don't process the files
+        processData: false,
         contentType: false, // jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR) {
-            if (typeof data.error === 'undefined') {
-                // TODO: Process the form
-                //submitForm(event, data);
-            } else {
-                // TODO: Handle errors here
-            }
-        },
+        success: function(data, textStatus, jqXHR) {},
         error: function(jqXHR, textStatus, errorThrown) {}
     });
     haveSavedFlag = true;
 }
 
-//Save CSV to uploader/upload path via an ajax call
-//The saved CSV can be use for other user as it is public
+/*
+ * Save CSV by session ID
+ */
 function saveByName() {
     var XHR;
     var data = new FormData();
     data.append("userID", userSessionID);
     data.append("otherFileName", nameOfLoadFile);
+
     if (window.XMLHttpRequest) {
-      XHR = new XMLHttpRequest();
+        XHR = new XMLHttpRequest();
     } else {
-      XHR = new activeXObject("Microsoft.XMLHTTP");
+        XHR = new activeXObject("Microsoft.XMLHTTP");
     }
+
     XHR.open('post', PHP_DIRECTORY + 'saveByName.php', true);
     XHR.send(data);
     haveSavedFlag = true;

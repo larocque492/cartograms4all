@@ -1,33 +1,40 @@
-//------------cookie.js----------------------//
-
-//Functions that manipulate cookie and information pertain to individual user
-
-//Create cookie will be use to store user setting and data file information
-//It will be consumed when we export the cookie information as a JSON to server
+/*
+ * General utility for creating a cookie
+ */
 function createCookie(name, value, daysToExpire, path) {
     var date = new Date();
-    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000)); //number of days before expire
+    // Set how long the cookie should last
+    date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
     var expires = date.toUTCString();
-    //Setting the expire date and path of the cookie on the site
+
+    // Set cookie data in the users browser
     document.cookie = name + '=' + value + ';' +
         'expires=' + expires + ';' +
         'path=' + path + ';';
 }
 
-// return value of cookie specified by name
+/*
+ * General utility to get value of a cookie
+ */
 function readCookie(name) {
     var nameAttr = name + "=";
     var cookies = document.cookie.split(';');
 
+    // Search through all the cookies
     for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i];
         while (cookie.charAt(0) == ' ') cookie = cookie.substring(1, cookie.length);
-        if (cookie.indexOf(nameAttr) == 0) return cookie.substring(nameAttr.length, cookie.length);
+        if (cookie.indexOf(nameAttr) == 0)
+            return cookie.substring(nameAttr.length, cookie.length);
     }
+
+    // Cookie not found
     return null;
 }
 
-//Export cookie information as JSON
+/*
+ * Export cookie as JSON
+ */
 function exportCookie() {
     //parse all the cookie information
     var cookiesInString = document.cookie.split(';').map(function(cookieRecord) {
