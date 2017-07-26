@@ -79,6 +79,8 @@ function chooseCountry(country) {
 
 //initialization of the entire map
 function init() {
+    console.log("nameOfLoadFile: "+nameOfLoadFile);
+    console.log("userData: "+userData);
 
     clearMenu();
     CSV = document.getElementById('input_csv').files[0];
