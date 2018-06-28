@@ -29,6 +29,7 @@
    * });
    */
   d3.cartogram = function() {
+    // console.log("In cartogram.js!");
 
     /*According to the console logs, carto *should* be fully functional right now.
     What it does is chew on every arc available in the map (every single arc, rather than just states) - JSL
@@ -37,6 +38,7 @@
     function carto(topology, geometries) {
       // copy it first
       var topo = copy(topology);
+      console.log("topo! ", topo);
       // objects are projected into screen coordinates
       // project the arcs into screen space
       var tf = transformer(topo.transform),
@@ -47,6 +49,7 @@
         x = 0;
         y = 0;
         len1 = topo.arcs[i2].length;
+        // console.log(len1);
         i1 = 0;
         out1 = new Array(len1);
         while (i1 < len1) {
