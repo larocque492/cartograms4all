@@ -4,8 +4,8 @@
 var csvFields;
 var map;
 var zoom;
-var scale = 1;
-var scaleBounds = [1, 20];
+var scale = 0.5;
+var scaleBounds = [0.5, 10];
 var layer;
 var percent;
 var fieldSelect;
@@ -31,6 +31,7 @@ var states;
  */
 
 var PROJ_DIRECTORY = "/home/jl/cartograms4all"; //temporary catch-all fix because filepaths are misbehaving
+//^ make this your own project's directory!
 var TOPO_DIRECTORY = PROJ_DIRECTORY + "/app/data/";
 var DEFAULT_DATA = PROJ_DIRECTORY + "/app/data/nst_2011.csv";
 var DEFAULT_TOPO = PROJ_DIRECTORY + "/app/data/us-states.topojson";
@@ -102,7 +103,7 @@ function init() {
         case "US":
             proj = d3.geo.albersUsa();
             URL_TOPO = DEFAULT_TOPO;
-            nameOfLoadFile = userData;
+            nameOfLoadFile = DEFAULT_DATA;
             break;
         case "California":
             proj = d3.geo.albersUsa();
@@ -166,7 +167,8 @@ function init() {
 
     // csvFields = getCSVFields(initCartogram, userData);
 
-    var csvfile = DEFAULT_DATA;
+    console.log("load file: ", nameOfLoadFile);
+    var csvfile = nameOfLoadFile;
     var parsedData;
 
     $.get(csvfile, function (data) {
@@ -195,6 +197,7 @@ function init() {
         }
 
         console.log("csvFields: ", csvFields);
+        console.log("Proj: ", proj);
         var dataById;
         carto = d3.cartogram()
             .projection(proj)
@@ -244,6 +247,7 @@ function init() {
                 states.append("title");
             });
         });
+
         initCartogram(csvFields);
 
 
@@ -317,8 +321,9 @@ function update() {
 /*
  * Set TopoJSON region
  */
-function chooseCountry(country) {
-    whichMap = country;
+function chooseCountry(region) {
+    whichMap = region;
+    console.log("region chosen: ", region);
     init();
 }
 
@@ -410,8 +415,9 @@ function initCartogram(csvFields) {
 /*
  * Checks URL for current col selected
  */
-window.onhashchange = function() {
-    parseHash(fieldsById);
+
+ window.onhashchange = function() {
+    console.log("fields in onhashchange", fieldsById);
 };
 
 /*
